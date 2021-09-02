@@ -8,7 +8,7 @@
 
 ## Flujo de vida de una factura
 
-*Detallar como sería el flujo de pago normal, un rechazo y una anulación*
+*(Detallar como sería el flujo de pago normal, un rechazo y una anulación)*
 
 # Documentación para integradores
 
@@ -21,3 +21,5 @@ En este apartado podéis encontrar la guía de integración via WS para los dife
 A continuación podéis encontrar una serie de enlaces a sitios de interés:
 
 [Portal de soporte de eFact](https://www.aoc.cat/portal-suport/efact-empreses-base-coneixement/)
+
+[Relación de cambios en la documentación](/CHANGELOG.md)
