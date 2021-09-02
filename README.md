@@ -1,4 +1,4 @@
-# Introducción a eFact
+# eFact
 
 *Descripción del servicio (mini-explicación y referencia a la información de la web de AOC)*
 
