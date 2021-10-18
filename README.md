@@ -12,7 +12,7 @@ Tiene más información sobre dicho formato en:
 
 https://www.facturae.gob.es/formato/Paginas/version-3-2.aspx
 
-La firma XAdES de la factura permitida se recoge  y detalla en el documento: 
+La firma XAdES de la factura permitida se recoge  y detalla en el siguiente link : 
 
 https://www.facturae.gob.es/formato/Paginas/politicas-firma-electronica.aspx
 
