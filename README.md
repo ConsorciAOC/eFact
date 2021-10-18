@@ -16,7 +16,7 @@ La firma XAdES de la factura permitida se recoge  y detalla en el siguiente link
 
 https://www.facturae.gob.es/formato/Paginas/politicas-firma-electronica.aspx
 
-El certificado usado para la firma podrá ser el certificado del emisor de la factura o bien el certificado de un Tercero de confianza en modalidad de firma delegada,
+El certificado usado para la firma podrá ser el certificado del emisor de la factura o bien el certificado de un Tercero de confianza en modalidad de firma delegada. 
 
 
 ## Flujo de vida de una factura
