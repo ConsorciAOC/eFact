@@ -21,6 +21,7 @@ El certificado de firma para las peticiones, no es necesario proporcionarlo prev
 
 El único protocolo admitido en los servicios web es TLS>=1.2.
 
+
 #	Operaciones
 
 # Casos de prueba para cada operación
@@ -29,6 +30,18 @@ El único protocolo admitido en los servicios web es TLS>=1.2.
 
 # Entornos
 
-*URL de los entornos (de los WSDL y del servicio propiamente)*
 
-*Certificados públicos con los que se firmará la respuesta de cada entorno*
+Se han diseñado los siguientes entornos disponibles para integradores de la plataforma:
+
+TEST	El entorno de TEST es un entorno de integración habilitado para pruebas de los sistemas de los proveedores.
+PROD	El entorno de PROD es un entorno real de la plataforma eFACT
+
+
+Puede encontrar el wsdl de los servicios en las siguientes rutas:
+
+TEST	https://efact-pre.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl 
+
+PROD	https://efact.eacat.cat/bustia/services/EFactWebServiceProxyService.wsdl
+
+
+
