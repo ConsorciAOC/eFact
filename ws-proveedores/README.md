@@ -24,6 +24,8 @@ El único protocolo admitido en los servicios web es TLS>=1.2.
 
 #	Operaciones
 
+1.-	Operación Enviar Factura [enviarFactura]
+
 # Casos de prueba para cada operación
 
 # Como darse de alta en el servicio
