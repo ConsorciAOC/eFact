@@ -125,9 +125,61 @@ Este método permite consultar el estado de una factura. Esta petición buscará
 
 2.1	Petición
 
+    Parámetros : 
 
+                numeroRegistro  :Código de identificación único de entrada, identificador único de la factura dentro de la plataforma eFACT. Parámetro recibido en la                                   respuesta del método anterior [1] enviarFactura.numeroRegistro
 
+    Petición RPC-Literal:
 
+                <soapenv:Body>
+                <web:consultarFactura>
+                    <numeroRegistro>NUMERO_REGISTRO</numeroRegistro>
+                </web:consultarFactura>
+                </soapenv:Body>
+
+2.2	Respuesta
+
+    Parámetros : 
+                numeroRegistro :Código de identificación único de entrada, identificador único de la factura dentro de la plataforma eFACT. 
+                tramitacion:Información del estado de tramitación. Contiene los elementos codigo_estado, descripcion_estado y motivo_estado
+                anulacion:Informacion del estado de anulación. Contiene los elementos codigo_estado, descripcion_estado y motivo_estado
+                codigo:Código del estado actual de la factura
+                descripcion:Descripción del motivo del cambio de estado al actual
+                codigoSeguimiento: Comentario asociado al estado
+                registroAdministrativo:Numero de Registro Administrativo en eFACT 
+    
+    Respuesta RPC-Literal:
+                    <SOAP-ENV:Body wsu:Id="pfx60b0f6ad-d92f-b2de-a3a8-4d78d13b77d1" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
+                <ns1:consultarFacturaResponse>
+                <return>
+                <resultado>
+                <codigo>0</codigo>
+                <descripcion>Correcto</descripcion>
+                <codigoSeguimiento/>
+                <registroAdministrativo >12345</registroAdministrativo>
+
+                </resultado>
+                <factura>
+                <numeroRegistro>NUMERO_REGISTRO</numeroRegistro>
+                <tramitacion>
+                <codigo>1200</codigo>
+                <descripcion>La factura ha sido registrada en el registro electrónico REC</descripcion>
+                <motivo/>
+                </tramitacion>
+                <anulacion>
+                <codigo>4200</codigo>
+                <descripcion>Solicitada anulación</descripcion>
+                <motivo>prueba</motivo>
+                </anulacion>
+                </factura>
+                </return>
+                </ns1:consultarFacturaResponse>
+                </SOAP-ENV:Body>
+
+    
+    
+    
+    
 # Casos de prueba para cada operación
 
 # Como darse de alta en el servicio
@@ -146,7 +198,8 @@ Puede encontrar el wsdl de los servicios en las siguientes rutas:
 
   TEST	https://efact-pre.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl 
 
-  PROD	https://efact.eacat.cat/bustia/services/EFactWebServiceProxyService.wsdl
+  PROD	https://efact.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl
+
 
 
 
