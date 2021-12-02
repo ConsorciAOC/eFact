@@ -27,7 +27,9 @@ El único proto colo admitido en los servicios web es TLS>=1.2.
 1.	Enviar Factura [enviarFactura]
 
     Este servicio permite enviar facturas al servicio eFACT
-   
+
+[enviarFactura.zip](https://github.com/ConsorciAOC/eFact/files/7639552/enviarFactura.zip)
+
 Petición - Parámetros de la información del proveedor
 
             La petición al servicio se estructura en 3 apartados:
@@ -126,6 +128,10 @@ Respuesta :	La respuesta contiene los datos más representativos de la factura q
 
 Este método permite consultar el estado de una factura. Esta petición buscará la factura con el código de registro indicado.
 
+
+[consultarFactura.zip](https://github.com/ConsorciAOC/eFact/files/7639553/consultarFactura.zip)
+
+
 Petición
 
     Parámetros : 
@@ -179,7 +185,7 @@ Respuesta
                 </SOAP-ENV:Body>
 
 
-3.	Operación Consultar Factura [consultarFactura]
+3.	Operación Anular Factura [anularFactura]
 
 Este método permite solicitar la anulación de una factura ya enviada.
 
@@ -429,6 +435,37 @@ Petición
                   </sspp:solicitudDescargasEstados>
                </soapenv:Body>
 
+Respuesta
+
+    Parámetros : 
+    
+    
+                resultado   :
+                                01      -->  Ok  
+                                02	    -->  Error
+
+                observaciones      : Los posibles mensajes de respuesta en caso de error para este método, son los siguientes:
+                                    •	Los datos enviados en el campo TypeRequest no son soportados o no han sido enviados.
+                                    •	No se pudieron obtener los documentos pendientes
+
+                ficheroResultante        : XML con el índice de descargas, comprimido y en Base64  ![imagen](https://user-images.githubusercontent.com/92558339/144367219-95a97ed4-87e4-4d8e-9bcd-847da8aa3911.png)
+
+                
+                
+    Respuesta RPC-Literal:
+    
+                <soapenv:Body wsu:Id="pfx1afbd40b-e707-1354-a37f-e11b7b2523af" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
+            <sspp:solicitudDescargasEstadosResponse >
+                     <return>
+                        <resultado>01</resultado>
+                        <observaciones/>
+                        <ficheroResultante>UEsDBBQACAAIAGNfxFAAAAAAAAAAAAAAAAAjAAAAcGV0a…. </ficheroResultante>
+                     </return>
+            </sspp:solicitudDescargasEstadosResponse>
+             </ soapenv:Body>
+
+   
+
     
 6.2. Operación Petición Descargas Estados [peticionDescargasEstados]      
 
@@ -466,13 +503,14 @@ Respuesta
     
                 resultado   :
                                 01      -->  Ok  
-                                2	    -->  Error
+                                02	    -->  Error
 
                 observaciones      : Los posibles mensajes de respuesta en caso de error para este método, son los siguientes:
                                     •	Los datos enviados en el campo TypeRequest no son soportados o no han sido enviados.
                                     •	No se pudieron obtener los documentos pendientes
 
-                ficheroResultante        : XML con el índice de descargas, comprimido y en Base64  ![imagen](https://user-images.githubusercontent.com/92558339/144367219-95a97ed4-87e4-4d8e-9bcd-847da8aa3911.png)
+                ficheroResultante        : XML de Estado comprimido ZIP en y en Base64  ![imagen](https://user-images.githubusercontent.com/92558339/144369376-c844c078-4427-4ad6-b07d-ed01a2087ae6.png)
+
 
                 
                 
@@ -533,20 +571,23 @@ Respuesta
                 
     Respuesta RPC-Literal:
 
-<soapenv:Body wsu:Id="id-F0E6B1B6B4815A5F1A1591266492637167" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
-<sspp:confirmacionDescargasEstadosResponse>
-         <return>
-            <resultado>01</resultado>
-            <observaciones xsi:nil= "true"/>
-            <ficheroResultante xsi:nil= "true"/>
-         </return>
-      </sspp:confirmacionDescargasEstadosResponse>
+        <soapenv:Body wsu:Id="id-F0E6B1B6B4815A5F1A1591266492637167" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
+        <sspp:confirmacionDescargasEstadosResponse>
+                 <return>
+                    <resultado>01</resultado>
+                    <observaciones xsi:nil= "true"/>
+                    <ficheroResultante xsi:nil= "true"/>
+                 </return>
+              </sspp:confirmacionDescargasEstadosResponse>
 
-</ soapenv:Body >
+        </ soapenv:Body >
 
 
     
 # Casos de prueba para cada operación
+
+
+
 
 # Como darse de alta en el servicio
 
