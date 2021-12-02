@@ -81,8 +81,10 @@ Petición - Parámetros de la información del proveedor
                       </request>
                     </web:enviarFactura>
                   </soapenv:Body>
+                
 
 Respuesta :	La respuesta contiene los datos más representativos de la factura que ha sido enviada:
+
 
          Parámetros:
 
