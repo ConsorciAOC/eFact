@@ -176,7 +176,9 @@ Respuesta
                 </ns1:consultarFacturaResponse>
                 </SOAP-ENV:Body>
 
-    3.	Operación Consultar Factura [consultarFactura]
+
+3.	Operación Consultar Factura [consultarFactura]
+
 Este método permite solicitar la anulación de una factura ya enviada.
 
 Petición
@@ -310,7 +312,8 @@ Respuesta
             </ns1:consultarEstadosResponse>
             </SOAP-ENV:Body>
 
-    5.	Operación Consultar Listado Facturas [consultarListadoFacturas]
+
+5.	Operación Consultar Listado Facturas [consultarListadoFacturas]
  
 Este servicio permite consultar el estado de varias facturas. Este método permite buscar las facturas con el código de registro indicado. 
 Se puede solicitar un máximo de 500 facturas por petición.
@@ -395,21 +398,22 @@ Respuesta
 
 A través de los siguientes métodos es posible obtener el listado completo de los estados que estan pendientes de descargar para un emisor de facturas
 
-1 - solicitudDescargasEstados : Solicitud de posibles descargas: Este método será el primero a ejecutar y obligatorio, en la solicitud de descargas pendientes para un Emisor
+    1 - solicitudDescargasEstados : Solicitud de posibles descargas: Este método será el primero a ejecutar y obligatorio, en la solicitud de descargas pendientes para un Emisor
 
 Nos devuelve el XML con la lista completa de índices de descargas de estados que se encuentran en estado pendiente de descarga para el NIF que se incluye como parámetro de entrada
 
 
-2 - peticionDescargasEstados : Petición de descargas: Este método será el segundo a ejecutar y obligatorio, en la petición de descargas pendientes para un Emisor
+    2 - peticionDescargasEstados : Petición de descargas: Este método será el segundo a ejecutar y obligatorio, en la petición de descargas pendientes para un Emisor
 A partir del listado de índices obtenido en el método anterior (solicitudDescargasEstados ) realizaremos la peticion tantas veces como índices de descargas se obtuvieran en el primer método (a la elección del interlocutor).
 El parámetro opcionMarcado (S/N) determina si el índice se marca como descargado al finalizar la descarga o bien será necesario el método 3 (confirmacionDescargasEstados) para marcar como descargado los índices, puesto que el documento estará pendiente de descarga hasta lanzar este ultimo método
 
-3 - confirmacionDescargasEstados Confirmación de descargas: Este método será el tercero a ejecutar y obligatorio, en la petición de descargas pendientes si la opcion de Marcado ha sido N
+    3 - confirmacionDescargasEstados Confirmación de descargas: Este método será el tercero a ejecutar y obligatorio, en la petición de descargas pendientes si la opcion de Marcado ha sido N
 Este método será el tercero a ejecutar y es opcional, en la petición de descargas pendientes para un interlocutor determinado 
 Su objetivo es cambiar de estado en eFACT y por cada índice de descarga ya realizado, de “PendienteDescarga” a “Descargado”.
 Para ello se puede utilizar el Método 2 en el mismo momento de la descarga y mediante el parámetro de entrada “Opción marcado”, o habiéndose cerrado las descargas de forma correcta, invocar al Método 3 para confirmarlas tras su recepción.
     
     
+
 6.1. Operación Solicitud Descargas Estados [solicitudDescargasEstados]      
 
 [Método 1 :Solicitud de posibles descargas: Este método será el primero a ejecutar y obligatorio, en la solicitud de descargas pendientes para un Emisor]
@@ -513,8 +517,35 @@ Petición
              </sspp:confirmacionDescargasEstados>
             </soapenv:Body>
 
+Respuesta
 
+    Parámetros : 
+    
+    
+                resultado   :
+                                01      -->  Ok  
+                                02	    -->  Error
 
+                observaciones      : Los posibles mensajes de respuesta en caso de error para este método, son los siguientes:
+                                    •	Los datos enviados en el campo TypeRequest no son soportados o no han sido enviados.
+                                    •	No se pudieron obtener los documentos pendientes
+
+                ficheroResultante        : Fichero comprimido y en Base64  !
+
+                
+                
+    Respuesta RPC-Literal:
+
+<soapenv:Body wsu:Id="id-F0E6B1B6B4815A5F1A1591266492637167" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
+<sspp:confirmacionDescargasEstadosResponse>
+         <return>
+            <resultado>01</resultado>
+            <observaciones xsi:nil= "true"/>
+            <ficheroResultante xsi:nil= "true"/>
+         </return>
+      </sspp:confirmacionDescargasEstadosResponse>
+
+</ soapenv:Body >
 
 
     
