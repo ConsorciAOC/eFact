@@ -121,6 +121,7 @@ Respuesta :	La respuesta contiene los datos más representativos de la factura q
                 </ns1:enviarFacturaResponse>
           
 2.	Operación Consultar Factura [consultarFactura]
+
 Este método permite consultar el estado de una factura. Esta petición buscará la factura con el código de registro indicado.
 
 Petición
@@ -149,30 +150,29 @@ Respuesta
                 registroAdministrativo:Numero de Registro Administrativo en eFACT 
     
     Respuesta RPC-Literal:
-                    <SOAP-ENV:Body wsu:Id="pfx60b0f6ad-d92f-b2de-a3a8-4d78d13b77d1" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
-                <ns1:consultarFacturaResponse>
-                <return>
-                <resultado>
-                <codigo>0</codigo>
-                <descripcion>Correcto</descripcion>
-                <codigoSeguimiento/>
-                <registroAdministrativo >12345</registroAdministrativo>
-
-                </resultado>
-                <factura>
-                <numeroRegistro>NUMERO_REGISTRO</numeroRegistro>
-                <tramitacion>
-                <codigo>1200</codigo>
-                <descripcion>La factura ha sido registrada en el registro electrónico REC</descripcion>
-                <motivo/>
-                </tramitacion>
-                <anulacion>
-                <codigo>4200</codigo>
-                <descripcion>Solicitada anulación</descripcion>
-                <motivo>prueba</motivo>
-                </anulacion>
-                </factura>
-                </return>
+                    <SOAP-ENV:Body wsu:Id="pfx60b0f6ad-d92f-b2de-a3a8-4d78d13b77d1" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-                     utility-1.0.xsd">
+                    <ns1:consultarFacturaResponse>
+                        <return>
+                            <resultado>
+                                <codigo>0</codigo>
+                                <descripcion>Correcto</descripcion>
+                                <codigoSeguimiento/>
+                                <registroAdministrativo >12345</registroAdministrativo>
+                            </resultado>
+                            <factura>
+                                <numeroRegistro>NUMERO_REGISTRO</numeroRegistro>
+                                <tramitacion>
+                                    <codigo>1200</codigo>
+                                    <descripcion>La factura ha sido registrada en el registro electrónico REC</descripcion>
+                                    <motivo/>
+                                </tramitacion>
+                                <anulacion>
+                                    <codigo>4200</codigo>
+                                    <descripcion>Solicitada anulación</descripcion>
+                                    <motivo>prueba</motivo>
+                                </anulacion>
+                            </factura>
+                        </return>
                 </ns1:consultarFacturaResponse>
                 </SOAP-ENV:Body>
 
@@ -206,20 +206,20 @@ Respuesta
                 
                 
     Respuesta RPC-Literal:
-                               <SOAP-ENV:Body wsu:Id="pfxa7090bef-4c86-f3b5-fd4f-b2a425c84699" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
-            <ns1:anularFacturaResponse>
-            <return>
-            <resultado>
-            <codigo>0</codigo>
-            <descripcion>Correcto</descripcion>
-            <codigoSeguimiento/>
-            </resultado>
-            <factura>
-            <numeroRegistro>NUMERO_REGISTRO</numeroRegistro>
-            <mensaje>Anulación solicitada correctamente</mensaje>
-            </factura>
-            </return>
-            </ns1:anularFacturaResponse>
+               <SOAP-ENV:Body wsu:Id="pfxa7090bef-4c86-f3b5-fd4f-b2a425c84699" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
+                <ns1:anularFacturaResponse>
+                    <return>
+                        <resultado>
+                            <codigo>0</codigo>
+                            <descripcion>Correcto</descripcion>
+                            <codigoSeguimiento/>
+                        </resultado>
+                        <factura>
+                            <numeroRegistro>NUMERO_REGISTRO</numeroRegistro>
+                            <mensaje>Anulación solicitada correctamente</mensaje>
+                        </factura>
+                    </return>
+                </ns1:anularFacturaResponse>
             </SOAP-ENV:Body>
 
  4.	Operación Consultar Estados [consultarEstados]
@@ -239,10 +239,8 @@ Petición
     Petición RPC-Literal:
     
                 <soapenv:Body>
-                <web:consultarEstados/>
+                    <web:consultarEstados/>
                 </soapenv:Body>
-
-
 
 Respuesta
 
@@ -253,63 +251,64 @@ Respuesta
                 
                 
     Respuesta RPC-Literal:
-                                           <SOAP-ENV:Body wsu:Id="pfx6ab483c6-1e52-135b-47f3-80cc1287a700" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
+
+            <SOAP-ENV:Body wsu:Id="pfx6ab483c6-1e52-135b-47f3-80cc1287a700" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
             <ns1:consultarEstadosResponse>
-            <return>
-            <resultado>
-            <codigo>0</codigo>
-            <descripcion>Correcto</descripcion>
-            <codigoSeguimiento/>
-            </resultado>
-            <estados>
-            <estado>
-            <nombre>Registrada</nombre>
-            <codigo>1200</codigo>
-            <descripcion>La factura ha sido registrada en el registro electrónico REC</descripcion>
-            </estado>
-            <estado>
-            <nombre>Contabilizada la obligación reconocida</nombre>
-            <codigo>2400</codigo>
-            <descripcion>Contabilizada la obligación reconocida</descripcion>
-            </estado>
-            <estado>
-            <nombre>Pagada</nombre>
-            <codigo>2500</codigo>
-            <descripcion>Factura pagada</descripcion>
-            </estado>
-            <estado>
-            <nombre>Rechazada</nombre>
-            <codigo>2600</codigo>
-            <descripcion>La Unidad rechaza la factura</descripcion>
-            </estado>
-            <estado>
-            <nombre>Anulada</nombre>
-            <codigo>3100</codigo>
-            <descripcion>La Unidad aprueba la propuesta de anulación</descripcion>
-            </estado>
-            <estado>
-            <nombre>No solicitada anulación</nombre>
-            <codigo>4100</codigo>
-            <descripcion>No solicitada anulación</descripcion>
-            </estado>
-            <estado>
-            <nombre>Solicitada anulación</nombre>
-            <codigo>4200</codigo>
-            <descripcion>Solicitada anulación</descripcion>
-            </estado>
-            <estado>
-            <nombre>Aceptada anulación</nombre>
-            <codigo>4300</codigo>
-            <descripcion>Aceptada anulación</descripcion>
-            </estado>
-            <estado>
-            <nombre>Rechazada anulación</nombre>
-            <codigo>4400</codigo>
-            <descripcion>Rechazada anulación</descripcion>
-            </estado>
-            </estados>
-            </return>
-            </ns1:consultarEstadosResponse>
+                    <return>
+                        <resultado>
+                            <codigo>0</codigo>
+                            <descripcion>Correcto</descripcion>
+                            <codigoSeguimiento/>
+                        </resultado>
+                        <estados>
+                            <estado>
+                                <nombre>Registrada</nombre>
+                                <codigo>1200</codigo>
+                                <descripcion>La factura ha sido registrada en el registro electrónico REC</descripcion>
+                            </estado>
+                            <estado>
+                                <nombre>Contabilizada la obligación reconocida</nombre>
+                                <codigo>2400</codigo>
+                                <descripcion>Contabilizada la obligación reconocida</descripcion>
+                            </estado>
+                            <estado>
+                                <nombre>Pagada</nombre>
+                                <codigo>2500</codigo>
+                                <descripcion>Factura pagada</descripcion>
+                            </estado>
+                            <estado>
+                                <nombre>Rechazada</nombre>
+                                <codigo>2600</codigo>
+                                <descripcion>La Unidad rechaza la factura</descripcion>
+                            </estado>
+                            <estado>
+                                <nombre>Anulada</nombre>
+                                <codigo>3100</codigo>
+                                <descripcion>La Unidad aprueba la propuesta de anulación</descripcion>
+                            </estado>
+                            <estado>
+                                <nombre>No solicitada anulación</nombre>
+                                <codigo>4100</codigo>
+                                <descripcion>No solicitada anulación</descripcion>
+                            </estado>
+                            <estado>
+                                <nombre>Solicitada anulación</nombre>
+                                <codigo>4200</codigo>
+                                <descripcion>Solicitada anulación</descripcion>
+                            </estado>
+                            <estado>
+                                <nombre>Aceptada anulación</nombre>
+                                <codigo>4300</codigo>
+                                <descripcion>Aceptada anulación</descripcion>
+                            </estado>
+                            <estado>
+                                <nombre>Rechazada anulación</nombre>
+                                <codigo>4400</codigo>
+                                <descripcion>Rechazada anulación</descripcion>
+                            </estado>
+                        </estados>
+                    </return>
+                </ns1:consultarEstadosResponse>
             </SOAP-ENV:Body>
 
 
@@ -327,22 +326,18 @@ Petición
                 
     Petición RPC-Literal:
                 <soapenv:Body>
-            <web:consultarListadoFacturas>
-            <request>
-            <!--Zero or more repetitions:-->
-            <numeroRegistro>NUMERO_REGISTRO</numeroRegistro>
-            <numeroRegistro>NUMERO_REGISTRO_2</numeroRegistro>
-            </request>
-            </web:consultarListadoFacturas>
-            </soapenv:Body>
-
-
-
+                      <web:consultarListadoFacturas>
+                        <request>
+                        <!--Zero or more repetitions:-->
+                            <numeroRegistro>NUMERO_REGISTRO</numeroRegistro>
+                            <numeroRegistro>NUMERO_REGISTRO_2</numeroRegistro>
+                        </request>
+                       </web:consultarListadoFacturas>
+                </soapenv:Body>
 
 Respuesta
 
     Parámetros : 
-    
     
                 numeroRegistro   : Código de identificación único de entrada identificador único de la factura dentro de la plataforma eFACT.  
                 tramitacion      : Información del estado de tramitación. Contiene los elementos codigo_estado, descripcion_estado y motivo_estado
@@ -353,45 +348,45 @@ Respuesta
                 registroAdministrativo :Numero de Registro Administrativo en eFACT 
                 
     Respuesta RPC-Literal:
-                                                           <SOAP-ENV:Body wsu:Id="pfx1afbd40b-e707-1354-a37f-e11b7b2523af" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
-                <ns1:consultarListadoFacturasResponse>
-                <return>
-                <resultado>
-                <codigo>0</codigo>
-                <descripcion>Correcto</descripcion>
-                <codigoSeguimiento/>
-                <registroAdministrativo>12345</registroAdministrativo>
-                </resultado>
-                <facturas>
-                <consultarListadoFactura>
-                <codigo>0</codigo>
-                <descripcion>Correcto</descripcion>
-                <factura>
-                <numeroRegistro>NUMERO_REGISTRO</numero Registro>
-                <tramitacion>
-                <codigo>1200</codigo>
-                <descripcion>La factura ha sido registrada en el registro electrónico REC</descripcion>
-                <motivo/>
-                </tramitacion>
-                <anulacion>
-                <codigo>4200</codigo>
-                <descripcion>Solicitada anulación</descripcion>
-                <motivo>prueba</motivo>
-                </anulacion>
-                </factura>
-                </consultarListadoFactura>
-                <consultarListadoFactura>
-                <codigo>303</codigo>
-                <descripcion>No existe factura con el número de registro especificado</descripcion>
-                <factura>
-                <numeroRegistro>NUMERO_REGISTRO_2</nume roRegistro>
-                <tramitacion/>
-                <anulacion/>
-                </factura>
-                </consultarListadoFactura>
-                </facturas>
-                </return>
-                </ns1:consultarListadoFacturasResponse>
+                <SOAP-ENV:Body wsu:Id="pfx1afbd40b-e707-1354-a37f-e11b7b2523af" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
+                    <ns1:consultarListadoFacturasResponse>
+                        <return>
+                            <resultado>
+                                <codigo>0</codigo>
+                                <descripcion>Correcto</descripcion>
+                                <codigoSeguimiento/>
+                                <registroAdministrativo>12345</registroAdministrativo>
+                            </resultado>
+                            <facturas>
+                                <consultarListadoFactura>
+                                    <codigo>0</codigo>
+                                    <descripcion>Correcto</descripcion>
+                                    <factura>
+                                        <numeroRegistro>NUMERO_REGISTRO</numero Registro>
+                                        <tramitacion>
+                                            <codigo>1200</codigo>
+                                            <descripcion>La factura ha sido registrada en el registro electrónico REC</descripcion>
+                                            <motivo/>
+                                        </tramitacion>
+                                        <anulacion>
+                                            <codigo>4200</codigo>
+                                            <descripcion>Solicitada anulación</descripcion>
+                                            <motivo>prueba</motivo>
+                                        </anulacion>
+                                    </factura>
+                                </consultarListadoFactura>
+                                <consultarListadoFactura>
+                                    <codigo>303</codigo>
+                                    <descripcion>No existe factura con el número de registro especificado</descripcion>
+                                    <factura>
+                                        <numeroRegistro>NUMERO_REGISTRO_2</nume roRegistro>
+                                        <tramitacion/>
+                                        <anulacion/>
+                                    </factura>
+                                </consultarListadoFactura>
+                            </facturas>
+                        </return>
+                     </ns1:consultarListadoFacturasResponse>
                 </SOAP-ENV:Body>
 
 6.	Flujo completo para solicitud descargas de estados pendientes para un emisor
