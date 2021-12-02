@@ -591,7 +591,11 @@ Respuesta
     
 # Casos de prueba para cada operación
 
-
+CON.1		Prueba de conectividad utilizando servicios web a través de Internet	
+    CON.1.1	Envío de una petición firmada por parte de la entidad emisora utilizando servicios web a través Internet, y autenticándose con su certificado digital	El Servicio Web de eFACT recibe correctamente la petición a través de internet
+	
+    CON.1.2	Recepción de la respuesta por la   entidad emisora. eFACT se autenticará ante la entidad utilizando su certificado digital	La entidad recibe correctamente el fichero a través de internet
+![imagen](https://user-images.githubusercontent.com/92558339/144370993-59216977-e096-4c62-b56b-c1e56ed410a4.png)
 
 
 # Como darse de alta en el servicio
