@@ -592,93 +592,31 @@ Respuesta
 # Casos de prueba para cada operación
 
 CON.1		Prueba de conectividad utilizando servicios web a través de Internet	
-	CON.1.1	Envío de una petición firmada por parte de la entidad emisora utilizando servicios web a través Internet, y autenticándose con su certificado digital	El Servicio Web de eFACT recibe correctamente la petición a través de internet
-	CON.1.2	Recepción de la respuesta por la   entidad emisora. eFACT se autenticará ante la entidad utilizando su certificado digital	La entidad recibe correctamente el fichero a través de internet
+
 ![imagen](https://user-images.githubusercontent.com/92558339/144371349-93e8763f-afc3-467c-a4c8-26ec4ff2842d.png)
 
 
 CNU.1		Prueba de consultas de unidades	
-	CNU.1.1	Envío por la entidad emisora de petición firmada de consulta de órganos gestores, la petición deberá estar firmada con el certificado del proveedor	Recepción en eFACT de dicha petición y gestión  de la respuesta asociada
-	CNU.1.2	Envío desde eFACT de la  respuesta firmada a la petición anterior con el listado de órganos y unidades	Recepción en la entidad emisora de dicha respuesta
+
 ![imagen](https://user-images.githubusercontent.com/92558339/144371322-ac7503c9-2090-4223-b1a1-e5aca913e88b.png)
 
 
 CNE.1		Pruebas para consultar los posibles estados de  una factura.	
-	CNE.1.1	Envío por la entidad emisora de petición firmada de consulta de estados , la petición deberá estar firmada con el certificado del proveedor	Recepción en eFact de dicha petición y gestión  de la respuesta asociada
-	CNE.1.2	Envío desde eFACT de la  respuesta firmada a la petición anterior con el listado de estados existentes en el sistema	Recepción en la entidad emisora de dicha respuesta
+
 ![imagen](https://user-images.githubusercontent.com/92558339/144371447-3dd80daf-96dc-4122-875f-54121d54eeea.png)
 
 ENF.1		Pruebas de envío factura firmada correcta al sistema.	
-	ENF.1.1	Envío por la entidad emisora de petición firmada de envío de factura sin adjuntos	Recepción en eFACT de dicha petición y gestión  de la respuesta asociada
-			
-	ENF.1.2	Envío desde eFACT de la  respuesta firmada a la petición anterior con los datos de la factura	Recepción en la entidad emisora de dicha respuesta
-	ENF.1.3	Envío por la entidad emisora de petición firmada de envío de factura con adjuntos	Recepción en eFACT de dicha petición y gestión  de la respuesta asociada
-			
-			
-	ENF.1.4	Envío desde eFACT de la  respuesta firmada a la petición anterior con los datos de la factura	Recepción en la entidad emisora de dicha respuesta
-ENF.2		Pruebas de envío factura firmada con oficina contable no presente en el sistema	
-	ENF.2.1	Envío por la entidad emisora de petición firmada de envío de factura	Recepción en eFACT de dicha petición y gestión  de la respuesta asociada
-			
-	ENF.2.2	Envío desde eFACT de la  respuesta firmada a la petición anterior con los datos de la factura	Recepción en la entidad emisora de dicha respuesta
-ENF.3		Pruebas de envío factura firmada con órgano gestor no presente en el sistema	
-	ENF.3.1	Envío por la entidad emisora de petición firmada de envío de factura	Recepción en eFACT de dicha petición y gestión  de la respuesta asociada
-			
-	ENF.3.2	Envío desde eFACT de la  respuesta firmada a la petición anterior con los datos de la factura	Recepción en la entidad emisora de dicha respuesta
-ENF.4		Pruebas de envío factura firmada con unidad tramitadora  no presente en el sistema	
-	ENF.4.1	Envío por la entidad emisora de petición firmada de envío de factura	Recepción en eFACT de dicha petición y gestión  de la respuesta asociada
-			
-	ENF.4.2	Envío desde eFACT de la  respuesta firmada a la petición anterior con los datos de la factura	Recepción en la entidad emisora de dicha respuesta
-ENF.5		Pruebas de envío factura firmada con unidad tramitadora y órgano gestor no relacionados entre si	
-	ENF.5.1	Envío por la entidad emisora de petición firmada de envío de factura	Recepción en eFACT de dicha petición y gestión  de la respuesta asociada
-			
-	ENF.5.2	Envío desde eFACT de la  respuesta firmada a la petición anterior con los datos de la factura	Recepción en la entidad emisora de dicha respuesta
-ENF.6		Pruebas de envío factura firmada con certificado revocado	
-	ENF.6.1	Envío por la entidad emisora de petición firmada de envío de factura	Recepción en eFACT de dicha petición y gestión  de la respuesta asociada
-			
-	ENF.6.2	Envío desde eFACT de la  respuesta firmada a la petición anterior con los datos de la factura	Recepción en la entidad emisora de dicha respuesta
-ENF.7		Pruebas de envío factura firmada con certificado caducado	
-	ENF.7.1	Envío por la entidad emisora de petición firmada de envío de factura	Recepción en eFACT de dicha petición y gestión  de la respuesta asociada
-			
-	ENF.7.2	Envío desde eFACT de la  respuesta firmada a la petición anterior con los datos de la factura	Recepción en la entidad emisora de dicha respuesta
-ENF.8		Pruebas de envío factura firmada correctamente pero a la que se le ha modificado algún dato por lo que no seria integra	
-	ENF.8.1	Envío por la entidad emisora de petición firmada de envío de factura	Recepción en eFACT de dicha petición y gestión  de la respuesta asociada
-			
-	ENF.8.2	Envío desde eFACT de la  respuesta firmada a la petición anterior con los datos de la factura	Recepción en la entidad emisora de dicha respuesta
+
 ![imagen](https://user-images.githubusercontent.com/92558339/144371474-9918c065-81b0-42ba-b4f4-ed0c22dc13e4.png)
 
 
-Ciclo	Caso	Descripción	Resultado Esperado
 CNF.1		Pruebas para consultar el estado de una factura a partir de un identificador de registro existente	
-	CNF.1.1	Envío por la entidad emisora de petición firmada de consulta de facturas  con id de registro existente	Recepción en eFACT de dicha petición y gestión  de la respuesta asociada
-	CNF.1.2	Envío desde eFACT de la  respuesta firmada a la petición anterior con los datos del estado	Recepción en la entidad emisora de dicha respuesta
-CNF.2		Pruebas para consultar el estado de una factura a partir de un identificador de registro no existente en el sistema	
-	CNF.2.1	Envío por la entidad emisora de petición firmada de consulta de facturas  con id de registro no existente	Recepción en eFACT de dicha petición y gestión  de la respuesta asociada
-	CNF.2.2	Envío desde eFACT de la  respuesta firmada a la petición anterior con los datos del estado	Recepción en la entidad emisora de dicha respuesta
-CNF.3		Pruebas para el Flujo completo para solicitud descargas de estados pendientes para un emisor	
-	CNF.3.1	Envío por la entidad emisora de petición firmada de consulta de posibles descargas	Recepción en eFACT de dicha petición y gestión  de la respuesta asociada
-	CNF.3.2	Envío desde eFACT de la  respuesta firmada a la petición anterior con los datos del estado	Recepción en la entidad emisora de dicha respuesta
-	CNF.3.3	Envío por la entidad emisora de petición  Petición de descargas. opcionMarcado =S	Recepción en eFACT de dicha petición y gestión  de la respuesta asociada
-	CNF.3.4	Envío desde eFACT de la  respuesta firmada a la petición anterior con los datos del estado	Recepción en la entidad emisora de dicha respuesta
-CNF.4		Pruebas para el Flujo completo para solicitud descargas de estados pendientes para un emisor	
-	CNF.4.1	Envío por la entidad emisora de petición firmada de consulta de posibles descargas	Recepción en eFACT de dicha petición y gestión  de la respuesta asociada
-	CNF.4.2	Envío desde eFACT de la  respuesta firmada a la petición anterior con los datos del estado	Recepción en la entidad emisora de dicha respuesta
-	CNF.4.3	Envío por la entidad emisora de petición  Petición de descargas. opcionMarcado =N	Recepción en eFACT de dicha petición y gestión  de la respuesta asociada
-	CNF.4.4	Envío desde eFACT de la  respuesta firmada a la petición anterior con los datos del estado	Recepción en la entidad emisora de dicha respuesta
-	CNF.4.5	Envío por la entidad emisora de petición  Petición de descargas. opcionMarcado =N	Recepción en eFACT de dicha petición y gestión  de la respuesta asociada
-	CNF.4.6	Envío desde eFACT de la  respuesta firmada a la petición anterior con los datos del estado	Recepción en la entidad emisora de dicha respuesta
+
 ![imagen](https://user-images.githubusercontent.com/92558339/144371514-9f19e0ac-a5e7-434f-ae9a-271076c6218f.png)
 
 
-Ciclo	Caso	Descripción	Resultado Esperado
 ANF.1		Pruebas asociadas a la anulación de una factura con id de registro existente y estado permitido.	
-	ANF.1.1	Envío por la entidad emisora de petición firmada de anulación  de facturas  sobre factura con id de registro existente y estado permitido.	Recepción en EFACT de dicha petición y gestión  de la respuesta asociada
-	ANF.1.2	Envío desde eFACT de la  respuesta firmada a la petición anterior con los datos del estado	Recepción en la entidad emisora de dicha respuesta
-ANF.2		Pruebas asociadas a la anulación de una factura con id de registro existente y estado no permitido.	
-	ANF.2.1	Envío por la entidad emisora de petición firmada de anulación  de facturas  sobre factura con id de registro existente y estado no  permitido.	Recepción en eFACT de dicha petición y gestión  de la respuesta asociada
-	ANF.2.2	Envío desde eFACT de la  respuesta firmada a la petición anterior con los datos del estado	Recepción en la entidad emisora de dicha respuesta
-ANF.3		Pruebas asociadas a la anulación de una factura con id de registro no existente.	
-	ANF.3.1	Envío por la entidad emisora de petición firmada de anulación  de facturas  sobre factura con id de registro no existente	Recepción en eFACT de dicha petición y gestión  de la respuesta asociada
-	ANF.3.2	Envío desde eFACT de la  respuesta firmada a la petición anterior con los datos del estado	Recepción en la entidad emisora de dicha respuesta
+
 ![imagen](https://user-images.githubusercontent.com/92558339/144371545-09889442-c996-42c4-a5c8-e68e9df4c032.png)
 
 
