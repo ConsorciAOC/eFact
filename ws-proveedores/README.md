@@ -19,7 +19,15 @@ La autenticación se realiza mediante la firma de la petición SOAP, ya que tant
 
 El certificado de firma para las peticiones, no es necesario proporcionarlo previamente
 
-El único protocolo admitido en los servicios web es TLS>=1.2.
+Las peticiones que no cumplan estos requisitos podrán ser rechazadas:
+
+- El único protocolo admitido en los servicios web es TLS>=1.2.
+- Por motivos de seguridad se requiere en la cabecera de las peticiones esté presente la definición Content-Length con el valor correcto en bytes.
+- Se recomienda también la definición del charset sea en UTF-8. Ejemplo:"Content-Type: text/xml;charset=UTF-8".
+- Se admiten solicitudes POST con un tamaño máximo de 8M.
+
+
+
 
 
 #	Operaciones
