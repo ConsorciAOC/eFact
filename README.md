@@ -24,23 +24,20 @@ El certificado usado para la firma podrá ser el certificado del emisor de la fa
 El siguiente cuadro muestra el flujo de vida natural de una factura enviada por el proveedor al servicio eFACT:
 
 
-
-![imagen](https://user-images.githubusercontent.com/92558339/144375971-5bdaf038-fe4a-4685-a99d-b1c01ee09b7f.png)
-
+![imagen](https://user-images.githubusercontent.com/92558339/144376089-99c88b13-db66-4852-87b5-241a094f48db.png)
 
 
  
 Durante el proceso de registro y aprobación de la factura se puede producir el rechazo de la factura , bien por problemas de forma o contenido en la factura. En ese momento la factura pasara a estado Rechazada
-Nombre	Estado Público- :BOE A - 2014 -10660	eFACT	Descripción 
-Rechazada	2600	REJECTED	El portal general de entrada de facturas no ha podido identificar al destinatario La oficina contable o la unidad tramitadora han rechazado la factura, se debe indicar al proveedor el motivo del rechazo.
-La validación semántica por parte de la oficina contable es negativa
-La validación comercial por parte de la unidad tramitadora es negativa
+
+
+![imagen](https://user-images.githubusercontent.com/92558339/144376363-40f51289-9811-4bd0-8351-9d78aae217bf.png)
+
+
 El flujo de anulación   (*) permite al proveedor solicitar la Anulación de la factura . Requiere la aprobación o rechazo por parte del receptor de esta anulación para que sea efectiva. Se recoge en los siguientes estados: 
-Nombre	Estado Público- :BOE A - 2014 -10660	eFACT	Descripción 
-Solicitada Anulación	4200	eFACT	El proveedor solicita anulación de la factura electrónica informando también del motivo.
-Aceptada Anulación	4300		La unidad tramitadora acepta la solicitud de anulación de la factura electrónica. Cambia automáticamente el estado de tramitación de una factura a Anulada-3100 en el flujo de tramitación
-Rechazada Anulación	4400		La unidad tramitadora rechaza la solicitud de anulación de la factura electrónica.
-El proveedor recibirá el estado Anulada
+
+
+![imagen](https://user-images.githubusercontent.com/92558339/144376505-5c1a73c7-42bd-4c53-8630-950a182cbfe8.png)
 
  
 
