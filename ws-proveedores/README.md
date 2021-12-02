@@ -611,14 +611,14 @@ ENVIO FACTURA: Pruebas de envío factura firmada correcta al sistema.
 
 CONSULTA ESTADOS: 		
 
-    Pruebas para consultar los posibles estados de  una factura.	
+Pruebas para consultar los posibles estados de  una factura.	
 
-    ![imagen](https://user-images.githubusercontent.com/92558339/144371447-3dd80daf-96dc-4122-875f-54121d54eeea.png)
+![imagen](https://user-images.githubusercontent.com/92558339/144371447-3dd80daf-96dc-4122-875f-54121d54eeea.png)
 
 
-    Pruebas para consultar el estado de una factura a partir de un identificador de registro existente	
+Pruebas para consultar el estado de una factura a partir de un identificador de registro existente	
 
-    ![imagen](https://user-images.githubusercontent.com/92558339/144371514-9f19e0ac-a5e7-434f-ae9a-271076c6218f.png)
+![imagen](https://user-images.githubusercontent.com/92558339/144371514-9f19e0ac-a5e7-434f-ae9a-271076c6218f.png)
 
 
 ANULACION FACTURA: 		Pruebas asociadas a la anulación de una factura con id de registro existente y estado permitido.	
