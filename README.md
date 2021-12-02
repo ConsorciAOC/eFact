@@ -37,8 +37,7 @@ Durante el proceso de registro y aprobación de la factura se puede producir el 
 El flujo de anulación   (*) permite al proveedor solicitar la Anulación de la factura . Requiere la aprobación o rechazo por parte del receptor de esta anulación para que sea efectiva. Se recoge en los siguientes estados: 
 
 
-![imagen](https://user-images.githubusercontent.com/92558339/144376505-5c1a73c7-42bd-4c53-8630-950a182cbfe8.png)
-
+![imagen](https://user-images.githubusercontent.com/92558339/144376650-5218c943-5bb0-4294-8046-ec862fbfa4d7.png)
  
 
 # Documentación para integradores
