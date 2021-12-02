@@ -641,8 +641,10 @@ Se han diseñado los siguientes entornos disponibles para integradores de la pla
 
 Puede encontrar el wsdl de los servicios en las siguientes rutas:
 
-        TEST : https://efact-pre.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl 
-        PROD : https://efact.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl
+
+TEST : https://efact-pre.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl 
+
+PROD : https://efact.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl
 
 
 
