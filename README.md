@@ -21,6 +21,29 @@ El certificado usado para la firma podrá ser el certificado del emisor de la fa
 
 ## Flujo de vida de una factura
 
+
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+![imagen](https://user-images.githubusercontent.com/92558339/144380838-197a1090-7006-4862-8d1b-61c7416b2beb.png)
+
+
+
 El siguiente cuadro muestra el flujo de vida natural de una factura enviada por el proveedor al servicio eFACT:
 
 
