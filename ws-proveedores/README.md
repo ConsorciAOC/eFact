@@ -636,10 +636,8 @@ ANULACION FACTURA: 		Pruebas asociadas a la anulación de una factura con id de 
 
 Se han diseñado los siguientes entornos disponibles para integradores de la plataforma:
 
-  TEST	El entorno de TEST es un entorno de integración habilitado para pruebas de los sistemas de los proveedores.
-
-  PROD	El entorno de PROD es un entorno real de la plataforma eFACT
-
+        TEST :	El entorno de TEST es un entorno de integración habilitado para pruebas de los sistemas de los proveedores.
+        PROD :	El entorno de PROD es un entorno real de la plataforma eFACT
 
 Puede encontrar el wsdl de los servicios en las siguientes rutas:
 
