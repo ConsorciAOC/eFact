@@ -601,33 +601,27 @@ Respuesta
 
 CONECTIVIDAD		Prueba de conectividad utilizando servicios web a través de Internet
 
-[CON-1.zip](https://github.com/ConsorciAOC/eFact/files/7639668/CON-1.zip)
-
 
 ![imagen](https://user-images.githubusercontent.com/92558339/144372517-22bfb612-78f3-4a6d-8bdc-0e0066902a49.png)
 
 
-
-CNU.1		Prueba de consultas de unidades	
-
-![imagen](https://user-images.githubusercontent.com/92558339/144371322-ac7503c9-2090-4223-b1a1-e5aca913e88b.png)
-
-
-CNE.1		Pruebas para consultar los posibles estados de  una factura.	
-
-![imagen](https://user-images.githubusercontent.com/92558339/144371447-3dd80daf-96dc-4122-875f-54121d54eeea.png)
-
-ENF.1		Pruebas de envío factura firmada correcta al sistema.	
+ENVIO FACTURA: Pruebas de envío factura firmada correcta al sistema.	
 
 ![imagen](https://user-images.githubusercontent.com/92558339/144371474-9918c065-81b0-42ba-b4f4-ed0c22dc13e4.png)
 
+CONSULTA ESTADOS: 		
 
-CNF.1		Pruebas para consultar el estado de una factura a partir de un identificador de registro existente	
+    Pruebas para consultar los posibles estados de  una factura.	
 
-![imagen](https://user-images.githubusercontent.com/92558339/144371514-9f19e0ac-a5e7-434f-ae9a-271076c6218f.png)
+    ![imagen](https://user-images.githubusercontent.com/92558339/144371447-3dd80daf-96dc-4122-875f-54121d54eeea.png)
 
 
-ANF.1		Pruebas asociadas a la anulación de una factura con id de registro existente y estado permitido.	
+    Pruebas para consultar el estado de una factura a partir de un identificador de registro existente	
+
+    ![imagen](https://user-images.githubusercontent.com/92558339/144371514-9f19e0ac-a5e7-434f-ae9a-271076c6218f.png)
+
+
+ANULACION FACTURA: 		Pruebas asociadas a la anulación de una factura con id de registro existente y estado permitido.	
 
 ![imagen](https://user-images.githubusercontent.com/92558339/144371545-09889442-c996-42c4-a5c8-e68e9df4c032.png)
 
