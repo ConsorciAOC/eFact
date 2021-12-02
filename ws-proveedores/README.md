@@ -19,7 +19,7 @@ La autenticación se realiza mediante la firma de la petición SOAP, ya que tant
 
 El certificado de firma para las peticiones, no es necesario proporcionarlo previamente
 
-El único proto colo admitido en los servicios web es TLS>=1.2.
+El único protocolo admitido en los servicios web es TLS>=1.2.
 
 
 #	Operaciones
