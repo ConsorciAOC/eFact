@@ -618,7 +618,7 @@ Pruebas para consultar los posibles estados de  una factura.
 
 Pruebas para consultar el estado de una factura a partir de un identificador de registro existente	
 
-![imagen](https://user-images.githubusercontent.com/92558339/144371514-9f19e0ac-a5e7-434f-ae9a-271076c6218f.png)
+![imagen](https://user-images.githubusercontent.com/92558339/144374184-db492fd9-8468-4f44-b6cc-6702455f3bb1.png)
 
 
 ANULACION FACTURA: 		Pruebas asociadas a la anulación de una factura con id de registro existente y estado permitido.	
