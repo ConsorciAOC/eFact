@@ -187,7 +187,10 @@ Respuesta
 
 3.	Operación Anular Factura [anularFactura]
 
-Este método permite solicitar la anulación de una factura ya enviada.
+Este método permite solicitar la anulación de una factura ya enviada.[anularFactura.zip](https://github.com/ConsorciAOC/eFact/files/7639560/anularFactura.zip)
+
+
+
 
 Petición
 
@@ -418,6 +421,8 @@ Para ello se puede utilizar el Método 2 en el mismo momento de la descarga y me
     
 
 6.1. Operación Solicitud Descargas Estados [solicitudDescargasEstados]      
+[solicitudDescargasEstados.zip](https://github.com/ConsorciAOC/eFact/files/7639564/solicitudDescargasEstados.zip)
+
 
 [Método 1 :Solicitud de posibles descargas: Este método será el primero a ejecutar y obligatorio, en la solicitud de descargas pendientes para un Emisor]
 
