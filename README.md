@@ -22,14 +22,12 @@ El certificado usado para la firma podrá ser el certificado del emisor de la fa
 ## Flujo de vida de una factura
 
 El siguiente cuadro muestra el flujo de vida natural de una factura enviada por el proveedor al servicio eFACT:
-Nombre	Estado Público- :BOE A - 2014 -10660	eFACT	Descripción
-	1000	SENT	Entregada en el servicio eFACT
-Registrada	1200	REGISTERED	La factura electrónica ha sido recibida en el punto general de entrada de facturas y ha sido registrada administrativamente, proporcionando un número de registro al proveedor
-Registrada en RCF	1300	DELIVERED	el mensaje ha llegado a los sistemas informáticos de la AA.PP. receptora, ha pasado las validaciones requeridas por éstos y está a disposición del/de los usuario/s receptor/es. Si no se ha podido llevar a cabo la entrega, se tendrá que generar un mensaje de rechazo indicando los motivos técnicos que hayan impedido la correcta entrega (por ejemplo: "La factura no puede ser entregada, el código de encaminamiento es incorrecto"). La publicación de este estado, o el correspondiente rechazo es obligatorio.
-Contabilizada la obligación de pago 	2400	RECOGNISED	La obligación de pago derivada de la factura ha sido reconocida.
-Pagada	2500	PAID	La obligación de pago derivada de la factura ha sido pagada.
-Anulada	3100	CANCELED	La oficina contable o la unidad tramitadora aceptan la solicitud de anulación de la factura electrónica, presentada por el proveedor.
-Ver Flujo Anulacion  (*)
+
+
+
+![imagen](https://user-images.githubusercontent.com/92558339/144375971-5bdaf038-fe4a-4685-a99d-b1c01ee09b7f.png)
+
+
 
  
 Durante el proceso de registro y aprobación de la factura se puede producir el rechazo de la factura , bien por problemas de forma o contenido en la factura. En ese momento la factura pasara a estado Rechazada
