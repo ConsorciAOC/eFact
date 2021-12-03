@@ -14,7 +14,7 @@ Este repositorio pretende ir recopilando poco a poco la nueva documentación rel
 Conforme a la Ley 25/2013, de 27 de diciembre, de impulso de la factura electrónica y creación del registro  contable de facturas en el Sector Público, las facturas que se remitan a las Administraciones Públicas serán electrónicas y se ajustarán al formato estructurado de factura electrónica Facturae versión 3.2.x con firma electrónica XAdES. 
 
 
-Por tanto, el formato admitido por la plataforma es Facturae, concretamente las versiones: 3.2, 3.2.1 y 3.2.2.
+Por tanto, el __formato admitido por la plataforma es Facturae, concretamente las versiones: 3.2, 3.2.1 y 3.2.2.__
 
 Tiene más información sobre dicho formato en: 
 
@@ -29,6 +29,8 @@ El certificado usado para la firma podrá ser el certificado del emisor de la fa
 
 ## Flujo de vida de una factura
 						
+
+
 
 ![imagen](https://user-images.githubusercontent.com/92558339/144381176-3b2bad9c-cc93-4f48-810f-94539671799b.png)
 
