@@ -7,10 +7,15 @@ En este sentido, el servicio e.FACT ni genera ni hace la gestión contable de la
 Este repositorio pretende ir recopilando poco a poco la nueva documentación relacionada con eFACT conforme ésta es vaya actualizando.
 
 
+
+
 ## Formato factura-e 
 
 Conforme a la Ley 25/2013, de 27 de diciembre, de impulso de la factura electrónica y creación del registro  contable de facturas en el Sector Público, las facturas que se remitan a las Administraciones Públicas serán electrónicas y se ajustarán al formato estructurado de factura electrónica Facturae versión 3.2.x con firma electrónica XAdES. 
+
+
 Por tanto, el formato admitido por la plataforma es Facturae, concretamente las versiones: 3.2, 3.2.1 y 3.2.2.
+
 Tiene más información sobre dicho formato en: 
 
 https://www.facturae.gob.es/formato/Paginas/version-3-2.aspx
