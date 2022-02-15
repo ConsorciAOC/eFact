@@ -679,17 +679,17 @@ ________________________________________________________________________________
     
 # Casos de prueba para cada operación
 
-CONECTIVIDAD		Prueba de conectividad utilizando servicios web a través de Internet
+## CONECTIVIDAD		Prueba de conectividad utilizando servicios web a través de Internet
 
 
 ![imagen](https://user-images.githubusercontent.com/92558339/144372517-22bfb612-78f3-4a6d-8bdc-0e0066902a49.png)
 
 
-ENVIO FACTURA: Pruebas de envío factura firmada correcta al sistema.	
+## ENVIO FACTURA: Pruebas de envío factura firmada correcta al sistema.	
 
 ![imagen](https://user-images.githubusercontent.com/92558339/144371474-9918c065-81b0-42ba-b4f4-ed0c22dc13e4.png)
 
-CONSULTA ESTADOS: 		
+## CONSULTA ESTADOS: 		
 
 Pruebas para consultar los posibles estados de  una factura.	
 
@@ -701,7 +701,7 @@ Pruebas para consultar el estado de una factura a partir de un identificador de 
 ![imagen](https://user-images.githubusercontent.com/92558339/144374184-db492fd9-8468-4f44-b6cc-6702455f3bb1.png)
 
 
-ANULACION FACTURA: 		Pruebas asociadas a la anulación de una factura con id de registro existente y estado permitido.	
+## ANULACION FACTURA: 		Pruebas asociadas a la anulación de una factura con id de registro existente y estado permitido.	
 
 ![imagen](https://user-images.githubusercontent.com/92558339/144371545-09889442-c996-42c4-a5c8-e68e9df4c032.png)
 
