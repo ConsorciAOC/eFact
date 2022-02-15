@@ -32,41 +32,59 @@ Las peticiones que no cumplan estos requisitos podrán ser rechazadas:
 
 #	Operaciones
 
-1.	Enviar Factura [enviarFactura]
+## 1.	 Enviar Factura  [enviarFactura]
 
-    Este servicio permite enviar facturas al servicio eFACT
+Este servicio permite enviar facturas al servicio eFACT
 
-[enviarFactura.zip](https://github.com/ConsorciAOC/eFact/files/7639552/enviarFactura.zip)
+### Petición  
+____________________________________________________________________________________________
 
-Petición - Parámetros de la información del proveedor
+ Parámetros de la información del proveedor. La petición al servicio se estructura en 3 apartados:
 
-            La petición al servicio se estructura en 3 apartados:
+ 
+  **a) Información del proveedor**
 
-           (a)  Información del proveedor 
 
-                correo  :  correo destinatario de las distintas notificaciones asociadas a la factura.
+parámetro|descripción | 
+-----------------------------|-------------------------|
+correo |  correo destinatario de las distintas notificaciones asociadas a la factura.
 
-          (b)  	Fichero factura 
 
-                factura : Contenido codificado en base64 del documento .xsig de la factura, el fichero debe tener la extensión válida ".xsig".
-                nombre  : Nombre del documento de la factura.
-                mime    : Mime type del documento, en este caso debe ser "application/xml"
+ **b)  Fichero factura**
 
-          (c) 	Ficheros Anexos . Los anexos son optativos, existe un máximo de 5 anexos o hasta 8MB 
 
-                anexo   : Contenido codificado en base64 del documento anexo
-                nombre  : Nombre del documento anexo.
-                mime    : Mime type del documento. mimes admitidos
-                          •	pdf application/pdf
-                          •	doc	application/msword
-                          •	docx	application/msword
-                          •	xls	application/vnd.ms-excel
-                          •	xlsx	application/vnd.ms-excel
-                          •	odt	application/vnd.oasis.opendocument.text
-                          •	ods	application/vnd.oasis.opendocument.spreadsheet
-                          •	txt	text/plain
 
-        Petición - RPC-Literal:
+parámetro|descripción | 
+-----------------------------|-------------------------|
+factura|  Contenido codificado en base64 del documento .xsig de la factura, el fichero debe tener la extensión válida ".xsig".
+nombre|  Nombre del documento de la factura.
+mime|  Mime type del documento, en este caso debe ser "application/xml" 
+
+
+ **b)  Ficheros Anexos**
+   
+   Los anexos son optativos, existe un máximo de 5 anexos o hasta 8MB 
+
+parámetro|descripción | 
+-----------------------------|-------------------------|
+anexo| Contenido codificado en base64 del documento anexo
+nombre |  Nombre del documento anexo.
+mime|  Mime type del documento. 
+
+
+ __mimes admitidos__
+   
+- pdf application/pdf
+- doc	application/msword
+- docx	application/msword
+- xls	application/vnd.ms-excel
+- xlsx	application/vnd.ms-excel
+- odt	application/vnd.oasis.opendocument.text
+- ods	application/vnd.oasis.opendocument.spreadsheet
+- txt	text/plain
+
+   
+   #### RPC-Literal 
 
                 <soapenv:Body>
                     <web:enviarFactura>
@@ -91,26 +109,29 @@ Petición - Parámetros de la información del proveedor
                       </request>
                     </web:enviarFactura>
                   </soapenv:Body>
-                
-
-Respuesta :	La respuesta contiene los datos más representativos de la factura que ha sido enviada:
 
 
-         Parámetros:
 
-              numeroRegistro      : Código de identificación único de entrada, identificador único de la factura 
-                                    dentro de la plataforma eFACT. 
-              organoGestor        : Código dir del Organo Gestor destino.
-              unidadTramitadora   :	Código dir de la unidad tramitadora destino.
-              oficinaContable	  : Código dir de la oficina contable destino
-              identificadorEmisor : Identificador del emisor (NIF o CIF o NIE ...)
-              numeroFactura	      : Número de la factura.
-              serieFactura	      : Serie de la factura
-              fechaRecepcion	  : Fecha de recepción de la factura. Fecha de Entrada en eFACT
+### Respuesta 
+____________________________________________________________________________________________
+
+ La respuesta contiene los datos más representativos de la factura que ha sido enviada:
+ 
+parámetro|descripción | 
+-----------------------------|-------------------------|
+numeroRegistro| ódigo de identificación único de entrada, identificador único de la factura dentro de la plataforma eFACT.|
+organoGestor|Código dir del Organo Gestor destino.|
+unidadTramitadora|Código dir de la unidad tramitadora destino.
+oficinaContable|Código dir de la oficina contable destino
+identificadorEmisor|Identificador del emisor (NIF o CIF o NIE ...)
+numeroFactura|Número de la factura.
+serieFactura|Serie de la factura
+fechaRecepcion|Fecha de recepción de la factura. Fecha de Entrada en eFACT
 
 
-         Respuesta RPC-Literal
-
+   
+   #### RPC-Literal 
+ 
           <SOAP-ENV:Body wsu:Id="pfxedd7d608-0ac5-5cd1-3b59-f89cbdf1ee0d" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
                 <ns1:enviarFacturaResponse>
                   <return>
@@ -131,22 +152,28 @@ Respuesta :	La respuesta contiene los datos más representativos de la factura q
                     </factura>
                   </return>
                 </ns1:enviarFacturaResponse>
+                
+###     Ejemplo peticion/respuesta:
+____________________________________________________________________________________________
+             
+[enviarFactura.zip](https://github.com/ConsorciAOC/eFact/files/7639552/enviarFactura.zip)
+
+
           
-2.	Operación Consultar Factura [consultarFactura]
+## 2.	Operación Consultar Factura [consultarFactura]
 
 Este método permite consultar el estado de una factura. Esta petición buscará la factura con el código de registro indicado.
 
+### Petición  
+____________________________________________________________________________________________
 
-[consultarFactura.zip](https://github.com/ConsorciAOC/eFact/files/7639553/consultarFactura.zip)
 
+parámetro|descripción | 
+-----------------------------|-------------------------|
+numeroRegistro|Código de identificación único de entrada, identificador único de la factura dentro de la plataforma eFACT. Parámetro recibido en la                 respuesta del método anterior (__enviarFactura.numeroRegistro__)
 
-Petición
-
-    Parámetros : 
-
-                numeroRegistro  :Código de identificación único de entrada, identificador único de la factura dentro de la plataforma eFACT. Parámetro recibido en la                                   respuesta del método anterior [1] enviarFactura.numeroRegistro
-
-    Petición RPC-Literal:
+   
+   #### RPC-Literal 
 
                 <soapenv:Body>
                 <web:consultarFactura>
@@ -154,19 +181,25 @@ Petición
                 </web:consultarFactura>
                 </soapenv:Body>
 
-Respuesta
+### Respuesta  
+____________________________________________________________________________________________
 
-    Parámetros : 
-                numeroRegistro :Código de identificación único de entrada, identificador único de la factura dentro de la plataforma eFACT. 
-                tramitacion:Información del estado de tramitación. Contiene los elementos codigo_estado, descripcion_estado y motivo_estado
-                anulacion:Informacion del estado de anulación. Contiene los elementos codigo_estado, descripcion_estado y motivo_estado
-                codigo:Código del estado actual de la factura
-                descripcion:Descripción del motivo del cambio de estado al actual
-                codigoSeguimiento: Comentario asociado al estado
-                registroAdministrativo:Numero de Registro Administrativo en eFACT 
-    
-    Respuesta RPC-Literal:
-                    <SOAP-ENV:Body wsu:Id="pfx60b0f6ad-d92f-b2de-a3a8-4d78d13b77d1" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-                     utility-1.0.xsd">
+parámetro|descripción | 
+-----------------------------|-------------------------|
+numeroRegistro|Código de identificación único de entrada, identificador único de la factura dentro de la plataforma eFACT. 
+tramitacion|Información del estado de tramitación. Contiene los elementos codigo_estado, descripcion_estado y motivo_estado
+anulacion|Informacion del estado de anulación. Contiene los elementos codigo_estado, descripcion_estado y motivo_estado
+codigo|Código del estado actual de la factura
+descripcion|Descripción del motivo del cambio de estado al actual
+codigoSeguimiento|Comentario asociado al estado
+registroAdministrativo|Numero de Registro Administrativo en eFACT 
+
+ 
+   
+   #### RPC-Literal 
+                   
+                   
+                   <SOAP-ENV:Body wsu:Id="pfx60b0f6ad-d92f-b2de-a3a8-4d78d13b77d1" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-                     utility-1.0.xsd">
                     <ns1:consultarFacturaResponse>
                         <return>
                             <resultado>
@@ -192,23 +225,31 @@ Respuesta
                 </ns1:consultarFacturaResponse>
                 </SOAP-ENV:Body>
 
-
-3.	Operación Anular Factura [anularFactura]
-
-Este método permite solicitar la anulación de una factura ya enviada.[anularFactura.zip](https://github.com/ConsorciAOC/eFact/files/7639560/anularFactura.zip)
+###     Ejemplo peticion/respuesta:
+____________________________________________________________________________________________
 
 
+[consultarFactura.zip](https://github.com/ConsorciAOC/eFact/files/7639553/consultarFactura.zip)
 
 
-Petición
 
-    Parámetros : 
+# 3.	Operación Anular Factura [anularFactura]
 
-                numeroRegistro  : Código de identificación único de entrada, identificador único de la factura dentro de la plataforma eFACT.
-                motivo          : Descripción del motivo por el que se hace la anulación de la factura
+Este método permite solicitar la anulación de una factura ya enviada.
+
+### Petición 
+____________________________________________________________________________________________
+
+parámetro|descripción | 
+-----------------------------|-------------------------|
+numeroRegistro  |Código de identificación único de entrada, identificador único de la factura dentro de la plataforma eFACT.
+motivo          |Descripción del motivo por el que se hace la anulación de la factura
                 
-    Petición RPC-Literal:
-    
+ 
+   
+   #### RPC-Literal 
+                   
+
                 <soapenv:Body>
                     <web:anularFactura>
                         <numeroRegistro>NUMERO_REGISTRO</numeroRegistro>
@@ -217,15 +258,20 @@ Petición
                 </soapenv:Body>
 
 
-Respuesta
+### Respuesta  
+____________________________________________________________________________________________
 
-    Parámetros : 
-                numeroRegistro : Código de identificación único de entrada, identificador único de la factura dentro de la plataforma eFACT. 
-                mensaje        : "Anulación solicitada correctamente". En caso de error o cambio de estado no válido, se devolverá la excepción correspondiente.
+parámetro|descripción | 
+-----------------------------|-------------------------|
+numeroRegistro | Código de identificación único de entrada, identificador único de la factura dentro de la plataforma eFACT. 
+mensaje        | "Anulación solicitada correctamente". En caso de error o cambio de estado no válido, se devolverá la excepción correspondiente.
                 
                 
-    Respuesta RPC-Literal:
-               <SOAP-ENV:Body wsu:Id="pfxa7090bef-4c86-f3b5-fd4f-b2a425c84699" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
+
+   
+   #### RPC-Literal 
+                   
+              <SOAP-ENV:Body wsu:Id="pfxa7090bef-4c86-f3b5-fd4f-b2a425c84699" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
                 <ns1:anularFacturaResponse>
                     <return>
                         <resultado>
@@ -241,7 +287,16 @@ Respuesta
                 </ns1:anularFacturaResponse>
             </SOAP-ENV:Body>
 
- 4.	Operación Consultar Estados [consultarEstados]
+###     Ejemplo peticion/respuesta:
+____________________________________________________________________________________________
+
+
+[anularFactura.zip](https://github.com/ConsorciAOC/eFact/files/7639560/anularFactura.zip)
+
+
+
+
+# 4.	Operación Consultar Estados [consultarEstados]
  
 Este método permite obtener el listado de estados asignados a cambios en la factura. 
 
@@ -249,27 +304,38 @@ Existen dos flujos, el ordinario y el de anulación. El flujo ordinario correspo
 
 La respuesta contiene los datos más representativos de los distintos estados por los que puede pasar una factura.
 
-Petición
+###     Petición  :
+____________________________________________________________________________________________
 
-    Parámetros : 
-
-               No tiene parámetros de entrada
+  No tiene parámetros de entrada
                 
-    Petición RPC-Literal:
+
+   
+   #### RPC-Literal 
+                   
+    
     
                 <soapenv:Body>
                     <web:consultarEstados/>
                 </soapenv:Body>
 
-Respuesta
+### Respuesta :
+____________________________________________________________________________________________
 
-    Parámetros : 
-                nombre        : Nombre del estado. 
-                codigo        : Código representativo y único del estado
-                descripcion   : Descripción del estado
+
+
+parámetro|descripción | 
+-----------------------------|-------------------------|
+nombre|Nombre del estado. 
+codigo|Código representativo y único del estado
+descripcion|Descripción del estado
                 
                 
-    Respuesta RPC-Literal:
+
+   
+   #### RPC-Literal 
+                   
+
 
             <SOAP-ENV:Body wsu:Id="pfx6ab483c6-1e52-135b-47f3-80cc1287a700" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
             <ns1:consultarEstadosResponse>
@@ -331,20 +397,24 @@ Respuesta
             </SOAP-ENV:Body>
 
 
-5.	Operación Consultar Listado Facturas [consultarListadoFacturas]
+# 5.	Operación Consultar Listado Facturas [consultarListadoFacturas]
  
 Este servicio permite consultar el estado de varias facturas. Este método permite buscar las facturas con el código de registro indicado. 
 Se puede solicitar un máximo de 500 facturas por petición.
 
 
-Petición
+###     Petición  :
+____________________________________________________________________________________________
 
-    Parámetros : 
-
-               listadoFacturas :Código de identificación único de entrada, identificador único de la factura dentro de la plataforma.
                 
-    Petición RPC-Literal:
-                <soapenv:Body>
+parámetro|descripción | 
+-----------------------------|-------------------------|
+listadoFacturas |Código de identificación único de entrada, identificador único de la factura dentro de la plataforma.
+
+
+   
+   #### RPC-Literal 
+              <soapenv:Body>
                       <web:consultarListadoFacturas>
                         <request>
                         <!--Zero or more repetitions:-->
@@ -354,20 +424,24 @@ Petición
                        </web:consultarListadoFacturas>
                 </soapenv:Body>
 
-Respuesta
+### Respuesta :
+____________________________________________________________________________________________
 
-    Parámetros : 
-    
-                numeroRegistro   : Código de identificación único de entrada identificador único de la factura dentro de la plataforma eFACT.  
-                tramitacion      : Información del estado de tramitación. Contiene los elementos codigo_estado, descripcion_estado y motivo_estado
-                anulacion        : Información del estado de anulación. Contiene los elementos codigo_estado, descripcion_estado y motivo_estado
-                codigo           : Código del estado actual de la factura
-                descripcion      : Descripción del motivo del cambio de estado al actual
-                codigoSeguimiento: Comentario asociado al estado
-                registroAdministrativo :Numero de Registro Administrativo en eFACT 
+parámetro|descripción | 
+-----------------------------|-------------------------| 
+numeroRegistro| Código de identificación único de entrada identificador único de la factura dentro de la plataforma eFACT.  
+tramitacion      | Información del estado de tramitación. Contiene los elementos codigo_estado, descripcion_estado y motivo_estado
+anulacion        | Información del estado de anulación. Contiene los elementos codigo_estado, descripcion_estado y motivo_estado
+codigo           | Código del estado actual de la factura
+descripcion      | Descripción del motivo del cambio de estado al actual
+codigoSeguimiento| Comentario asociado al estado
+registroAdministrativo |Numero de Registro Administrativo en eFACT 
                 
-    Respuesta RPC-Literal:
-                <SOAP-ENV:Body wsu:Id="pfx1afbd40b-e707-1354-a37f-e11b7b2523af" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
+    
+   
+   #### RPC-Literal 
+
+            <SOAP-ENV:Body wsu:Id="pfx1afbd40b-e707-1354-a37f-e11b7b2523af" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
                     <ns1:consultarListadoFacturasResponse>
                         <return>
                             <resultado>
@@ -408,7 +482,7 @@ Respuesta
                      </ns1:consultarListadoFacturasResponse>
                 </SOAP-ENV:Body>
 
-6.	Flujo completo para solicitud descargas de estados pendientes para un emisor
+# 6.	Flujo completo para solicitud descargas de estados pendientes para un emisor
 
 A través de los siguientes métodos es posible obtener el listado completo de los estados que estan pendientes de descargar para un emisor de facturas
 
@@ -428,19 +502,23 @@ Para ello se puede utilizar el Método 2 en el mismo momento de la descarga y me
     
     
 
-6.1. Operación Solicitud Descargas Estados [solicitudDescargasEstados]      
-[solicitudDescargasEstados.zip](https://github.com/ConsorciAOC/eFact/files/7639564/solicitudDescargasEstados.zip)
+# 6.1. Operación Solicitud Descargas Estados [solicitudDescargasEstados]      
+
 
 
 [Método 1 :Solicitud de posibles descargas: Este método será el primero a ejecutar y obligatorio, en la solicitud de descargas pendientes para un Emisor]
 
-Petición
+###     Petición  :
+____________________________________________________________________________________________
 
-    Parámetros : 
-
-               identificadorEmisor : NIF Emisor de Facturas .
+  parámetro|descripción | 
+-----------------------------|-------------------------|
+identificadorEmisor | NIF Emisor de Facturas .
                 
-    Petición RPC-Literal:
+    
+   
+   #### RPC-Literal 
+
 
             <soapenv:Body wsu:Id="id-F0E6B1B6B4815A5F1A1591264747069161=" xmlns:wsu"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
                   <sspp:solicitudDescargasEstados>
@@ -448,24 +526,20 @@ Petición
                   </sspp:solicitudDescargasEstados>
                </soapenv:Body>
 
-Respuesta
+### Respuesta :
+____________________________________________________________________________________________
 
-    Parámetros : 
-    
-    
-                resultado   :
-                                01      -->  Ok  
-                                02	    -->  Error
+  parámetro|descripción | 
+-----------------------------|-------------------------|
+ resultado   | 01      -->  Ok  ;   02	    -->  Error
+ observaciones|Los posibles mensajes de respuesta en caso de error para este método, son los siguientes: 1) Los datos enviados en el campo TypeRequest no son soportados o no han sido enviados. 2) No se pudieron obtener los documentos pendientes
+ ficheroResultante | XML con el índice de descargas, comprimido y en Base64  ![imagen](https://user-images.githubusercontent.com/92558339/144367219-95a97ed4-87e4-4d8e-9bcd-847da8aa3911.png)
 
-                observaciones      : Los posibles mensajes de respuesta en caso de error para este método, son los siguientes:
-                                    •	Los datos enviados en el campo TypeRequest no son soportados o no han sido enviados.
-                                    •	No se pudieron obtener los documentos pendientes
+               
+   
+   
+   #### RPC-Literal 
 
-                ficheroResultante        : XML con el índice de descargas, comprimido y en Base64  ![imagen](https://user-images.githubusercontent.com/92558339/144367219-95a97ed4-87e4-4d8e-9bcd-847da8aa3911.png)
-
-                
-                
-    Respuesta RPC-Literal:
     
                 <soapenv:Body wsu:Id="pfx1afbd40b-e707-1354-a37f-e11b7b2523af" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
             <sspp:solicitudDescargasEstadosResponse >
@@ -478,26 +552,32 @@ Respuesta
              </ soapenv:Body>
 
    
+###     Ejemplo peticion/respuesta:
+____________________________________________________________________________________________
+
+[solicitudDescargasEstados.zip](https://github.com/ConsorciAOC/eFact/files/7639564/solicitudDescargasEstados.zip)
 
     
-6.2. Operación Petición Descargas Estados [peticionDescargasEstados]      
+# 6.2. Operación Petición Descargas Estados [peticionDescargasEstados]      
 
 [Método 2 : Petición de descargas: Este método será el segundo a ejecutar y obligatorio, en la petición de descargas pendientes]
 Este método será el segundo a ejecutar y obligatorio, en la petición de descargas pendientes de estados 
 Siempre será realizado tras la ejecución del primer Método y tantas veces como índices de descargas se obtuvieran en el primer método (a la elección del interlocutor).
 
-Petición
+###     Petición  :
+____________________________________________________________________________________________
 
-    Parámetros : 
-
-               identificadorEmisor  : NIF Emisor de Facturas .
-               indiceDescarga       : Índice de descarga
-               opcionMarcado        : Admite valor S o N: 
-                            S -> Si marca el índice en eFACT, con lo que no es necesario el Método 3 del WS
-                            N -> No marca el índice en eFACT, por lo que el documento seguirá pdte de descarga y habrá que ejecutar el Método 3.
+  parámetro|descripción | 
+-----------------------------|-------------------------|
+identificadorEmisor  | NIF Emisor de Facturas .
+indiceDescarga       | Índice de descarga
+opcionMarcado        | Admite valor S o N:  S -> Si marca el índice en eFACT, con lo que no es necesario el Método 3 del WS.  N -> No marca el índice en eFACT, por lo que el documento seguirá pdte de descarga y habrá que ejecutar el Método 3.
 
                 
-    Petición RPC-Literal:
+    
+   
+   #### RPC-Literal 
+
     
                 <soapenv:Body wsu:Id="id-F0E6B1B6B4815A5F1A1591266492637167" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
             <sspp:peticionDescargasEstados>
@@ -509,25 +589,24 @@ Petición
                   </sspp:peticionDescargasEstados>
             </soapenv:Body>
 
-Respuesta
+### Respuesta :
+____________________________________________________________________________________________
 
-    Parámetros : 
-    
-    
-                resultado   :
-                                01      -->  Ok  
-                                02	    -->  Error
+  
 
-                observaciones      : Los posibles mensajes de respuesta en caso de error para este método, son los siguientes:
-                                    •	Los datos enviados en el campo TypeRequest no son soportados o no han sido enviados.
-                                    •	No se pudieron obtener los documentos pendientes
-
-                ficheroResultante        : XML de Estado comprimido ZIP en y en Base64  ![imagen](https://user-images.githubusercontent.com/92558339/144369376-c844c078-4427-4ad6-b07d-ed01a2087ae6.png)
+  parámetro|descripción | 
+-----------------------------|-------------------------|
+ resultado   | 01      -->  Ok  ;   02	    -->  Error
+ observaciones|Los posibles mensajes de respuesta en caso de error para este método, son los siguientes: 1) Los datos enviados en el campo TypeRequest no son soportados o no han sido enviados. 2) No se pudieron obtener los documentos pendientes
+ ficheroResultante | XML de Estado comprimido ZIP en y en Base64  ![imagen](https://user-images.githubusercontent.com/92558339/144369376-c844c078-4427-4ad6-b07d-ed01a2087ae6.png)
 
 
                 
                 
-    Respuesta RPC-Literal:
+    
+   
+   #### RPC-Literal 
+
     
                 <soapenv:Body wsu:Id="pfx1afbd40b-e707-1354-a37f-e11b7b2523af" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
             <sspp:solicitudDescargasEstadosResponse >
@@ -540,21 +619,27 @@ Respuesta
              </ soapenv:Body>
 
     
-6.3. Operación Confirmación Descargas Estados [confirmacionDescargasEstados]    
+# 6.3. Operación Confirmación Descargas Estados [confirmacionDescargasEstados]    
 
 [Método 3 : Confirmación de descargas: Este método será el segundo a ejecutar y obligatorio, en la petición de descargas pendientes ]
 Este método será el tercero a ejecutar y es opcional, en la petición de descargas pendientes para un interlocutor determinado 
 Su objetivo es cambiar de estado en eFACT y por cada índice de descarga ya realizado, de “PendienteDescarga” a “Descargado”.
 Para ello se puede utilizar el Método 2 en el mismo momento de la descarga y mediante el parámetro de entrada “Opción marcado”, o habiéndose cerrado las descargas de forma correcta, invocar al Método 3 para confirmarlas tras su recepción.
 
-Petición
+###     Petición  :
+____________________________________________________________________________________________
 
-    Parámetros : 
+ 
 
-               identificadorEmisor : NIF Emisor de Facturas .
-               indiceDescarga      : Índice de descarga
+  parámetro|descripción | 
+-----------------------------|-------------------------|
+identificadorEmisor | NIF Emisor de Facturas .
+indiceDescarga      | Índice de descarga
                 
-    Petición RPC-Literal:
+    
+   
+   #### RPC-Literal 
+
 
             <soapenv:Body wsu:Id="id-F0E6B1B6B4815A5F1A1591266492637167" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
             <sspp:confirmacionDescargasEstados>
@@ -565,24 +650,19 @@ Petición
              </sspp:confirmacionDescargasEstados>
             </soapenv:Body>
 
-Respuesta
+### Respuesta :
+____________________________________________________________________________________________
 
-    Parámetros : 
+ parámetro|descripción | 
+-----------------------------|-------------------------|
+ resultado   | 01      -->  Ok  ;   02	    -->  Error
+ observaciones|Los posibles mensajes de respuesta en caso de error para este método, son los siguientes: 1) Los datos enviados en el campo TypeRequest no son soportados o no han sido enviados. 2) No se pudieron obtener los documentos pendientes
+ ficheroResultante | Fichero comprimido y en Base64
     
-    
-                resultado   :
-                                01      -->  Ok  
-                                02	    -->  Error
+     
+   
+   #### RPC-Literal 
 
-                observaciones      : Los posibles mensajes de respuesta en caso de error para este método, son los siguientes:
-                                    •	Los datos enviados en el campo TypeRequest no son soportados o no han sido enviados.
-                                    •	No se pudieron obtener los documentos pendientes
-
-                ficheroResultante        : Fichero comprimido y en Base64  !
-
-                
-                
-    Respuesta RPC-Literal:
 
         <soapenv:Body wsu:Id="id-F0E6B1B6B4815A5F1A1591266492637167" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss- wssecurity-utility-1.0.xsd">
         <sspp:confirmacionDescargasEstadosResponse>
