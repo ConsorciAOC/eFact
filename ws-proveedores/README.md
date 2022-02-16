@@ -10,12 +10,12 @@ Las facturas enviadas deben ir firmadas con un certificado independiente del cer
 
 # Método de autenticación
 
-Respecto al certificado y autenticación, los certificados admitidos son los admitidos por la plataforma @firma del MINHAP y  cuya lista completa de los prestadores aceptados por esta plataforma se encuentran publicados en el siguiente enlace https://administracionelectronica.gob.es/PAe/aFirma-Anexo-PSC
+Respecto al certificado y autenticación, los certificados admitidos son los admitidos por la plataforma @firma del MINHAP y  cuya lista completa de los prestadores aceptados por esta plataforma se encuentran publicados en el siguiente enlace (https://administracionelectronica.gob.es/PAe/aFirma-Anexo-PSC)
 
 La autenticación se realiza mediante la firma de la petición SOAP, ya que tanto las peticiones como las respuestas deben ir firmadas según el estándar OASIS WSSecurity 1.0 X509 Token Profile:
 
- - http://en.wikipedia.org/wiki/WS-Security
- - http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-tokenprofile-1.0.pdf
+ - (http://en.wikipedia.org/wiki/WS-Security)
+ - (http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-tokenprofile-1.0.pdf)
 
 El certificado de firma para las peticiones, no es necesario proporcionarlo previamente.
 
@@ -649,5 +649,5 @@ Se han diseñado los siguientes entornos disponibles para integradores de la pla
 
 Puede encontrar el wsdl de los servicios en las siguientes rutas:
 
-- **TEST**: https://efact-pre.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl 
-- **PROD**: https://efact.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl
+- **TEST**: (https://efact-pre.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl)
+- **PROD**: (https://efact.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl)
