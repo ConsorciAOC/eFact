@@ -1,4 +1,5 @@
 # Change log
 
-## Septiembre 2021
-- Creación esqueleto de documentación
+## Febrero 2022
+- Añadida información relativa a las operaciones de WS de proveedores.
+
