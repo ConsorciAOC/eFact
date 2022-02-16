@@ -10,12 +10,9 @@ Las facturas enviadas deben ir firmadas con un certificado independiente del cer
 
 # Método de autenticación
 
-Respecto al certificado y autenticación, los certificados admitidos son los admitidos por la plataforma @firma del MINHAP y  cuya lista completa de los prestadores aceptados por esta plataforma se encuentran publicados en el siguiente enlace (https://administracionelectronica.gob.es/PAe/aFirma-Anexo-PSC)
+Respecto al certificado y autenticación, los certificados admitidos son los admitidos por la plataforma @firma del MINHAP y  cuya lista completa de los prestadores aceptados por esta plataforma se encuentran publicados en el siguiente [enlace](https://administracionelectronica.gob.es/PAe/aFirma-Anexo-PSC).
 
-La autenticación se realiza mediante la firma de la petición SOAP, ya que tanto las peticiones como las respuestas deben ir firmadas según el estándar OASIS WSSecurity 1.0 X509 Token Profile:
-
- - (http://en.wikipedia.org/wiki/WS-Security)
- - (http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-tokenprofile-1.0.pdf)
+La autenticación se realiza mediante la firma de la petición SOAP, ya que tanto las peticiones como las respuestas deben ir firmadas según el estándar [WS-Security](http://en.wikipedia.org/wiki/WS-Security), en concreto el [OASIS WSSecurity 1.0 X509 Token Profile](http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-tokenprofile-1.0.pdf).
 
 El certificado de firma para las peticiones, no es necesario proporcionarlo previamente.
 
@@ -23,8 +20,8 @@ Las peticiones que no cumplan estos requisitos podrán ser rechazadas:
 
 - El único protocolo admitido en los servicios web es TLS>=1.2.
 - Por motivos de seguridad se requiere en la cabecera de las peticiones esté presente la definición Content-Length con el valor correcto en bytes.
-- Se recomienda también la definición del charset sea en UTF-8. Ejemplo:"Content-Type: text/xml;charset=UTF-8".
-- Se admiten solicitudes POST con un tamaño máximo de 8M.
+- Se recomienda también la definición del charset sea en UTF-8. Ejemplo: `Content-Type: text/xml;charset=UTF-8`.
+- Se admiten solicitudes `POST` con un tamaño máximo de 8M.
 
 # Operaciones
 
@@ -61,14 +58,14 @@ nombre |  Nombre del documento anexo.
 mime|  Mime type del documento. 
 
 __mimes admitidos__
-- pdf application/pdf
-- doc	application/msword
-- docx	application/msword
-- xls	application/vnd.ms-excel
-- xlsx	application/vnd.ms-excel
-- odt	application/vnd.oasis.opendocument.text
-- ods	application/vnd.oasis.opendocument.spreadsheet
-- txt	text/plain
+- pdf: application/pdf
+- doc: application/msword
+- docx:	application/msword
+- xls: application/vnd.ms-excel
+- xlsx: application/vnd.ms-excel
+- odt: application/vnd.oasis.opendocument.text
+- ods: application/vnd.oasis.opendocument.spreadsheet
+- txt: text/plain
    
 #### RPC-Literal
 ```xml
@@ -509,7 +506,7 @@ ficheroResultante | XML con el índice de descargas, comprimido y en Base64
 
 Este método será el segundo a ejecutar y obligatorio, en la petición de descargas pendientes de estados 
 
-Siempre será realizado tras la ejecución del primer Método y tantas veces como índices de descargas se obtuvieran en el primer método (a la elección del interlocutor).
+Siempre será realizado tras la ejecución del primer método y tantas veces como índices de descargas se obtuvieran en el primer método (a la elección del interlocutor).
 
 ### Petición
 ------------
@@ -638,7 +635,7 @@ Pruebas asociadas a la anulación de una factura con id de registro existente y 
 
 # Como darse de alta en el servicio
 
---> PENDIENTE DEFINICION AOC
+--> PENDIENTE DEFINICION
 
 # Entornos
 
@@ -649,5 +646,5 @@ Se han diseñado los siguientes entornos disponibles para integradores de la pla
 
 Puede encontrar el wsdl de los servicios en las siguientes rutas:
 
-- **TEST**: (https://efact-pre.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl)
-- **PROD**: (https://efact.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl)
+- **TEST**: [https://efact-pre.aoc.cat/bustia/services/](https://efact-pre.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl)
+- **PROD**: [https://efact.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl](https://efact.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl)
