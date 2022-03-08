@@ -12,9 +12,9 @@ Las facturas enviadas deben ir firmadas con un certificado independiente del cer
 
 Respecto al certificado y autenticación, los certificados admitidos son los admitidos por la plataforma @firma del MINHAP y  cuya lista completa de los prestadores aceptados por esta plataforma se encuentran publicados en el siguiente [enlace](https://administracionelectronica.gob.es/PAe/aFirma-Anexo-PSC).
 
-La autenticación se realiza mediante la firma de la petición SOAP, ya que tanto las peticiones como las respuestas deben ir firmadas según el estándar [WS-Security](http://en.wikipedia.org/wiki/WS-Security), en concreto el [OASIS WSSecurity 1.0 X509 Token Profile](https://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0.pdf).
+La autenticación se realiza mediante la firma de la petición SOAP, ya que tanto las peticiones como las respuestas deben ir firmadas según el estándar [WS-Security](http://en.wikipedia.org/wiki/WS-Security), en concreto el [OASIS WSSecurity 1.0 X509 Token Profile](https://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0.pdf), y contenter un elemento [Timestamp](https://docs.oasis-open.org/wss/v1.1/wss-v1.1-spec-pr-SOAPMessageSecurity-01.pdf).
 
-El certificado de firma para las peticiones, no es necesario proporcionarlo previamente.
+El certificado de firma para las peticiones se utilizará para identificar la plataforma integrada de cada proveedor y deberà ser proporcionado en el formulario de alta del servicio.
 
 Las peticiones que no cumplan estos requisitos podrán ser rechazadas:
 
@@ -72,18 +72,14 @@ __mimes admitidos__
 <soapenv:Body>
     <web:enviarFactura>
         <request>
-            <!--You may enter the following 3 items in any order-->
             <correo>desarrollo.efact@desarrolloefact.es</correo>
             <factura>
-                <!--You may enter the following 3 items in any order-->
                 <factura>PD94bWwgdmVyc2lv...lOkZhY3R1cmFlPg==</factura>
                 <nombre>FC23.xsig</nombre>
                 <mime>application/xml</mime>
             </factura>
             <anexos>
-                <!--Zero or more repetitions:-->
                 <anexo>
-                    <!--You may enter the following 3 items in any order-->
                     <anexo>PD94bWwgdmVyc</anexo>
                     <nombre>anexo.txt</nombre>
                     <mime>text/plain</mime>
@@ -480,23 +476,59 @@ identificadorEmisor | NIF Emisor de Facturas .
 
 parámetro|descripción| 
 ---------|-----------|
-resultado    | 01 -->  Ok<br/> 02 -->  Error
+resultado    | 0 -->  Ok<br/> 1 -->  Error
 observaciones|Los posibles mensajes de respuesta en caso de error para este método, son los siguientes:<br/>1) Los datos enviados en el campo TypeRequest no son soportados o no han sido enviados.<br/>2) No se pudieron obtener los documentos pendientes
-ficheroResultante | XML con el índice de descargas, comprimido y en Base64
+ficheroResultante | XML con el índice de descargas, comprimido en formato ZIP y en Base64
 
 #### RPC-Literal 
 ```xml
 <soapenv:Body>
     <sspp:solicitudDescargasEstadosResponse >
         <return>
-            <resultado>01</resultado>
-            <observaciones/>
+            <resultado>0</resultado>
+            <observaciones>OK</observaciones>
             <ficheroResultante>UEsDBBQACAAIAGNfxFAAAAAAAAAAAAAAAAAjAAAAcGV0a…. </ficheroResultante>
         </return>
     </sspp:solicitudDescargasEstadosResponse>
 </soapenv:Body>
 ```
-   
+
+### Índice de descargas
+------------------------------
+
+El formato del índice de descargas es el siguiente:
+
+parámetro|descripción| 
+---------|-----------|
+Document | Habrá un elemento de este tipo por cada factura que tenga cambios de estado pendientes de descargar
+DocId    | Identificador del fichero de estados a descargar (deberá proporcionarse en la siguiente operación)
+Supplier | Datos del emisor de la factura
+Buyer    | Datos del receptor de la factura
+
+#### XML 
+```xml
+<DocumentList>
+  <Document>
+    <DocId>11294</DocId>
+    <DocType>003</DocType>
+    <DocProcessingDate>2021-03-08</DocProcessingDate>
+    <Supplier>
+      <TaxNumber>IDENTIFICADOR_EMISOR</TaxNumber>
+      <DeptCode></DeptCode>
+    </Supplier>
+    <Buyer>
+      <TaxNumber>IDENTIFICADOR_RECEPTOR</TaxNumber>
+      <DeptCode></DeptCode>
+    </Buyer>
+    <DocNumber>1</DocNumber>
+    <DocDate>2021-03-08</DocDate>
+  </Document>
+  <Document>
+      ...
+  </Document>
+</DocumentList>
+```
+
 ### Ejemplo peticion/respuesta
 ------------------------------
 
@@ -535,7 +567,7 @@ opcionMarcado        | Admite valor S o N:<br/>S -> Si marca el índice en eFACT
 
 parámetro|descripción| 
 ---------|-----------|
-resultado    | 01 --> Ok<br/>02 --> Error
+resultado    | 0 --> Ok<br/>1 --> Error
 observaciones|Los posibles mensajes de respuesta en caso de error para este método, son los siguientes:<br/>1) Los datos enviados en el campo TypeRequest no son soportados o no han sido enviados.<br/>2) No se pudieron obtener los documentos pendientes
 ficheroResultante | XML de Estado comprimido ZIP en y en Base64
  
@@ -551,7 +583,56 @@ ficheroResultante | XML de Estado comprimido ZIP en y en Base64
     </sspp:solicitudDescargasEstadosResponse>
 </soapenv:Body>
 ```
-    
+
+### Fichero de estados
+----------------------
+
+El formato del fichero de estados es el siguiente:
+
+parámetro|descripción| 
+---------|-----------|
+InvoiceFeedback | Cambio de estado de la factura
+InvoiceId      | Número de la factura
+Supplier       | Datos del emisor de la factura
+Buyer          | Datos del receptor de la factura
+InvoiceDate    | Fecha de la factura
+Feedback       | Datos del cambio de estado
+Status         | Estado de la factura
+StatusCode     | Código de estado de la factura
+StatusDate     | Fecha de cambio de estado
+Reason         | Razón del cambio de estado
+Description    | Descripción del cambio de estado
+
+#### XML 
+```xml
+<DeliveryFeedback>
+  <StatusFeedback>
+    <HubFeedback>
+      <HubId>333508</HubId>
+    </HubFeedback>
+    <InvoiceFeedback>
+      <InvoiceId>1</InvoiceId>
+      <Supplier>
+        <Cif>IDENTIFICADOR_EMISOR</Cif>
+      </Supplier>
+      <Buyer>
+        <Cif>IDENTIFICADOR_RECEPTOR</Cif>
+      </Buyer>
+      <InvoiceDate>2021-03-08</InvoiceDate>
+      <Feedback>
+        <Status>REJECTED</Status>
+        <StatusCode>2600</StatusCode>
+        <StatusDate>2021-03-08T12:22:00</StatusDate>
+        <Reason>
+          <Code>HRE1</Code>
+          <Description>Error al registrar document</Description>
+        </Reason>
+      </Feedback>
+    </InvoiceFeedback>
+  </StatusFeedback>
+</DeliveryFeedback>
+```
+
 ## Método 3: Confirmación de descargas
 
 Este método será el tercero a ejecutar y es opcional, en la petición de descargas pendientes para un interlocutor determinado.
@@ -586,7 +667,7 @@ indiceDescarga      | Índice de descarga
 
 parámetro|descripción| 
 ---------|-----------|
-resultado    | 01 --> Ok<br/>02 --> Error
+resultado    | 0 --> Ok<br/>1 --> Error
 observaciones|Los posibles mensajes de respuesta en caso de error para este método, son los siguientes:<br/>1) Los datos enviados en el campo TypeRequest no son soportados o no han sido enviados.<br/>2) No se pudieron obtener los documentos pendientes
 ficheroResultante | Fichero comprimido y en Base64
 
@@ -629,7 +710,7 @@ Pruebas para consultar el estado de una factura a partir de un identificador de 
 
 ## ANULACION FACTURA
 
-Pruebas asociadas a la anulación de una factura con id de registro existente y estado permitido.	
+Pruebas asociadas a la anulación de una factura con id de registro existente y estado permitido.
 
 ![imagen](https://user-images.githubusercontent.com/92558339/144371545-09889442-c996-42c4-a5c8-e68e9df4c032.png)
 
@@ -642,9 +723,14 @@ Pruebas asociadas a la anulación de una factura con id de registro existente y 
 Se han diseñado los siguientes entornos disponibles para integradores de la plataforma:
 
 - **TEST**:	El entorno de TEST es un entorno de integración habilitado para pruebas de los sistemas de los proveedores.
-- **PROD**:	El entorno de PROD es el entorno real de la plataforma eFACT
+- **PROD**:	El entorno de PROD es el entorno real de la plataforma eFACT.
 
-Puede encontrar el wsdl de los servicios en las siguientes rutas:
+Puede encontrar la definición de los servicios en formato WSDL en las siguientes rutas:
 
-- **TEST**: [https://efact-pre.aoc.cat/bustia/services/](https://efact-pre.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl)
+- **TEST**: [https://efact-pre.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl](https://efact-pre.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl)
 - **PROD**: [https://efact.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl](https://efact.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl)
+
+La URL de consumo del servicio para cada entorno es la siguiente:
+
+- **TEST**: [https://efact-pre.aoc.cat/bustia/services/EFactWebServiceProxyService](https://efact-pre.aoc.cat/bustia/services/EFactWebServiceProxyService)
+- **PROD**: [https://efact.aoc.cat/bustia/services/EFactWebServiceProxyService](https://efact.aoc.cat/bustia/services/EFactWebServiceProxyService)
