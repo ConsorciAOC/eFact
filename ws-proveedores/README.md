@@ -14,7 +14,7 @@ Respecto al certificado y autenticación, los certificados admitidos son los adm
 
 La autenticación se realiza mediante la firma de la petición SOAP, ya que tanto las peticiones como las respuestas deben ir firmadas según el estándar [WS-Security](http://en.wikipedia.org/wiki/WS-Security), en concreto el [OASIS WSSecurity 1.0 X509 Token Profile](https://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0.pdf), y contenter un elemento [Timestamp](https://docs.oasis-open.org/wss/v1.1/wss-v1.1-spec-pr-SOAPMessageSecurity-01.pdf).
 
-El certificado de firma para las peticiones se utilizará para identificar la plataforma integrada de cada proveedor y deberà ser proporcionado en el formulario de alta del servicio.
+El certificado de firma para las peticiones se utilizará para identificar la plataforma integrada de cada proveedor y deberá ser proporcionado en el formulario de alta del servicio.
 
 Las peticiones que no cumplan estos requisitos podrán ser rechazadas:
 
@@ -716,7 +716,7 @@ Pruebas asociadas a la anulación de una factura con id de registro existente y 
 
 # Como darse de alta en el servicio
 
---> PENDIENTE DEFINICION
+Para darse de alta se debe rellenar la solicitud de adhesion a eFACT que se puede encontrar en el portal de soporte del servicio [eFACT](https://www.aoc.cat/knowledge-base/documentacio-per-la-integracio-e-fact/idservei/efact_empreses/).
 
 # Entornos
 
