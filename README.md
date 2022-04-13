@@ -22,9 +22,10 @@ https://www.facturae.gob.es/formato/Paginas/politicas-firma-electronica.aspx
 
 El certificado usado para la firma podrá ser el certificado del emisor de la factura o bien el certificado de un Tercero de confianza en modalidad de firma delegada. 
 
+
 ## Flujo de vida de una factura
 
-![imagen](![Flujo deVida](https://user-images.githubusercontent.com/92558339/163232617-0d2e5399-2e1f-49ff-967b-c103ba2eaeb5.png))
+![Flujo deVida](https://user-images.githubusercontent.com/92558339/163233213-c6cc878e-fa7a-4a59-952c-7b6345b8d43e.png)
 
 El siguiente cuadro muestra el flujo de vida natural de una factura enviada por el proveedor al servicio eFACT:
 
