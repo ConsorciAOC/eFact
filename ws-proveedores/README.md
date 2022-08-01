@@ -633,6 +633,8 @@ Description    | Descripción del cambio de estado
 </DeliveryFeedback>
 ```
 
+El esquema del mensaje XML de `DeliveryFeeback` lo podeis descargar de [aquí](xsds/DeliveryFeedback.xsd).
+
 ## Método 3: Confirmación de descargas
 
 Este método será el tercero a ejecutar y es opcional, en la petición de descargas pendientes para un interlocutor determinado.

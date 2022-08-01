@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:element name="Cif">
+		<xs:simpleType>
+			<xs:restriction base="xs:string"/>
+		</xs:simpleType>
+	</xs:element>
+	<xs:element name="DeliveryFeedback">
+		<xs:annotation>
+			<xs:documentation>Remesa de Estados</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="StatusFeedback" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Estado</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="HubFeedback" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Identificador del mensaje dentro del Hub</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="HubId">
+											<xs:simpleType>
+												<xs:restriction base="xs:string"/>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="HubType" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string"/>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="HubDate" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:dateTime"/>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="HubStatus" type="HubStatusType" minOccurs="0"/>
+										<xs:element name="HubStatusDate" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:dateTime"/>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="HubErrorCode" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string"/>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="HubFilename" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string"/>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="HubSenderRef" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string"/>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="HubSenderId" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string"/>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="HubRecipientId" minOccurs="0">
+											<xs:simpleType>
+												<xs:restriction base="xs:string"/>
+											</xs:simpleType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="InvoiceFeedback" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Identificador de la factura</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="InvoiceId">
+											<xs:simpleType>
+												<xs:restriction base="xs:string"/>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Supplier">
+											<xs:annotation>
+												<xs:documentation>Vendedor</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="Cif"/>
+													<xs:element ref="Dept" minOccurs="0"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Buyer">
+											<xs:annotation>
+												<xs:documentation>Comprador</xs:documentation>
+											</xs:annotation>
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="Cif"/>
+													<xs:element ref="Dept" minOccurs="0"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="InvoiceDate">
+											<xs:simpleType>
+												<xs:restriction base="xs:date"/>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="Feedback" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Status" type="StatusType"/>
+													<xs:element name="StatusCode" type="StatusCodeType" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Código numérico estado</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="StatusDate">
+														<xs:simpleType>
+															<xs:restriction base="xs:dateTime"/>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="Reason" minOccurs="0">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="Code">
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string"/>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="Description" type="xs:string" minOccurs="0"/>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="RegisterData" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Datos de registro</xs:documentation>
+														</xs:annotation>
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="Number" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Número de registro</xs:documentation>
+																	</xs:annotation>
+																	<xs:simpleType>
+																		<xs:restriction base="xs:string"/>
+																	</xs:simpleType>
+																</xs:element>
+																<xs:element name="Date" minOccurs="0">
+																	<xs:annotation>
+																		<xs:documentation>Fecha de registro</xs:documentation>
+																	</xs:annotation>
+																	<xs:simpleType>
+																		<xs:restriction base="xs:dateTime"/>
+																	</xs:simpleType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="RegisterNumber" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Número de registro</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string"/>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="RegisterType" type="RegisterTypeType" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Tipo de registro</xs:documentation>
+														</xs:annotation>
+													</xs:element>
+													<xs:element name="ElectronicAcknowledgment" type="ElectronicAcknowledgmentType" minOccurs="0"/>
+													<xs:element name="RcfRegNumber" minOccurs="0">
+														<xs:annotation>
+															<xs:documentation>Número de registro contable</xs:documentation>
+														</xs:annotation>
+														<xs:simpleType>
+															<xs:restriction base="xs:string"/>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="PaymentDate" minOccurs="0">
+														<xs:simpleType>
+															<xs:restriction base="xs:dateTime"/>
+														</xs:simpleType>
+													</xs:element>
+													<xs:element name="ValidationResponse" type="ValidationResponseType" minOccurs="0"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="HubStatusType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SENT"/>
+			<xs:enumeration value="REJECTED"/>
+			<xs:enumeration value="DELIVERED"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="StatusType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="SENT"/>
+			<xs:enumeration value="VALIDATED"/>
+			<xs:enumeration value="REGISTERED"/>
+			<xs:enumeration value="DELIVERED"/>
+			<xs:enumeration value="ANNOTATED"/>
+			<xs:enumeration value="RECEIVED"/>
+			<xs:enumeration value="ACCEPTED"/>
+			<xs:enumeration value="RECOGNISED"/>
+			<xs:enumeration value="REJECTED"/>
+			<xs:enumeration value="PAID"/>
+			<xs:enumeration value="CANCELED"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="Dept" type="xs:string"/>
+	<xs:complexType name="ValidationResponseType">
+		<xs:sequence>
+			<xs:any namespace="##other" processContents="strict" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="RegisterTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PLTRECIPIENT">
+				<xs:annotation>
+					<xs:documentation>Factura registrada por la plataforma receptora</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="HUB.DELEGATED">
+				<xs:annotation>
+					<xs:documentation>Factura registrada por el hub por delegación de la plataforma receptora</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="HUB.AUXILIARY">
+				<xs:annotation>
+					<xs:documentation>Factura registrada por el registro auxiliar del hub</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ElectronicAcknowledgmentType">
+		<xs:annotation>
+			<xs:documentation>Recibo electrónico. En BASE-64</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="formatType" type="ElectronicAckFormatType">
+				<xs:annotation>
+					<xs:documentation>Formato del recibo electrónico</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="document" type="xs:base64Binary">
+				<xs:annotation>
+					<xs:documentation>Stream de datos del recibo electrónico codificado en BASE-64</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ElectronicAckFormatType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PDF"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="StatusCodeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="1000">
+				<xs:annotation>
+					<xs:documentation>Corresponde al estado SENT</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="1200">
+				<xs:annotation>
+					<xs:documentation>Corresponde a los estados REGISTERED y DELIVERED</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="1300">
+				<xs:annotation>
+					<xs:documentation>Corresponde a los estados ANNOTATED, RECEIVED y ACCEPTED</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2400">
+				<xs:annotation>
+					<xs:documentation>Corresponde al estado RECOGNISED</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2500">
+				<xs:annotation>
+					<xs:documentation>Corresponde al estado PAID</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2600">
+				<xs:annotation>
+					<xs:documentation>Corresponde al estado REJECTED</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3100">
+				<xs:annotation>
+					<xs:documentation>Corresponde al estado CANCELED</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
