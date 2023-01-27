@@ -49,6 +49,6 @@ En este apartado podéis encontrar la guía de integración via WS para los dife
 
 A continuación podéis encontrar una serie de enlaces a sitios de interés:
 
-[Portal de soporte de eFact](https://www.aoc.cat/portal-suport/efact-empreses-base-coneixement/)
+[Portal de soporte de eFact](https://suport-efact-empreses.aoc.cat/hc/ca/)
 
 [Relación de cambios en la documentación](/CHANGELOG.md)

@@ -718,7 +718,7 @@ Pruebas asociadas a la anulación de una factura con id de registro existente y 
 
 # Como darse de alta en el servicio
 
-Para darse de alta se debe rellenar la solicitud de adhesion a eFACT que se puede encontrar en el portal de soporte del servicio [eFACT](https://www.aoc.cat/knowledge-base/documentacio-per-la-integracio-e-fact/idservei/efact_empreses/).
+Para darse de alta se debe rellenar la solicitud de adhesion a eFACT que se puede encontrar en el portal de soporte del servicio [eFACT](https://suport-efact-empreses.aoc.cat/hc/ca/articles/4415512590481).
 
 # Entornos
 
