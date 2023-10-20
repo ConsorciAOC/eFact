@@ -44,6 +44,7 @@ El flujo de anulación   (*) permite al proveedor solicitar la Anulación de la 
 En este apartado podéis encontrar la guía de integración via WS para los diferentes servicios web proporcionados por eFact:
 
 [Integración WS para proveedores de facturas](/ws-proveedores/README.md)
+[Integración WS para Registros Contables de Facturas](/ws-rcf/README.md)
 
 # Enlaces de interés
 
