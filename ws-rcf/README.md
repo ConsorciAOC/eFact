@@ -85,14 +85,12 @@ o	9999: S'ha produït un error inesperat en l'execució de l'operació sol·lici
 
 
 
-#URL del Servicio
-A continuación, se indica la URL base del servicio en función del entorno:
-
-•	TEST: https://efact-pre.aoc.cat/rcf 
-•	PRO:  https://efact.aoc.cat/rcf
-
 
 # Como donar-se d'alta al servei
 
 # Entorns
+A continuación, se indica la URL base del servicio en función del entorno:
 
+•	TEST: https://efact-pre.aoc.cat/rcf 
+
+•	PRO:  https://efact.aoc.cat/rcf
