@@ -118,21 +118,69 @@ A continuación, se detallan los posibles errores que puede devolver el servicio
 **o	9999:** S'ha produït un error inesperat en l'execució de l'operació sol·licitada
 
 
-## Consulta de facturas pendientes
-Esta operación permite obtener las facturas pendientes de descargar para la plataforma asociada al usuario que realiza la petición. Devuelve un máximo de 500 facturas. De forma opcional se permitirá filtrar por el NIF de la entidad y/o por el código de oficina contable.
+## 1. Consulta de facturas pendientes
+
+Esta operación permite obtener las facturas pendientes de descargar para la plataforma asociada al usuario que realiza la petición. 
+Devuelve un máximo de 500 facturas. De forma opcional se permitirá filtrar por el NIF de la entidad y/o por el código de oficina contable.
 
 **Path relativo de la operación: ** /factures-pendents
 
-**Petición**
+###**Petición**
 
-Parámetros opcionales:
-**•	nif:** NIF de la entidad asociada a la plataforma correspondiente al usuario que realiza la petición para el que se quieren obtener las facturas pendientes de descarga.
-**•	oficinaComptable:** código de oficina contable asociado a la plataforma correspondiente al usuario que realiza la petición para el que se quieren obtener las facturas pendientes de descarga.
+parámetro|descripción| 
+---------|-----------|
+**nif:**| Parámetros opcional.NIF de la entidad asociada a la plataforma correspondiente al usuario que realiza la petición para el que se quieren obtener las facturas pendientes de descarga.
+**oficinaComptable:** |Parámetros opcional.código de oficina contable asociado a la plataforma correspondiente al usuario que realiza la petición para el que se quieren obtener las facturas pendientes de descarga.
+
+Ejemplo petición:
+
+   GET [urlServicio]/factures-pendents?nif=XXXXXXXX
+   
+   GET [urlServicio]/factures-pendents?oficinaComptable=ZZZZZZZZZ
+   
+   GET [urlServicio]/factures-pendents?nif=XXXXXXXX&oficinaComptable=ZZZZZZZZZ
+
+###**Respuesta**
+
+Si la petición se ha llevado a cabo con éxito (código HTTP “200”) se devolverá un fichero de tipo “application/json” con el siguiente contenido (Ejemplo respuesta):
 
 
-GET [urlServicio]/factures-pendents?nif=XXXXXXXX
-GET [urlServicio]/factures-pendents?oficinaComptable=ZZZZZZZZZ
-GET [urlServicio]/factures-pendents?nif=XXXXXXXX&oficinaComptable=ZZZZZZZZZ
+   `{
+     "mesFactures": false,  
+  
+     "factures": [
+   
+        {
+        
+            "id": "159732145",
+            
+            "nif": "ESQ1111112G",
+            
+            "oficinaComptable": "A987654321",
+            
+            "organGestor": "A987654321",
+            
+            "unitatTramitadora": "A987654321"
+            
+        },
+        
+        {
+        
+            "id": "159732146",
+            
+            "nif": "ESQ1111112G",
+            
+            "oficinaComptable": "A987654321",
+            
+            "organGestor": "A987654321",
+            
+            "unitatTramitadora": "A987654321"
+            
+        }
+        
+                  ]
+     
+       }`
 
 
 
