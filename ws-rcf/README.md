@@ -41,91 +41,60 @@ A l'exemple de capçalera HTTP amb el token JWT es mostren els diferents segment
 
 El servei tornarà algun dels codis d'estat de resposta HTTP següents:
 
-**• 200:** petició realitzada satisfactòriament.
-
-**• 400:** petició incorrecta (per exemple, error als paràmetres d'entrada).
-
-**• 401:** petició no autoritzada.
-
-**• 404:** recurs no trobat.
-
-**• 500:** altres errors
+- **200:** petició realitzada satisfactòriament.
+- **400:** petició incorrecta (per exemple, error als paràmetres d'entrada).
+- **401:** petició no autoritzada.
+- **404:** recurs no trobat.
+- **500:** altres errors
 
 ## Llistat Errors
 
 En cas d'error, el servei tornarà un fitxer de tipus “application/json” amb el contingut següent:
 
-
+```json
 {
-
-   "codiError": "9999",
-   
-   " descripcioError": "descripcio error"
-    
+	"codiError": "9999",
+	"descripcioError": "descripcio error" 
 }
+```
 
 A continuació, es detallen els possibles errors que pot tornar el servei:
 
 ### Errors d'autenticació (HttpStatus 401):
 
-**o	1001:** No s'ha especificat un token d’autenticació
-
-**o	1002:** No s'ha especificat un usuari
-
-**o	1003:** Usuari no vàlid
-
-**o	1004:** No s'ha especificat una data d'espiració del token
-
-**o	1005:** No s'ha especificat una data de creació del token
-
-**o	1006:** No s'ha especificat una data d'activació del token
-
-**o	1007:** No s'ha especificat el camp audience del token
-
-**o	1008:** El token ha expirat
-
-**o	1009:** El token encara no pot ser utilitzat
-
-**o	1010:** El temps d'expiració del token és superior al permès
-
-**o	1011:** El camp audience especificat no és vàlid
-
+- **1001:** No s'ha especificat un token d’autenticació
+- **1002:** No s'ha especificat un usuari
+- **1003:** Usuari no vàlid
+- **1004:** No s'ha especificat una data d'espiració del token
+- **1005:** No s'ha especificat una data de creació del token
+- **1006:** No s'ha especificat una data d'activació del token
+- **1007:** No s'ha especificat el camp audience del token
+- **1008:** El token ha expirat
+- **1009:** El token encara no pot ser utilitzat
+- **1010:** El temps d'expiració del token és superior al permès
+- **1011:** El camp audience especificat no és vàlid
 
 ### Errors de recurs no trobat (HttpStatus 404):
 
-**o	2001:** No s'ha trobat la factura especificada
-
-**o	2002:** No s'ha trobat el document adjunt especificat
-
-**o	2003:** No s'ha trobat un historico d'estats per a la factura
-
+- **2001:** No s'ha trobat la factura especificada
+- **2002:** No s'ha trobat el document adjunt especificat
+- **2003:** No s'ha trobat un historico d'estats per a la factura
 
 ### Errors de validació (HttpStatus: 400):
 
-**o	3001:** L'estat proporcionat no és vàlid
-
-**o	3002:** Per a actualitzar l'estat de la factura a ANNOTATED, és necessari especificar un número de registre
-
-**o	3003:** Per a actualitzar l'estat de la factura a REJECTED, és necessari especificar un motiu de rebuig
-
-**o	3004:** Per a actualitzar l'estat de la factura a PAID, és necessari especificar una data de pagament
-
-**o	3005:** La factura especificada no té número de registre
-
-**o	3006:** La data de pagament especificada no compleix el format esperat
-
-**o	3007:** No és possible actualitzar la factura especificada
-
+- **3001:** L'estat proporcionat no és vàlid
+- **3002:** Per a actualitzar l'estat de la factura a ANNOTATED, és necessari especificar un número de registre
+- **3003:** Per a actualitzar l'estat de la factura a REJECTED, és necessari especificar un motiu de rebuig
+- **3004:** Per a actualitzar l'estat de la factura a PAID, és necessari especificar una data de pagament
+- **3005:** La factura especificada no té número de registre
+- **3006:** La data de pagament especificada no compleix el format esperat
+- **3007:** No és possible actualitzar la factura especificada
 
 ### Errors genèrics (HttpStatus 500):
 
-**o	9001:** S'ha produït un error intern de connexió amb la base de dades
-
-**o	9002:** S'ha produït un error en la generació del rebut electrònic de la factura
-
-**o	9999:** S'ha produït un error inesperat en l'execució de l'operació sol·licitada
-
-
+- **9001:** S'ha produït un error intern de connexió amb la base de dades
+- **9002:** S'ha produït un error en la generació del rebut electrònic de la factura
+- **9999:** S'ha produït un error inesperat en l'execució de l'operació sol·licitada
 
 ## 1. Consulta de factures pendents
 
@@ -141,7 +110,7 @@ paràmetre|descripció|
 **nif:**| Paràmetre opcional. NIF de l'entitat associada a la plataforma corresponent a l'usuari que fa la petició per al qual es volen obtenir les factures pendents de descàrrega.
 **oficinaComptable:** |Paràmetre opcional. Codi doficina comptable associat a la plataforma corresponent a lusuari que realitza la petició per al qual es volen obtenir les factures pendents de descàrrega.
 
-Exemple petició:
+**Exemple petició:**
 
    GET [urlServicio]/factures-pendents?nif=XXXXXXXX
    
@@ -152,44 +121,28 @@ Exemple petició:
 ### **Resposta**
 
 Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un fitxer de tipus “application/json” amb el contingut següent (Exemple resposta):
-      {
-   
-     "mesFactures": false,  
-     
-     "factures": [
-   
-                    {
-        
-                        "id": "159732145",
-            
-                        "nif": "ESQ1111112G",
-            
-                        "oficinaComptable": "A987654321",
-            
-                        "organGestor": "A987654321",
-            
-                        "unitatTramitadora": "A987654321"
-            
-                    },
-        
-                    {
-        
-                        "id": "159732146",
-            
-                        "nif": "ESQ1111112G",
-            
-                        "oficinaComptable": "A987654321",
-            
-                        "organGestor": "A987654321",
-            
-                        "unitatTramitadora": "A987654321"
-            
-                    }
-        
-                 ]
-     
-       }
-       
+
+```json
+{
+	"mesFactures": false,  
+	"factures": [
+		{
+			"id": "159732145",
+			"nif": "ESQ1111112G",
+			"oficinaComptable": "A987654321",
+			"organGestor": "A987654321",
+			"unitatTramitadora": "A987654321"
+		},
+		{
+			"id": "159732146",
+			"nif": "ESQ1111112G",
+			"oficinaComptable": "A987654321",
+			"organGestor": "A987654321",
+			"unitatTramitadora": "A987654321"
+		}
+	]
+}
+```
 
 ## 2. Consulta de dades d'una factura
 
@@ -203,7 +156,7 @@ paràmetre|descripció|
 ---------|-----------|
 **id:**| identificador de la factura que es vol consultar.
 
-Exemple petició:
+**Exemple petició:**
 
    GET [urlServicio]/factura/12345
    
@@ -212,46 +165,29 @@ Exemple petició:
 
 Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un fitxer de tipus “application/json” amb el contingut següent:
 
-      {
-         "numeroFactura": "F2310-001",
-         
-   	     "dataFactura": "2023-10-25",
-        
-    	   "importFactura": 1542.75,
-        
-    	   "nifProveidor": "ESR0599999J",
-        
-    	   "nomProveidor": "Entidad de pruebas",
-        
-    	   "nif": "ESQ1111112G",
-        
-    	   "nom": "ENS FORMACIO B",
-        
-    	   "numeroRegistre": "E2023000064",
-        
-    	   "dataRegistre": "2023-10-25T16:25:02.000+02:00",
-        
-    	   "estat": "REJECTED",
-        
-    	   "dataEstat": "2023-10-26T12:03:54+02:00",
-        
-    	   "codiMotiuRebuig": "2134",
-        
-    	   "descripcioMotiuRebuig": "Descipcio Motiu",
-        
-    	   "adjunts": [
-                	
-                        {
-            
-                     		"idAdjunt": "159731005",
-                 
-                     		"nom": "1.pdf"
-                 
-       	                }
-             
-                   ]
-                   
-            }
+```json
+{
+	"numeroFactura": "F2310-001",
+	"dataFactura": "2023-10-25",
+	"importFactura": 1542.75,
+	"nifProveidor": "ESR0599999J",
+	"nomProveidor": "Entidad de pruebas",
+	"nif": "ESQ1111112G",
+	"nom": "ENS FORMACIO B",
+	"numeroRegistre": "E2023000064",
+	"dataRegistre": "2023-10-25T16:25:02.000+02:00",
+	"estat": "REJECTED",
+	"dataEstat": "2023-10-26T12:03:54+02:00",
+	"codiMotiuRebuig": "2134",
+	"descripcioMotiuRebuig": "Descipcio Motiu",
+	"adjunts": [
+		{
+			"idAdjunt": "159731005",
+			"nom": "1.pdf"
+		}
+	]
+}
+```json
          
 ## 3. Obtenció del fitxer d'una factura
 
@@ -265,7 +201,7 @@ paràmetre|descripció|
 ---------|-----------|
 **id:**| identificador de la factura a descarregar.
 
-Exemple petició:
+**Exemple petició:**
 
    GET [urlServicio]/factura/12345/facturae
    
@@ -287,7 +223,7 @@ paràmetre|descripció|
 **id:**| identificador de la factura a què està associat el document adjunt.
 **idAdjunt:**| identificador del document adjunt a descarregar
 
-Exemple petició:
+**Exemple petició:**
 
    GET [urlServicio]/factura/12345/adjunts/12348
    
@@ -310,7 +246,7 @@ paràmetre|descripció|
 **id:**| identificador de la factura de la qual voleu obtenir el vostre rebut electrònic.
 
 
-Exemple petició:
+**Exemple petició:**
 
    GET [urlServicio]/factura/12345/rebut
    
@@ -332,7 +268,7 @@ paràmetre|descripció|
 **id:**| identificador de la factura de la qual voleu obtenir el vostre històric d'estats.
 
 
-Exemple petició:
+**Exemple petició:**
 
    GET [urlServicio]/factura/12345/estats
    
@@ -341,39 +277,27 @@ Exemple petició:
 
  Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un fitxer de tipus “application/json” amb el contingut següent:
 
- 	{
-        	 "estats": 
-	 	 	[
-         		        {
-					"estat": "REGISTERED",
-     
-     					"codiEstat": "1200",
-	  
-					"dataEstat": "2023-10-25T16:25:06+02:00",
-
-					"numeroRegistre": "E2023000064",
-		    
-					"dataRegistre": "2023-10-25T16:25:02.000+02:00"
-		    
-				},
-		    
-        	            	{
-					"estat": "REJECTED",
-		    
-					"codiEstat": "2600",
-		   
-					"dataEstat": "2023-10-26T12:03:05+02:00",
-		    
-					"codiMotiuRebuig": "2134",
-		    
-					"descripcioMotiuRebuig": "Descipcio Motiu"
-		   
-        	            	}
-		     
-	               ]	
-		
-      }
-      
+```json
+{
+	"estats": 
+	[
+		{
+			"estat": "REGISTERED",
+			"codiEstat": "1200",
+			"dataEstat": "2023-10-25T16:25:06+02:00",
+			"numeroRegistre": "E2023000064",
+			"dataRegistre": "2023-10-25T16:25:02.000+02:00"
+		},
+		{
+			"estat": "REJECTED",
+			"codiEstat": "2600",
+			"dataEstat": "2023-10-26T12:03:05+02:00",
+			"codiMotiuRebuig": "2134",
+			"descripcioMotiuRebuig": "Descipcio Motiu"
+		}
+	]
+}
+```
 
 Pel que fa a la data de pagament d'una factura (dataPagament), per als casos de factures anteriors a la integració per aquest API REST en què no es disposi d'una data de pagament concreta informada pel receptor, es considerarà com a data de pagament la mateixa data d'estat (dataEstat) de l'estat “pagada” (PAID) corresponent.
 
@@ -407,26 +331,21 @@ paràmetre|descripció|
 **id:**| identificador de la factura de la qual voleu obtenir el vostre històric d'estats.
 
 
-Exemple petició:
+**Exemple petició:**
 
   PATCH [urlServicio]/factura/12345
 
 Tot seguit, s'indiquen totes les possibles dades susceptibles de ser informades.
 
+```json
 {
-
 	"estat": "",
- 
 	"codiMotiuRebuig ": "",
- 
 	"descripcioMotiuRebuig ": "",
- 
 	"numeroRegistreRCF": "", 
- 
 	"dataPagament": ""
- 
 }
-
+```
 
 Tots els camps són opcionals, excepte el camp “estat” i els especificats anteriorment com a obligatoris per a un determinat estat:
 
@@ -439,49 +358,40 @@ Tots els camps són opcionals, excepte el camp “estat” i els especificats an
 
 Exemple de fitxer JSON per actualitzar una factura rebutjada (REJECTED):
 
+```json
 {
-
- 	"estat": "REJECTED",
-
- 	"codiMotiuRebuig ": "E01",
-	
- 	"descripcioMotiuRebuig ": “No s'ha especificat el número d'expedient"
-  
+	"estat": "REJECTED",
+	"codiMotiuRebuig ": "E01",
+	"descripcioMotiuRebuig ": “No s'ha especificat el número d'expedient"
 }
-
+```
 
 Exemple de fitxer JSON per actualitzar una factura a registrada a RCF(ANNOTATED):
 
+```json
 {
-
 	"estat": "ANNOTATED ",
- 
 	"numeroRegistreRCF": "RCF-2023-89584"
- 
 }
-
+```
 
 Exemple de fitxer JSON per actualitzar una factura a reconeguda l'obligació del pagament (RECOGNISED):
 
+```json
 {
-
 	"estat": "RECOGNISED "
- 
 }
-
+```
 
 Exemple de fitxer JSON per actualitzar una factura com a pagada (PAID):
 
+```json
 {
-
 	"estat": "PAID",
- 
 	"dataPagament": "2023-11-30"
- 
 }
-
-
-  
+```
+ 
    
 ### **Resposta**
 
@@ -501,10 +411,9 @@ paràmetre|descripció|
 **idAdjunt:**| identificador del document adjunt que es vol marcar com a descarregat..
 
 
-Exemple petició:
+**Exemple petició:**
 
 DELETE [urlServicio]/adjunts-pendents/2755
-
 
    
 ### **Resposta**
@@ -526,16 +435,17 @@ GET [urlServicio]/ens
 
 Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un fitxer de tipus “application/json” amb el contingut següent:
 
-	{
-		"ens": [
-     			  {
-            			"nif": "ESQ1111112G",
-            			"nom": "ENS FORMACIO B",
-            			"ine10": "7996100002"
-        		  }
-    			]
-	}
-
+```json
+{
+	"ens": [
+		{
+			"nif": "ESQ1111112G",
+			"nom": "ENS FORMACIO B",
+			"ine10": "7996100002"
+		}
+	]
+}
+```
 
 # Como donar-se d'alta al servei
 
