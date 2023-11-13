@@ -55,11 +55,14 @@ El servei tornarà algun dels codis d'estat de resposta HTTP següents:
 
 En cas d'error, el servei tornarà un fitxer de tipus “application/json” amb el contingut següent:
 
-`{
+
+{
+
    "codiError": "9999",
    
    " descripcioError": "descripcio error"
-}`
+    
+}
 
 A continuació, es detallen els possibles errors que pot tornar el servei:
 
