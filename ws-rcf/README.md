@@ -23,12 +23,15 @@ Los campos requeridos en los tokens JWT serían los siguientes:
 Una vez rellenado el token, éste se tendrá que firmar con el algoritmo HMAC-SHA256, usando una clave secreta que será asignada por el servicio de soporte en el proceso de alta o migración de la plataforma receptora. Esta clave tendrá que ser custodiada de forma segura por parte del integrador y no tendrá que viajar nunca dentro de una petición o cabecera HTTP.
 
 A continuación, se muestra un ejemplo de token JWT en claro, antes de codificar en Base64:
-![imagen](https://github.com/ConsorciAOC/eFact/assets/92558339/4d59a27d-6e1a-454d-9c24-ef788895f90f)
+
+![imagen](https://github.com/ConsorciAOC/eFact/assets/92558339/c8b757cd-815f-4d07-950b-86e2c011a183)
+
 
 Una vez generado el token, este se incluirá a la cabecera HTTP ‘Authorization’ de la siguiente manera:
 
 Authorization: Bearer 
-![imagen](https://github.com/ConsorciAOC/eFact/assets/92558339/47bb7a04-9607-4942-b539-45b81043d10d)
+![imagen](https://github.com/ConsorciAOC/eFact/assets/92558339/5faf7b0f-22ac-4f6f-96ba-1cbc0a9c86ef)
+
 
 En el ejemplo de cabecera HTTP con el token JWT se muestran los diferentes segmentos del token pintados de diferente color. Cómo se puede observar, los segmentos están separado por un punto.
 
@@ -246,7 +249,28 @@ Si la petición se ha llevado a cabo con éxito (código HTTP “200”) se devo
                    
             }
          
+## 3. Obtención del fichero de una factura
 
+Esta operación permite obtener el fichero de la factura correspondiente al identificador de factura especificado como parámetro.
+
+**Path relativo de la operación:** /factura/:id/facturae
+
+### **Petición**
+
+parámetro|descripción| 
+---------|-----------|
+**id:**| identificador de la factura a descargar.
+
+Ejemplo petición:
+
+   GET [urlServicio]/factura/12345/facturae
+   
+   
+### **Respuesta**
+
+Si la petición se ha llevado a cabo con éxito (código HTTP “200”) se devolverá un fichero de tipo “application/json” con el siguiente contenido:
+
+     -->[SERES]  FALTA JSON EJEMPLO RESPUESTA Obtención del fichero de una factura
        
 
 # Como donar-se d'alta al servei
