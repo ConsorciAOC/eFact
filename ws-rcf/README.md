@@ -341,36 +341,34 @@ Exemple petició:
 
  Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un fitxer de tipus “application/json” amb el contingut següent:
 
- {
-         "estats": 
-	 	[
-                 {
-		 
-           		      "estat": "REGISTERED",
+ 	{
+        	 "estats": 
+	 	 	[
+         		        {
+					"estat": "REGISTERED",
+     
+     					"codiEstat": "1200",
+	  
+					"dataEstat": "2023-10-25T16:25:06+02:00",
+
+					"numeroRegistre": "E2023000064",
+		    
+					"dataRegistre": "2023-10-25T16:25:02.000+02:00"
+		    
+				},
+		    
+        	            	{
+					"estat": "REJECTED",
+		    
+					"codiEstat": "2600",
 		   
-            		      "codiEstat": "1200",
+					"dataEstat": "2023-10-26T12:03:05+02:00",
 		    
-            		      "dataEstat": "2023-10-25T16:25:06+02:00",
+					"codiMotiuRebuig": "2134",
 		    
-            		      "numeroRegistre": "E2023000064",
-		    
-            		      "dataRegistre": "2023-10-25T16:25:02.000+02:00"
-		    
-      	             },
-		    
-        	            {
-		     
-            		      "estat": "REJECTED",
-		    
-           		      "codiEstat": "2600",
+					"descripcioMotiuRebuig": "Descipcio Motiu"
 		   
-            		      "dataEstat": "2023-10-26T12:03:05+02:00",
-		    
-            		      "codiMotiuRebuig": "2134",
-		    
-           		      "descripcioMotiuRebuig": "Descipcio Motiu"
-		   
-        	            }
+        	            	}
 		     
 	               ]	
 		
