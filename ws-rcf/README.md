@@ -31,6 +31,7 @@ Authorization: Bearer
 ![imagen](https://github.com/ConsorciAOC/eFact/assets/92558339/47bb7a04-9607-4942-b539-45b81043d10d)
 
 En el ejemplo de cabecera HTTP con el token JWT se muestran los diferentes segmentos del token pintados de diferente color. Cómo se puede observar, los segmentos están separado por un punto.
+
 # Operacions
 
 El servicio devolverá alguno de los siguientes códigos de estado de respuesta HTTP:
@@ -123,7 +124,7 @@ A continuación, se detallan los posibles errores que puede devolver el servicio
 Esta operación permite obtener las facturas pendientes de descargar para la plataforma asociada al usuario que realiza la petición. 
 Devuelve un máximo de 500 facturas. De forma opcional se permitirá filtrar por el NIF de la entidad y/o por el código de oficina contable.
 
-**Path relativo de la operación: ** /factures-pendents
+**Path relativo de la operación:** /factures-pendents
 
 ### **Petición**
 
@@ -183,7 +184,70 @@ Si la petición se ha llevado a cabo con éxito (código HTTP “200”) se devo
        }
        
 
+## 2. Consulta de los datos de una factura
 
+Esta operación permite obtener los datos de la factura correspondiente al identificador de factura especificado como parámetro. Si la factura tiene documentos adjuntos asociados, también se devuelven sus datos.
+
+**Path relativo de la operación:** /factura/:id
+
+### **Petición**
+
+parámetro|descripción| 
+---------|-----------|
+**id:**| identificador de la factura que se quiere consultar.
+
+Ejemplo petición:
+
+   GET [urlServicio]/factura/12345
+   
+   
+### **Respuesta**
+
+Si la petición se ha llevado a cabo con éxito (código HTTP “200”) se devolverá un fichero de tipo “application/json” con el siguiente contenido:
+
+      {
+         "numeroFactura": "F2310-001",
+         
+   	    "dataFactura": "2023-10-25",
+        
+    	   "importFactura": 1542.75,
+        
+    	   "nifProveidor": "ESR0599999J",
+        
+    	   "nomProveidor": "Entidad de pruebas",
+        
+    	   "nif": "ESQ1111112G",
+        
+    	   "nom": "ENS FORMACIO B",
+        
+    	   "numeroRegistre": "E2023000064",
+        
+    	   "dataRegistre": "2023-10-25T16:25:02.000+02:00",
+        
+    	   "estat": "REJECTED",
+        
+    	   "dataEstat": "2023-10-26T12:03:54+02:00",
+        
+    	   "codiMotiuRebuig": "2134",
+        
+    	   "descripcioMotiuRebuig": "Descipcio Motiu",
+        
+    	   "adjunts": [
+                	
+                        {
+            
+                     		"idAdjunt": "159731005",
+                 
+                     		"nom": "1.pdf"
+                 
+       	                }
+             
+                   ]
+                   
+            }
+         
+
+       
 
 # Como donar-se d'alta al servei
 
