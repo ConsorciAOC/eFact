@@ -293,6 +293,71 @@ Ejemplo petición:
    Si la petición se ha llevado a cabo con éxito (código HTTP “200”) se devolverá el fichero del documento adjunto solicitado. En la cabecera Content-type se especificará el tipo mime correspondiente.
              
 
+## 5. Obtención del recibo electrónico de una factura
+
+Esta operación permite obtener el recibo electrónico correspondiente al identificador de factura especificado como parámetro.
+
+**Path relativo de la operación:** /factura/:id/rebut
+
+### **Petición**
+
+parámetro|descripción| 
+---------|-----------|
+**id:**| identificador de la factura de la que quiere obtener su recibo electrónico.
+
+
+Ejemplo petición:
+
+   GET [urlServicio]/factura/12345/rebut
+   
+   
+### **Respuesta**
+
+  Si la petición se ha llevado a cabo con éxito (código HTTP “200”) se devolverá un fichero de tipo “application/pdf” correspondiente al recibo electrónico de la factura especificada como parámetro.            
+
+## 6. Obtención del histórico de estados de una factura
+
+Esta operación permite obtener el histórico de estados correspondiente al identificador de factura especificado como parámetro.
+
+**Path relativo de la operación:** /factura/:id/estats
+
+### **Petición**
+
+parámetro|descripción| 
+---------|-----------|
+**id:**| identificador de la factura de la que quiere obtener su histórico de estados.
+
+
+Ejemplo petición:
+
+   GET [urlServicio]/factura/12345/estats
+   
+   
+### **Respuesta**
+
+ Si la petición se ha llevado a cabo con éxito (código HTTP “200”) se devolverá un fichero de tipo “application/json” con el siguiente contenido:  
+
+      {
+         "estats": [
+	                   {
+           		         "estat": "REGISTERED",
+            		      "codiEstat": "1200",
+            		      "dataEstat": "2023-10-25T16:25:06+02:00",
+            		      "numeroRegistre": "E2023000064",
+            		      "dataRegistre": "2023-10-25T16:25:02.000+02:00"
+      	             },
+        	            {
+            		      "estat": "REJECTED",
+           		         "codiEstat": "2600",
+            		      "dataEstat": "2023-10-26T12:03:05+02:00",
+            		      "codiMotiuRebuig": "2134",
+           		         "descripcioMotiuRebuig": "Descipcio Motiu"
+        	            }
+	               ]	
+      }
+
+En cuanto a la fecha de pago de una factura (dataPagament), para los casos de facturas anteriores a la integración por este API REST en los que no se disponga de una fecha de pago concreta informada por el receptor, se considerará como fecha de pago la misma fecha de estado (dataEstat) del estado “pagada” (PAID) correspondiente.
+
 # Como donar-se d'alta al servei
 
 # Entorns
