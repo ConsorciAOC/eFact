@@ -4,10 +4,10 @@
 El presente documento pretende describir el API REST para la integración de las plataformas receptoras con el hub de eFACT, con el objetivo de sustituir a la actual integración por FTP.
 
 # Mètode d'autenticació
-##Conectividad
+## Conectividad
 Se va a establecer un sistema de filtros de IPs por origen, de forma que sólo se permita el acceso al servicio desde IPs cuyo origen se encuentre dentro de los admitidos.
 
-##Autenticacion y autorizacion
+## Autenticacion y autorizacion
 La autenticación se realizará mediante el uso de tokens JWT. Estos tokens contienen toda la información necesaria para realizar las tareas de autenticación y autorización del peticionario. 
 Los campos requeridos en los tokens JWT serían los siguientes:
 •	iss: este campo (Issuer) establece el emisor del token y en él habrá que informar el código o nombre de usuario que identifica al integrador. Este dato será asignado por el servicio de soporte en el proceso de alta o migración de la plataforma receptora.
