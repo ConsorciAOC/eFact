@@ -268,10 +268,30 @@ Ejemplo petición:
    
 ### **Respuesta**
 
-Si la petición se ha llevado a cabo con éxito (código HTTP “200”) se devolverá un fichero de tipo “application/json” con el siguiente contenido:
+Si la petición se ha llevado a cabo con éxito (código HTTP “200”) se devolverá un fichero de tipo “application/xml” correspondiente a la factura solicitada.
 
-     -->[SERES]  FALTA JSON EJEMPLO RESPUESTA Obtención del fichero de una factura
-       
+## 4. Obtención del fichero de un documento adjunto
+
+Esta operación permite obtener el fichero del documento adjunto correspondiente al identificador de adjunto y al identificador de factura especificados como parámetros.
+
+**Path relativo de la operación:** /factura/:id/adjunts/:idAdjunt
+
+### **Petición**
+
+parámetro|descripción| 
+---------|-----------|
+**id:**| identificador de la factura a la que está asociado el documento adjunto.
+**idAdjunt:**| identificador del documento adjunto a descargar.
+
+Ejemplo petición:
+
+   GET [urlServicio]/factura/12345/adjunts/12348
+   
+   
+### **Respuesta**
+
+   Si la petición se ha llevado a cabo con éxito (código HTTP “200”) se devolverá el fichero del documento adjunto solicitado. En la cabecera Content-type se especificará el tipo mime correspondiente.
+             
 
 # Como donar-se d'alta al servei
 
