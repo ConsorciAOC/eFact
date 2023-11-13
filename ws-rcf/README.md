@@ -9,19 +9,19 @@ S'establirà un sistema de filtres d'IPs per origen, de manera que només es per
 
 ## Autenticació i autorització
 
-L'autenticació es farà mitjançant l'ús de tokens JWT. Aquests tokens contenen tota la informació necessària per fer les tasques d'autenticació i autorització del peticionari.Los campos requeridos en los tokens JWT serían los siguientes:
+L'autenticació es farà mitjançant l'ús de tokens JWT. Aquests tokens contenen tota la informació necessària per fer les tasques d'autenticació i autorització del peticionari. Els camps necessaris als tokens JWT seran els següents:
 
 **•	iss:** aquest camp (Issuer) estableix l'emissor del token i cal informar-hi el codi o nom d'usuari que identifica l'integrador. Aquesta dada serà assignada pel servei de suport al procés d'alta o migració de la plataforma receptora.
 
 **•	aud:** aquest camp (Audience) estableix el servei al qual va dirigit el token. D'aquesta manera s'evita l'ús indegut de tokens generats per a altres serveis. Aquest camp haurà de contenir el literal “efact”.
 
-**•	nbf**: aquest camp (Not Before) conté la data, expressada en format epoch amb precisió de segons, a partir de la qual el token entrarà en vigor. Aquest mecanisme es preveu per poder emetre tokens que començaran a ser vàlids en un instant futur. Normalment aquest camp contindrà la data actual.
+**•	nbf**: aquest camp (Not Before) conté la data, expressada en format *epoch* amb precisió de segons, a partir de la qual el token entrarà en vigor. Aquest mecanisme es preveu per poder emetre tokens que començaran a ser vàlids en un instant futur. Normalment aquest camp contindrà la data actual.
 
-**•	iat:** aquest camp (Issued At) conté la data d'emissió, en format epoch amb precisió de segons, del token.
+**•	iat:** aquest camp (Issued At) conté la data d'emissió, en format *epoch* amb precisió de segons, del token.
 
-**•	exp:** Aquest camp (Expires At) conté la data d'expiració, en format epoch amb precisió de segons, del token. És recomanable emetre els tokens amb una vigència d'uns pocs segons per evitar-ne un ús indegut en cas de robatori. El temps màxim d'expiració permès és de 300 segons (5 minuts).
+**•	exp:** Aquest camp (Expires At) conté la data d'expiració, en format *epoch* amb precisió de segons, del token. És recomanable emetre els tokens amb una vigència d'uns pocs segons per evitar-ne un ús indegut en cas de robatori. El temps màxim d'expiració permès és de 300 segons (5 minuts).
 
-Un cop emplenat el token, aquest s'haurà de signar amb l'algorisme HMAC-SHA256, usant una clau secreta que serà assignada pel servei de suport en el procés d'alta o migració de la plataforma receptora. Aquesta clau haurà de ser custodiada de manera segura per part de l'integrador i no haurà de viatjar mai dins d'una petició o capçalera HTTP.
+Un cop emplenat el token, aquest s'haurà de signar amb l'algorisme HMAC-SHA256, utilitzant una clau secreta que serà assignada pel servei de suport en el procés d'alta o migració de la plataforma receptora. Aquesta clau haurà de ser custodiada de manera segura per part de l'integrador i no haurà de viatjar mai dins d'una petició o capçalera HTTP.
 
 A continuació, es mostra un exemple de token JWT en clar, abans de codificar a Base64:
 
@@ -32,7 +32,6 @@ Un cop generat el token, aquest s'inclourà a la capçalera HTTP 'Authorization'
 
 Authorization: Bearer 
 ![imagen](https://github.com/ConsorciAOC/eFact/assets/92558339/5faf7b0f-22ac-4f6f-96ba-1cbc0a9c86ef)
-
 
 A l'exemple de capçalera HTTP amb el token JWT es mostren els diferents segments del token pintats de diferent color. Com es pot observar, els segments estan separats per un punt.
 
@@ -65,7 +64,7 @@ A continuació, es detallen els possibles errors que pot tornar el servei:
 - **1001:** No s'ha especificat un token d’autenticació
 - **1002:** No s'ha especificat un usuari
 - **1003:** Usuari no vàlid
-- **1004:** No s'ha especificat una data d'espiració del token
+- **1004:** No s'ha especificat una data d'expiració del token
 - **1005:** No s'ha especificat una data de creació del token
 - **1006:** No s'ha especificat una data d'activació del token
 - **1007:** No s'ha especificat el camp audience del token
@@ -98,7 +97,7 @@ A continuació, es detallen els possibles errors que pot tornar el servei:
 
 ## 1. Consulta de factures pendents
 
-Aquesta operació permet obtenir les factures pendents de descarregar per a la plataforma associada a lusuari que realitza la petició.
+Aquesta operació permet obtenir les factures pendents de descarregar per a la plataforma associada a l'usuari que realitza la petició.
 Retorna un màxim de 500 factures. De manera opcional, es permetrà filtrar pel NIF de l'entitat i/o pel codi d'oficina comptable.
 
 **Path relatiu de l'operació:** /factures-pendents
@@ -108,7 +107,7 @@ Retorna un màxim de 500 factures. De manera opcional, es permetrà filtrar pel 
 paràmetre|descripció|
 ---------|-----------|
 **nif:**| Paràmetre opcional. NIF de l'entitat associada a la plataforma corresponent a l'usuari que fa la petició per al qual es volen obtenir les factures pendents de descàrrega.
-**oficinaComptable:** |Paràmetre opcional. Codi doficina comptable associat a la plataforma corresponent a lusuari que realitza la petició per al qual es volen obtenir les factures pendents de descàrrega.
+**oficinaComptable:** |Paràmetre opcional. Codi d'oficina comptable associat a la plataforma corresponent a l'usuari que realitza la petició per al qual es volen obtenir les factures pendents de descàrrega.
 
 **Exemple petició:**
 
@@ -120,7 +119,7 @@ paràmetre|descripció|
 
 ### **Resposta**
 
-Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un fitxer de tipus “application/json” amb el contingut següent (Exemple resposta):
+Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un missatge de tipus “application/json” amb el contingut següent (Exemple resposta):
 
 ```json
 {
@@ -146,7 +145,7 @@ Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un f
 
 ## 2. Consulta de dades d'una factura
 
-Aquesta operació permet obtenir les dades de la factura corresponent a l'identificador de factura especificat com a paràmetre. Si la factura té documents adjunts associats, també es retornen les vostres dades.
+Aquesta operació permet obtenir les dades de la factura corresponent a l'identificador de factura especificat com a paràmetre. Si la factura té documents adjunts associats, també es retornen les dades d'aquests.
 
 **Path relatiu de l'operació:** /factura/:id
 
@@ -163,7 +162,7 @@ paràmetre|descripció|
    
 ### **Resposta**
 
-Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un fitxer de tipus “application/json” amb el contingut següent:
+Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un missatge de tipus “application/json” amb el contingut següent:
 
 ```json
 {
@@ -212,7 +211,7 @@ Si la petició s'ha dut a terme amb èxit (codi HTTP “200”), es retornarà u
 
 ## 4. Obtenció del fitxer d'un document adjunt
 
-Aquesta operació permet obtenir el fitxer del document adjunt corresponent a l'identificador d'adjunt i l'identificador de factura especificats com a paràmetres.
+Aquesta operació permet obtenir el fitxer del document adjunt corresponent a l'identificador del document adjunt i l'identificador de factura especificats com a paràmetres.
 
 **Path relatiu de l'operació:** /factura/:id/adjunts/:idAdjunt
 
