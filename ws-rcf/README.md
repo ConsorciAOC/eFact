@@ -342,23 +342,40 @@ Exemple petició:
  Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un fitxer de tipus “application/json” amb el contingut següent:
 
  {
-         "estats": [
-	                   {
+         "estats": 
+	 	[
+                 {
+		 
            		      "estat": "REGISTERED",
+		   
             		      "codiEstat": "1200",
+		    
             		      "dataEstat": "2023-10-25T16:25:06+02:00",
+		    
             		      "numeroRegistre": "E2023000064",
+		    
             		      "dataRegistre": "2023-10-25T16:25:02.000+02:00"
+		    
       	             },
+		    
         	            {
+		     
             		      "estat": "REJECTED",
+		    
            		      "codiEstat": "2600",
+		   
             		      "dataEstat": "2023-10-26T12:03:05+02:00",
+		    
             		      "codiMotiuRebuig": "2134",
+		    
            		      "descripcioMotiuRebuig": "Descipcio Motiu"
+		   
         	            }
+		     
 	               ]	
+		
       }
+      
 
 Pel que fa a la data de pagament d'una factura (dataPagament), per als casos de factures anteriors a la integració per aquest API REST en què no es disposi d'una data de pagament concreta informada pel receptor, es considerarà com a data de pagament la mateixa data d'estat (dataEstat) de l'estat “pagada” (PAID) corresponent.
 
