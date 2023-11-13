@@ -340,7 +340,7 @@ Ejemplo petición:
       {
          "estats": [
 	                   {
-           		         "estat": "REGISTERED",
+           		      "estat": "REGISTERED",
             		      "codiEstat": "1200",
             		      "dataEstat": "2023-10-25T16:25:06+02:00",
             		      "numeroRegistre": "E2023000064",
@@ -348,15 +348,176 @@ Ejemplo petición:
       	             },
         	            {
             		      "estat": "REJECTED",
-           		         "codiEstat": "2600",
+           		      "codiEstat": "2600",
             		      "dataEstat": "2023-10-26T12:03:05+02:00",
             		      "codiMotiuRebuig": "2134",
-           		         "descripcioMotiuRebuig": "Descipcio Motiu"
+           		      "descripcioMotiuRebuig": "Descipcio Motiu"
         	            }
 	               ]	
       }
 
 En cuanto a la fecha de pago de una factura (dataPagament), para los casos de facturas anteriores a la integración por este API REST en los que no se disponga de una fecha de pago concreta informada por el receptor, se considerará como fecha de pago la misma fecha de estado (dataEstat) del estado “pagada” (PAID) correspondiente.
+
+## 7. Actualización de estados de una factura
+
+Esta operación tiene dos funciones:
+
+•	Actualizar el estado de la factura correspondiente al identificador especificado como parámetro según los datos especificados. 
+
+•	Además, en caso de que el estado al que actualizar la factura sea DELIVERED o ANNOTATED, la factura correspondiente al identificador especificado como parámetro se actualizará como descargada, de forma que ya no sea tenida en cuenta por la operación de consulta de facturas pendientes (GET [urlServicio]/factures-pendents).
+
+
+Restricciones:
+
+•	No se aceptará el estado REGISTERED. Sólo se aceptarán los siguientes estados: DELIVERED, ANNOTATED, RECEIVED, ACCEPTED, RECOGNISED, PAID y REJECTED. Si se informa un estado diferente, se devolverá un error indicando que la actualización de estado especificada no está permitida.
+
+•	Al actualizar al estado ANNOTATED será obligatorio informar el número de registro contable (numeroRegistreRCF).
+
+•	Al actualizar al estado REJECTED será obligatorio informar del motivo de rechazo: descripcioMotiuRebuig. El dato codiMotiuRebuig es opcional y cada plataforma puede informarlo libremente siguiendo su propia codificación.
+
+•	Al actualizar al estado PAID será obligatorio informar la fecha de pago correspondiente (dataPagament). Esta fecha debe especificarse siguiendo el patrón YYYY-MM-DD (ejemplo: 2023-09-15).
+
+•	Lo estados que deben informar las entidades de forma obligatoria son: ANNOTATED, RECOGNISED, PAID y, en caso de rechazo, REJECTED.
+
+
+**Path relativo de la operación:** /factura/:id
+
+### **Petición**
+
+parámetro|descripción| 
+---------|-----------|
+**id:**| identificador de la factura de la que quiere obtener su histórico de estados.
+
+
+Ejemplo petición:
+
+  PATCH [urlServicio]/factura/12345
+
+A continuación, se indican todos los posibles datos susceptibles de ser informados. 
+
+{
+
+	"estat": "",
+ 
+	"codiMotiuRebuig ": "",
+ 
+	"descripcioMotiuRebuig ": "",
+ 
+	"numeroRegistreRCF": "", 
+ 
+	"dataPagament": ""
+ 
+}
+
+
+Todos los campos son opcionales, excepto el campo “estat” y los especificados anteriormente como obligatorios para un determinado estado:
+
+•	"numeroRegistreRCF": sólo es obligatorio para el estado ANNOTATED.
+
+•	"descripcioMotiu": sólo es obligatorio para el estado REJECTED.
+
+•	"dataPagament". sólo es obligatorio para el estado PAID.
+
+
+Ejemplo de fichero JSON para actualizar una factura a rechazada (REJECTED):
+
+{
+
+ 	"estat": "REJECTED",
+
+ 	"codiMotiuRebuig ": "E01",
+	
+ 	"descripcioMotiuRebuig ": “No s'ha especificat el número d'expedient"
+  
+}
+
+
+Ejemplo de fichero JSON para actualizar una factura a registrada en RCF (ANNOTATED):
+
+{
+
+	"estat": "ANNOTATED ",
+ 
+	"numeroRegistreRCF": "RCF-2023-89584"
+ 
+}
+
+
+Ejemplo de fichero JSON para actualizar una factura a reconocida la obligación del pago (RECOGNISED):
+
+{
+
+	"estat": "RECOGNISED "
+ 
+}
+
+
+Ejemplo de fichero JSON para actualizar una factura como pagada (PAID):
+
+{
+
+	"estat": "PAID",
+ 
+	"dataPagament": "2023-11-30"
+ 
+}
+
+
+  
+   
+### **Respuesta**
+
+Si la petición se ha llevado a cabo con éxito, se devuelve un JSON con los datos de la factura actualizada. La estructura de este JSON sería exactamente la misma que la especificada en el apartado 2.3 para la operación “Consulta de los datos de una factura”.
+
+
+## 8. Borrado de adjuntos pendientes de descarga
+
+Esta operación permite actualizar como descargado el adjunto especificado, de forma que ya no sea tenido en cuenta por la operación de consulta de adjuntos pendientes de descarga (GET [urlServicio]/adjuntspendents).
+
+**Path relativo de la operación:** /adjunts-pendents/:idAdjunt
+
+### **Petición**
+
+parámetro|descripción| 
+---------|-----------|
+**idAdjunt:**| identificador del documento adjunto que se quiere marcar como descargado.
+
+
+Ejemplo petición:
+
+DELETE [urlServicio]/adjunts-pendents/2755
+
+
+   
+### **Respuesta**
+
+Si la petición se ha llevado a cabo con éxito, simplemente se devuelve el código HTTP “200”.
+
+## 9. Consulta de las entidades adheridas a una plataforma
+
+Esta operación permite obtener los datos principales de las entidades adheridas a la plataforma asociada al usuario que realiza la petición.
+
+**Path relativo de la operación:** /ens
+
+### **Petición**
+
+GET [urlServicio]/ens
+
+   
+### **Respuesta**
+
+Si la petición se ha llevado a cabo con éxito (código HTTP “200”) se devolverá un fichero de tipo “application/json” con el siguiente contenido:
+
+	{
+		"ens": [
+     			  {
+            			"nif": "ESQ1111112G",
+            			"nom": "ENS FORMACIO B",
+            			"ine10": "7996100002"
+        		  }
+    			]
+	}
+
 
 # Como donar-se d'alta al servei
 
