@@ -125,7 +125,7 @@ Devuelve un máximo de 500 facturas. De forma opcional se permitirá filtrar por
 
 **Path relativo de la operación: ** /factures-pendents
 
-###**Petición**
+### **Petición**
 
 parámetro|descripción| 
 ---------|-----------|
@@ -144,45 +144,44 @@ Ejemplo petición:
 
 Si la petición se ha llevado a cabo con éxito (código HTTP “200”) se devolverá un fichero de tipo “application/json” con el siguiente contenido (Ejemplo respuesta):
 
-   ` 
-   {
+      {
    
      "mesFactures": false,  
      
      "factures": [
    
-        {
+                    {
         
-            "id": "159732145",
+                        "id": "159732145",
             
-            "nif": "ESQ1111112G",
+                        "nif": "ESQ1111112G",
             
-            "oficinaComptable": "A987654321",
+                        "oficinaComptable": "A987654321",
             
-            "organGestor": "A987654321",
+                        "organGestor": "A987654321",
             
-            "unitatTramitadora": "A987654321"
+                        "unitatTramitadora": "A987654321"
             
-        },
+                    },
         
-        {
+                    {
         
-            "id": "159732146",
+                        "id": "159732146",
             
-            "nif": "ESQ1111112G",
+                        "nif": "ESQ1111112G",
             
-            "oficinaComptable": "A987654321",
+                        "oficinaComptable": "A987654321",
             
-            "organGestor": "A987654321",
+                        "organGestor": "A987654321",
             
-            "unitatTramitadora": "A987654321"
+                        "unitatTramitadora": "A987654321"
             
-        }
+                    }
         
-                  ]
+                 ]
      
-       } 
-       `
+       }
+       
 
 
 
