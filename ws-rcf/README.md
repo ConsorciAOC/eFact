@@ -140,14 +140,15 @@ Ejemplo petición:
    
    GET [urlServicio]/factures-pendents?nif=XXXXXXXX&oficinaComptable=ZZZZZZZZZ
 
-###**Respuesta**
+### **Respuesta**
 
 Si la petición se ha llevado a cabo con éxito (código HTTP “200”) se devolverá un fichero de tipo “application/json” con el siguiente contenido (Ejemplo respuesta):
 
-
-   `{
+   ` 
+   {
+   
      "mesFactures": false,  
-  
+     
      "factures": [
    
         {
@@ -180,7 +181,8 @@ Si la petición se ha llevado a cabo con éxito (código HTTP “200”) se devo
         
                   ]
      
-       }`
+       } 
+       `
 
 
 
