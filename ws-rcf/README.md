@@ -186,7 +186,7 @@ Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un m
 		}
 	]
 }
-```json
+```
          
 ## 3. Obtenció del fitxer d'una factura
 
