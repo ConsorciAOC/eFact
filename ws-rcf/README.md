@@ -252,7 +252,7 @@ paràmetre|descripció|
    
 ### **Resposta**
 
-	Si la petició s'ha dut a terme amb èxit (codi HTTP “200”), es retornarà un fitxer de tipus “application/pdf” corresponent al rebut electrònic de la factura especificada com a paràmetre.
+Si la petició s'ha dut a terme amb èxit (codi HTTP “200”), es retornarà un fitxer de tipus “application/pdf” corresponent al rebut electrònic de la factura especificada com a paràmetre.
 
 ## 6. Obtenció de l'històric d'estats d'una factura
 
@@ -361,7 +361,7 @@ Exemple de fitxer JSON per actualitzar una factura rebutjada (REJECTED):
 {
 	"estat": "REJECTED",
 	"codiMotiuRebuig ": "E01",
-	"descripcioMotiuRebuig ": “No s'ha especificat el número d'expedient"
+	"descripcioMotiuRebuig ": "No s'ha especificat el número d'expedient"
 }
 ```
 
