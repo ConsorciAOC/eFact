@@ -396,10 +396,59 @@ Exemple de fitxer JSON per actualitzar una factura com a pagada (PAID):
 
 Si la petició s'ha dut a terme amb èxit, es torna un JSON amb les dades de la factura actualitzada. L'estructura d'aquest JSON seria exactament la mateixa que la que especifica l'apartat 2.3 per a l'operació “Consulta les dades d'una factura”.
 
+## 8. Consulta d'adjunts pendents           [ NOU 2024.01 ]
 
-## 8. Esborrament d'adjunts pendents de descàrrega
+Atès que es poden rebre documents adjunts en qualsevol moment posterior a l'enviament de les factures associades, aquesta operació permet obtenir els documents adjunts pendents de descarregar per a la plataforma associada a l'usuari que fa la petició. Retorna un màxim de 500 documents adjunts. De manera opcional, es permetrà filtrar pel NIF de l'entitat i/o pel codi d'oficina comptable.
 
-Aquesta operació permet actualitzar com a descarregat l'adjunt especificat, de manera que ja no sigui tingut en compte per l'operació de consulta d'adjunts pendents de descàrrega (GET [urlServicio]/adjuntspendents).
+**Path relatiu de l'operació:** /adjunts-pendents
+
+
+### **Petició**
+
+paràmetre|descripció|
+---------|-----------|
+**nif:**| Paràmetre opcional. NIF de l'entitat associada a la plataforma corresponent a l'usuari que fa la petició per al qual es volen obtenir les documents adjunts pendents de descàrrega.
+**oficinaComptable:** |Paràmetre opcional. Codi d'oficina comptable associat a la plataforma corresponent a l'usuari que realitza la petició per al qual es volen obtenir les documents adjunts pendents de descàrrega.
+
+**Exemple petició:**
+
+   GET [urlServicio]/adjunts-pendents?nif=XXXXXXXX
+   
+   GET [urlServicio]/adjunts-pendents?oficinaComptable=ZZZZZZZZZ
+   
+   GET [urlServicio]/adjunts-pendents?nif=XXXXXXXX&oficinaComptable=ZZZZZZZZZ
+
+### **Resposta**
+
+Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un missatge de tipus “application/json” amb el contingut següent (Exemple resposta):
+
+```json
+{
+	"mesAdjunts": false,  
+	"adjunts": [
+		{
+			"idAdjunt": "159731025",
+			"idFactura": "159731027",
+			"nom": "2.pdf"
+		},
+		{
+			"idAdjunt": "159731026",
+			"idFactura": "159731027",
+			"nom": "1.pdf"
+		},
+		{
+			"idAdjunt": "159732161",
+			"idFactura": "159732145",
+			"nom": "1.xlsx"
+		},
+	]
+}
+```
+
+
+## 9. Esborrament d'adjunts pendents de descàrrega
+
+Aquesta operació permet actualitzar com a descarregat l'adjunt especificat, de manera que ja no sigui tingut en compte per l'operació de consulta d'adjunts pendents de descàrrega (GET [urlServicio]/adjunts-pendents).
 
 **Path relatiu de l'operació:** /adjunts-pendents/:idAdjunt
 
@@ -419,7 +468,7 @@ DELETE [urlServicio]/adjunts-pendents/2755
 
 Si la petició s'ha dut a terme amb èxit, simplement es torna el codi HTTP “200”.
 
-## 9. Consulta de les entitats adherides a una plataforma
+## 10. Consulta de les entitats adherides a una plataforma
 
 Aquesta operació permet obtenir les dades principals de les entitats adherides a la plataforma associada a lusuari que realitza la petició.
 
