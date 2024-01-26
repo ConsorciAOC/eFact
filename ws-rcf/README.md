@@ -48,7 +48,7 @@ El servei tornarà algun dels codis d'estat de resposta HTTP següents:
 
 ## Llistat Errors
 
-En cas d'error, el servei tornarà un fitxer de tipus “application/json” amb el contingut següent:
+En cas d'error, el servei tornarà un fitxer de tipus `application/json` amb el contingut següent:
 
 ```json
 {
@@ -119,11 +119,11 @@ paràmetre|descripció|
 
 ### **Resposta**
 
-Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un missatge de tipus “application/json” amb el contingut següent :
+Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un missatge de tipus `application/json` amb el contingut següent :
 
 - **mesFactures**: Com que aquesta operació torna un màxim de 500 factures, en aquest camp s'indica si hi ha més factures, a part de les tornades, pendents de descàrrega per als paràmetres especificats. 	Possibles valors: true o false.
 
-- **factures**: collecció amb les dades de les factures pendents de descàrrega tornades. Com a màxim es tornaran 500 factures Per cada factura s'especificaran les dades següents :
+- **factures**: Col·lecció amb les dades de les factures pendents de descàrrega tornades. Com a màxim es tornaran 500 factures Per cada factura s'especificaran les dades següents :
   - **id:** Identificador de la factura al hub
   - **nif:** NIF de l'entitat receptora de la factura.
   - **oficinaComptable:** Codi dir3 de l'oficina comptable a la qual va dirigida la factura. 
@@ -174,7 +174,7 @@ paràmetre|descripció|
    
 ### **Resposta**
 
-Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un missatge de tipus “application/json” amb el contingut següent :
+Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un missatge de tipus `application/json` amb el contingut següent:
 
 - **id:** Identificador de la factura al hub
 - **numeroFactura:** Número de la factura.
@@ -185,18 +185,18 @@ Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un m
 - **nif:** NIF de l'entitat receptora de la factura.
 - **nom:** Nom de l'entitat receptora de la factura.
 - **numeroRegistre:** Número de registre de la factura.
-- **dataRegistre:** Data de registre de la factura. Format: YYYY-MM-DD"T"HH24:EL MEU:SS.FF3TZH:TZM.
+- **dataRegistre:** Data de registre de la factura. Format: YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM.
 - **numeroRegistreRCF:** Número de registre comptable de la factura. Només en cas que es tracti d'una factura “registrada a RCF” per a la qual s'hagi informat aquesta dada a l'estat corresponent (ANNOTATED).
 - **oficinaComptable:** Codi dir3 de l'oficina comptable a la qual va dirigida la factura.
 - **organGestor:** Codi dir3 de l'òrgan gestor al qual va dirigida la factura.
 - **unitatTramitadora:** Codi dir3 de la unitat tramitadora comptable a la qual va dirigida la factura.
 - **estat:** Estat actual de la factura al hub.
-- **dataEstat:** Data de l'estat actual de la factura. Format: YYYY-MM-DD"T"HH24:EL MEU:SS.FF3TZH:TZM.
+- **dataEstat:** Data de l'estat actual de la factura. Format: YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM.
 - **codiMotiuRebuig:** Codi del motiu de rebuig de la factura. Només en cas que es tracti d'una factura rebutjada (REJECTED).
 - **descripcioMotiuRebuig:** Descripció del motiu de rebuig de la factura. Només en cas que es tracti d'una factura rebutjada (REJECTED).
 - **dataPagament:** Data en què s'ha pagat la factura. Format: YYYY-MM-DD. Només si es tracta d'una factura “pagada” (PAID).
 - **numeroRegistreFace:** Número de registre de la factura a FACE. Només si es tracta d'una factura descarregada de FACE.
-- **adjunts:** Collecció amb les dades dels documents adjunts, associats a la factura, pendents de descàrrega. Per cada document adjunt s'especificaran les dades següents:
+- **adjunts:** Col·lecció amb les dades dels documents adjunts, associats a la factura, pendents de descàrrega. Per cada document adjunt s'especificaran les dades següents:
   - **idAdjunt:** Identificador del document adjunt.
   - **nom:** Nom informat per l'emissor per al document adjunt.
 
@@ -294,7 +294,7 @@ Si la petició s'ha dut a terme amb èxit (codi HTTP “200”), es retornarà u
 
 ## 6. Obtenció de l'històric d'estats d'una factura
 
-Aquesta operació permet obtenir l'històric d'estat corresponent a l'identificador de factura especificat com a paràmetre.
+Aquesta operació permet obtenir l'històric d'estats corresponent a l'identificador de factura especificat com a paràmetre.
 
 **Path relatiu de l'operació:** /factura/:id/estats
 
@@ -312,14 +312,14 @@ paràmetre|descripció|
    
 ### **Resposta**
 
- Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un fitxer de tipus “application/json” amb el contingut següent:
+ Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un fitxer de tipus `application/json` amb el contingut següent:
  
-- **estats:** Collecció amb les dades de cadascun dels estats pels quals ha passat la factura especificada. Per cada estat s'especificaran les dades següents
+- **estats:** Col·lecció amb les dades de cadascun dels estats pels quals ha passat la factura especificada. Per cada estat s'especificaran les dades següents:
   - **estat:** Codi de l'estat. (codi eFACT estat)
   - **codiEstat:** Codi numèric FACE corresponent a l'estat.
-  - **dataEstat:** Data de l'estat. Format: YYYY-MM-DD"T"HH24:EL MEU:SS.FF3TZH:TZM.
+  - **dataEstat:** Data de l'estat. Format: YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM.
   - **numeroRegistre:** Número de registre. Només en cas que es tracti de l'estat “registrada” (REGISTERED).
-  - **dataRegistre:** Data de registre. Només en cas que es tracti de l'estat “registrada” (REGISTERED).Format: YYYY-MM-DD"T"HH24:EL MEU:SS.FF3TZH:TZM.
+  - **dataRegistre:** Data de registre. Només en cas que es tracti de l'estat “registrada” (REGISTERED).Format: YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM.
   - **numeroRegistreRCF:**Número de registre comptable de la factura. Només en cas que es tracti de l'estat “registrada a RCF” (ANNOTATED).
   - **codiMotiuRebuig:** Codi del motiu de rebuig. Només en cas que es tracti de l'estat rebutjada (REJECTED).
   - **descripcioMotiuRebuig:** descripció del motiu de rebuig. Només en cas que es tracti de l'estat rebutjada (REJECTED).
@@ -470,13 +470,13 @@ paràmetre|descripció|
 
 ### **Resposta**
 
- Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un fitxer de tipus “application/json” amb el contingut següent:
+ Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un fitxer de tipus `application/json` amb el contingut següent:
  
 - **mesAdjunts:** Com que aquesta operació torna un màxim de 500 documents adjunts, en aquest camp s'indica si hi ha més adjunts, a part dels retornats, pendents de descàrrega per als paràmetres especificats. Possibles valors: true o false.
-- **adjunts:** collecció amb les dades dels documents adjunts pendents de descàrrega tornats. Per cada document adjunt s'especificaran les dades següents:
+- **adjunts:** Col·lecció amb les dades dels documents adjunts pendents de descàrrega tornats. Per cada document adjunt s'especificaran les dades següents:
   - **idAdjunt:** Identificador del document adjunt.
   - **idFactura:** Identificador de la factura a què pertany el document adjunt.
-  - **nom:** nom informat per l'emissor per al document adjunt.
+  - **nom:** Nom informat per l'emissor del document adjunt.
 
 **Exemple resposta:**
 
@@ -539,12 +539,12 @@ GET [urlServicio]/ens
    
 ### **Resposta**
 
- Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un fitxer de tipus “application/json” amb el contingut següent:
+ Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un fitxer de tipus `application/json` amb el contingut següent:
  
 - **ens:** Com que aquesta operació torna un màxim de 500 documents adjunts, en aquest camp s'indica si hi ha més adjunts, a part dels retornats, pendents de descàrrega per als paràmetres especificats. Possibles valors: true o false.
   - **nif:** NIF de l'entitat
   - **nom:** Nom de lentitat.
-  - **ine10:** Codi ine10 de l'entitat
+  - **ine10:** Codi INE10 de l'entitat
 
 **Exemple resposta:**
 
@@ -560,12 +560,12 @@ GET [urlServicio]/ens
 }
 ```
 
-# Como donar-se d'alta al servei
+# Com donar-se d'alta al servei
 
 # Entorns
 
 A continuació, s'indica l'URL base del servei segons l'entorn:
 
-•	TEST: https://efact-pre.aoc.cat/rcf 
+•	**TEST**: https://efact-pre.aoc.cat/rcf 
 
-•	PRO:  https://efact.aoc.cat/rcf
+•	**PRO**:  https://efact.aoc.cat/rcf
