@@ -736,3 +736,9 @@ La URL de consumo del servicio para cada entorno es la siguiente:
 
 - **TEST**: [https://efact-pre.aoc.cat/bustia/services/EFactWebServiceProxyService](https://efact-pre.aoc.cat/bustia/services/EFactWebServiceProxyService)
 - **PROD**: [https://efact.aoc.cat/bustia/services/EFactWebServiceProxyService](https://efact.aoc.cat/bustia/services/EFactWebServiceProxyService)
+
+Los certificados con los que se firman las respuestas XML son los siguientes para cada entorno (expiran cada pocos años y hay que mantenerlos actualizados):
+
+- **TEST**: [certificado-eFACT-TEST.zip](https://github.com/ConsorciAOC/eFact/files/15293882/certificado-eFACT-TEST.zip) (expira el 7/3/2025)
+
+- **PROD**: [certificado-eFACT-PROD.zip](https://github.com/ConsorciAOC/eFact/files/15293886/certificado-eFACT-PROD.zip) (expira el 5/3/2025)
