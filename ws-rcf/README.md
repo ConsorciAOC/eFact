@@ -101,8 +101,8 @@ En cas d'error, el servei tornarà un fitxer de tipus `application/json` amb el 
 
 ```json
 {
-	"codiError": "9999",
-	"descripcioError": "descripcio error" 
+	"errorCode": 9999,
+	"errorInfo": "descripció error" 
 }
 ```
 
