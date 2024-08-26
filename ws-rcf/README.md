@@ -13,7 +13,7 @@ L'autenticació es farà mitjançant l'ús de tokens JWT. Aquests tokens contene
 
 **•	iss:** aquest camp (Issuer) estableix l'emissor del token i cal informar-hi el codi o nom d'usuari que identifica l'integrador. Aquesta dada serà assignada pel servei de suport al procés d'alta o migració de la plataforma receptora.
 
-**•	aud:** aquest camp (Audience) estableix el servei al qual va dirigit el token. D'aquesta manera s'evita l'ús indegut de tokens generats per a altres serveis. Aquest camp haurà de contenir el literal “efact”.
+**•	aud:** aquest camp (Audience) estableix el servei al qual va dirigit el token. D'aquesta manera s'evita l'ús indegut de tokens generats per a altres serveis. Aquest camp haurà de contenir el literal "efact".
 
 **•	nbf**: aquest camp (Not Before) conté la data, expressada en format *epoch* amb precisió de segons, a partir de la qual el token entrarà en vigor. Aquest mecanisme es preveu per poder emetre tokens que començaran a ser vàlids en un instant futur. Normalment aquest camp contindrà la data actual.
 
@@ -160,15 +160,15 @@ paràmetre|descripció|
 
 **Exemple petició:**
 
-   GET [urlServicio]/factures-pendents?nif=XXXXXXXX
+   GET [urlServei]/factures-pendents?nif=XXXXXXXX
    
-   GET [urlServicio]/factures-pendents?oficinaComptable=ZZZZZZZZZ
+   GET [urlServei]/factures-pendents?oficinaComptable=ZZZZZZZZZ
    
-   GET [urlServicio]/factures-pendents?nif=XXXXXXXX&oficinaComptable=ZZZZZZZZZ
+   GET [urlServei]/factures-pendents?nif=XXXXXXXX&oficinaComptable=ZZZZZZZZZ
 
 ### **Resposta**
 
-Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un missatge de tipus `application/json` amb el contingut següent :
+Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un missatge de tipus `application/json` amb el contingut següent :
 
 - **mesFactures**: Com que aquesta operació torna un màxim de 500 factures, en aquest camp s'indica si hi ha més factures, a part de les tornades, pendents de descàrrega per als paràmetres especificats. 	Possibles valors: true o false.
 
@@ -218,12 +218,12 @@ paràmetre|descripció|
 
 **Exemple petició:**
 
-   GET [urlServicio]/factura/12345
+   GET [urlServei]/factura/12345
    
    
 ### **Resposta**
 
-Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un missatge de tipus `application/json` amb el contingut següent:
+Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un missatge de tipus `application/json` amb el contingut següent:
 
 - **id:** Identificador de la factura al hub
 - **numeroFactura:** Número de la factura.
@@ -235,7 +235,7 @@ Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un m
 - **nom:** Nom de l'entitat receptora de la factura.
 - **numeroRegistre:** Número de registre de la factura.
 - **dataRegistre:** Data de registre de la factura. Format: YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM.
-- **numeroRegistreRCF:** Número de registre comptable de la factura. Només en cas que es tracti d'una factura “registrada a RCF” per a la qual s'hagi informat aquesta dada a l'estat corresponent (ANNOTATED).
+- **numeroRegistreRCF:** Número de registre comptable de la factura. Només en cas que es tracti d'una factura "registrada a RCF" per a la qual s'hagi informat aquesta dada a l'estat corresponent (ANNOTATED).
 - **oficinaComptable:** Codi dir3 de l'oficina comptable a la qual va dirigida la factura.
 - **organGestor:** Codi dir3 de l'òrgan gestor al qual va dirigida la factura.
 - **unitatTramitadora:** Codi dir3 de la unitat tramitadora comptable a la qual va dirigida la factura.
@@ -243,7 +243,7 @@ Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un m
 - **dataEstat:** Data de l'estat actual de la factura. Format: YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM.
 - **codiMotiuRebuig:** Codi del motiu de rebuig de la factura. Només en cas que es tracti d'una factura rebutjada (REJECTED).
 - **descripcioMotiuRebuig:** Descripció del motiu de rebuig de la factura. Només en cas que es tracti d'una factura rebutjada (REJECTED).
-- **dataPagament:** Data en què s'ha pagat la factura. Format: YYYY-MM-DD. Només si es tracta d'una factura “pagada” (PAID).
+- **dataPagament:** Data en què s'ha pagat la factura. Format: YYYY-MM-DD. Només si es tracta d'una factura "pagada" (PAID).
 - **numeroRegistreFace:** Número de registre de la factura a FACE. Només si es tracta d'una factura descarregada de FACE.
 - **adjunts:** Col·lecció amb les dades dels documents adjunts, associats a la factura, pendents de descàrrega. Per cada document adjunt s'especificaran les dades següents:
   - **idAdjunt:** Identificador del document adjunt.
@@ -289,12 +289,12 @@ paràmetre|descripció|
 
 **Exemple petició:**
 
-   GET [urlServicio]/factura/12345/facturae
+   GET [urlServei]/factura/12345/facturae
    
    
 ### **Resposta**
 
-Si la petició s'ha dut a terme amb èxit (codi HTTP “200”), es retornarà un fitxer de tipus “application/xml” corresponent a la factura sol·licitada.
+Si la petició s'ha dut a terme amb èxit (codi HTTP "200"), es retornarà un fitxer de tipus "application/xml" corresponent a la factura sol·licitada.
 
 ## 4. Obtenció del fitxer d'un document adjunt
 
@@ -311,12 +311,12 @@ paràmetre|descripció|
 
 **Exemple petició:**
 
-   GET [urlServicio]/factura/12345/adjunts/12348
+   GET [urlServei]/factura/12345/adjunts/12348
    
    
 ### **Resposta**
 
- Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà el fitxer del document adjunt sol·licitat. A la capçalera Content-type s'especificarà el tipus mime corresponent.
+ Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà el fitxer del document adjunt sol·licitat. A la capçalera Content-type s'especificarà el tipus mime corresponent.
  
 
 ## 5. Obtenció del rebut electrònic de factura
@@ -334,12 +334,12 @@ paràmetre|descripció|
 
 **Exemple petició:**
 
-   GET [urlServicio]/factura/12345/rebut
+   GET [urlServei]/factura/12345/rebut
    
    
 ### **Resposta**
 
-Si la petició s'ha dut a terme amb èxit (codi HTTP “200”), es retornarà un fitxer de tipus “application/pdf” corresponent al rebut electrònic de la factura especificada com a paràmetre.
+Si la petició s'ha dut a terme amb èxit (codi HTTP "200"), es retornarà un fitxer de tipus "application/pdf" corresponent al rebut electrònic de la factura especificada com a paràmetre.
 
 ## 6. Obtenció de l'històric d'estats d'una factura
 
@@ -356,23 +356,23 @@ paràmetre|descripció|
 
 **Exemple petició:**
 
-   GET [urlServicio]/factura/12345/estats
+   GET [urlServei]/factura/12345/estats
    
    
 ### **Resposta**
 
- Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un fitxer de tipus `application/json` amb el contingut següent:
+ Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un fitxer de tipus `application/json` amb el contingut següent:
  
 - **estats:** Col·lecció amb les dades de cadascun dels estats pels quals ha passat la factura especificada. Per cada estat s'especificaran les dades següents:
   - **estat:** Codi de l'estat. (codi eFACT estat)
   - **codiEstat:** Codi numèric FACE corresponent a l'estat.
   - **dataEstat:** Data de l'estat. Format: YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM.
-  - **numeroRegistre:** Número de registre. Només en cas que es tracti de l'estat “registrada” (REGISTERED).
-  - **dataRegistre:** Data de registre. Només en cas que es tracti de l'estat “registrada” (REGISTERED).Format: YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM.
-  - **numeroRegistreRCF:**Número de registre comptable de la factura. Només en cas que es tracti de l'estat “registrada a RCF” (ANNOTATED).
+  - **numeroRegistre:** Número de registre. Només en cas que es tracti de l'estat "registrada" (REGISTERED).
+  - **dataRegistre:** Data de registre. Només en cas que es tracti de l'estat "registrada" (REGISTERED).Format: YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM.
+  - **numeroRegistreRCF:**Número de registre comptable de la factura. Només en cas que es tracti de l'estat "registrada a RCF" (ANNOTATED).
   - **codiMotiuRebuig:** Codi del motiu de rebuig. Només en cas que es tracti de l'estat rebutjada (REJECTED).
   - **descripcioMotiuRebuig:** descripció del motiu de rebuig. Només en cas que es tracti de l'estat rebutjada (REJECTED).
-  - **dataPagament:** Data en què s'ha pagat la factura. Només en cas que es tracti de l'estat “pagada” (PAID). Format: YYYY-MM-DD.
+  - **dataPagament:** Data en què s'ha pagat la factura. Només en cas que es tracti de l'estat "pagada" (PAID). Format: YYYY-MM-DD.
 
 **Exemple resposta:**
 ```json
@@ -397,7 +397,7 @@ paràmetre|descripció|
 }
 ```
 
-Pel que fa a la data de pagament d'una factura (dataPagament), per als casos de factures anteriors a la integració per aquest API REST en què no es disposi d'una data de pagament concreta informada pel receptor, es considerarà com a data de pagament la mateixa data d'estat (dataEstat) de l'estat “pagada” (PAID) corresponent.
+Pel que fa a la data de pagament d'una factura (dataPagament), per als casos de factures anteriors a la integració per aquest API REST en què no es disposi d'una data de pagament concreta informada pel receptor, es considerarà com a data de pagament la mateixa data d'estat (dataEstat) de l'estat "pagada" (PAID) corresponent.
 
 ## 7. Actualització d'estats de factura
 
@@ -431,7 +431,7 @@ paràmetre|descripció|
 
 **Exemple petició:**
 
-  PATCH [urlServicio]/factura/12345
+  PATCH [urlServei]/factura/12345
 
 Tot seguit, s'indiquen totes les possibles dades susceptibles de ser informades.
 
@@ -445,7 +445,7 @@ Tot seguit, s'indiquen totes les possibles dades susceptibles de ser informades.
 }
 ```
 
-Tots els camps són opcionals, excepte el camp “estat” i els especificats anteriorment com a obligatoris per a un determinat estat:
+Tots els camps són opcionals, excepte el camp "estat" i els especificats anteriorment com a obligatoris per a un determinat estat:
 
 •	"numeroRegistreRCF": només és obligatori per a l'estat ANNOTATED.
 
@@ -493,9 +493,9 @@ Exemple de fitxer JSON per actualitzar una factura com a pagada (PAID):
    
 ### **Resposta**
 
-Si la petició s'ha dut a terme amb èxit, es torna un JSON amb les dades de la factura actualitzada. L'estructura d'aquest JSON seria exactament la mateixa que la que especifica l'apartat 2.3 per a l'operació “Consulta les dades d'una factura”.
+Si la petició s'ha dut a terme amb èxit, es torna un JSON amb les dades de la factura actualitzada. L'estructura d'aquest JSON seria exactament la mateixa que la que especifica l'apartat 2.3 per a l'operació "Consulta les dades d'una factura".
 
-## 8. Consulta d'adjunts pendents           [ NOU 2024.01 ]
+## 8. Consulta d'adjunts pendents
 
 Atès que es poden rebre documents adjunts en qualsevol moment posterior a l'enviament de les factures associades, aquesta operació permet obtenir els documents adjunts pendents de descarregar per a la plataforma associada a l'usuari que fa la petició. Retorna un màxim de 500 documents adjunts. De manera opcional, es permetrà filtrar pel NIF de l'entitat i/o pel codi d'oficina comptable.
 
@@ -511,15 +511,15 @@ paràmetre|descripció|
 
 **Exemple petició:**
 
-   GET [urlServicio]/adjunts-pendents?nif=XXXXXXXX
+   GET [urlServei]/adjunts-pendents?nif=XXXXXXXX
    
-   GET [urlServicio]/adjunts-pendents?oficinaComptable=ZZZZZZZZZ
+   GET [urlServei]/adjunts-pendents?oficinaComptable=ZZZZZZZZZ
    
-   GET [urlServicio]/adjunts-pendents?nif=XXXXXXXX&oficinaComptable=ZZZZZZZZZ
+   GET [urlServei]/adjunts-pendents?nif=XXXXXXXX&oficinaComptable=ZZZZZZZZZ
 
 ### **Resposta**
 
- Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un fitxer de tipus `application/json` amb el contingut següent:
+ Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un fitxer de tipus `application/json` amb el contingut següent:
  
 - **mesAdjunts:** Com que aquesta operació torna un màxim de 500 documents adjunts, en aquest camp s'indica si hi ha més adjunts, a part dels retornats, pendents de descàrrega per als paràmetres especificats. Possibles valors: true o false.
 - **adjunts:** Col·lecció amb les dades dels documents adjunts pendents de descàrrega tornats. Per cada document adjunt s'especificaran les dades següents:
@@ -553,9 +553,9 @@ paràmetre|descripció|
 ```
 
 
-## 9. Esborrament d'adjunts pendents de descàrrega
+## 9. Eliminació d'adjunts pendents de descàrrega
 
-Aquesta operació permet actualitzar com a descarregat l'adjunt especificat, de manera que ja no sigui tingut en compte per l'operació de consulta d'adjunts pendents de descàrrega (GET [urlServicio]/adjunts-pendents).
+Aquesta operació permet actualitzar com a descarregat l'adjunt especificat, de manera que ja no sigui tingut en compte per l'operació de consulta d'adjunts pendents de descàrrega (GET [urlServei]/adjunts-pendents).
 
 **Path relatiu de l'operació:** /adjunts-pendents/:idAdjunt
 
@@ -568,12 +568,12 @@ paràmetre|descripció|
 
 **Exemple petició:**
 
-DELETE [urlServicio]/adjunts-pendents/2755
+DELETE [urlServei]/adjunts-pendents/2755
 
    
 ### **Resposta**
 
-Si la petició s'ha dut a terme amb èxit, simplement es torna el codi HTTP “200”.
+Si la petició s'ha dut a terme amb èxit, simplement es torna el codi HTTP "200".
 
 ## 10. Consulta de les entitats adherides a una plataforma
 
@@ -583,12 +583,12 @@ Aquesta operació permet obtenir les dades principals de les entitats adherides 
 
 ### **Petició**
 
-GET [urlServicio]/ens
+GET [urlServei]/ens
 
    
 ### **Resposta**
 
- Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un fitxer de tipus `application/json` amb el contingut següent:
+ Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un fitxer de tipus `application/json` amb el contingut següent:
  
 - **ens:** Llistat d'entitats adherides a la plataforma
   - **nif:** NIF de l'entitat
