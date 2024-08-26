@@ -590,7 +590,7 @@ GET [urlServicio]/ens
 
  Si la petició s'ha dut a terme amb èxit (codi HTTP “200”) es tornarà un fitxer de tipus `application/json` amb el contingut següent:
  
-- **ens:** Com que aquesta operació torna un màxim de 500 documents adjunts, en aquest camp s'indica si hi ha més adjunts, a part dels retornats, pendents de descàrrega per als paràmetres especificats. Possibles valors: true o false.
+- **ens:** Llistat d'entitats adherides a la plataforma
   - **nif:** NIF de l'entitat
   - **nom:** Nom de lentitat.
   - **ine10:** Codi INE10 de l'entitat
