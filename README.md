@@ -29,7 +29,7 @@ El certificado usado para la firma podrá ser el certificado del emisor de la fa
 
 El siguiente cuadro muestra el flujo de vida natural de una factura enviada por el proveedor al servicio eFACT:
 
-|Nombre|Codigo Estado: <br> BOE A - 2014 - 10660|eFACT|Descripcion|
+|Nombre|Codigo Estado: <br> BOE A - 2014 - 10660|eFACT|Descripción|
 |------|----------------------------------------|-----|-----------|
 ||1000|SENT|Entregada en el servicio eFACT|
 |Registrada|1200|REGISTERED|La factura electrónica ha sido redibida en el punto general de entrada de facturas y ha sido registrada administrativamente, proporcionando un número de registro al proveedor|
@@ -37,12 +37,12 @@ El siguiente cuadro muestra el flujo de vida natural de una factura enviada por 
 |Contabilizada la obligación de pago|2400|RECOGNISED|La obligación de pago derivada de la factura ha sido reconocida|
 |Pagada|2500|PAID|La obligación de pago derivada de la factura ha sido pagada|
 
-Durante el proceso de registro y aprobación de la factura se puede producir el rechazo de la factura , bien por problemas de forma o contenido en la factura. En ese momento la factura pasara a estado Rechazada
+Durante el proceso de registro y aprobación de la factura se puede producir el rechazo de la factura , bien por problemas de forma o contenido en la factura. En ese momento la factura pasara a estado Rechazada:
 
-|Nombre|Codigo Estado: <br> BOE A - 2014 - 10660|eFACT|Descripcion|
+|Nombre|Codigo Estado: <br> BOE A - 2014 - 10660|eFACT|Descripción|
 |------|----------------------------------------|-----|-----------|
-|Rechazada|2600|REJECTED|El portal general de entrada de facturas no ha podido identificar al destinatario. La oficina contable o la unidad tramitadora han rechzado la factura, se debe indiar al proveedor el motivo del rechazo|
- 
+|Rechazada|2600|REJECTED|El portal general de entrada de facturas no ha podido identificar al destinatario. La oficina contable o la unidad tramitadora han rechzado la factura, se debe indicar al proveedor el motivo del rechazo|
+
 # Documentación para integradores
 
 En este apartado podéis encontrar la guía de integración via WS para los diferentes servicios web proporcionados por eFact:
