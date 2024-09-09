@@ -25,19 +25,23 @@ El certificado usado para la firma podrá ser el certificado del emisor de la fa
 
 ## Flujo de vida de una factura
 
-![Flujo deVida](https://user-images.githubusercontent.com/92558339/163233213-c6cc878e-fa7a-4a59-952c-7b6345b8d43e.png)
+![Flujo de Vida](/imgs/diagrama-estados.png)
 
 El siguiente cuadro muestra el flujo de vida natural de una factura enviada por el proveedor al servicio eFACT:
 
-![imagen](https://user-images.githubusercontent.com/92558339/144376089-99c88b13-db66-4852-87b5-241a094f48db.png)
+|Nombre|Codigo Estado: <br> BOE A - 2014 - 10660|eFACT|Descripcion|
+|------|----------------------------------------|-----|-----------|
+||1000|SENT|Entregada en el servicio eFACT|
+|Registrada|1200|REGISTERED|La factura electrónica ha sido redibida en el punto general de entrada de facturas y ha sido registrada administrativamente, proporcionando un número de registro al proveedor|
+|Registrada en RCF|1300|DELIVERED|El mensaje ha llegado a los sistemas informáticos de la AA.PP. receptora, ha pasado las validaciones requeridas por éstos y está a disposición del/de los usuario/s receptor/es. Si no se ha podido llevar a cabo la entrega, se tendrá que generar un mensaje de rechazo indicando los motivos técnicos que hayan impedido la correcta entrega (por ejemplo: "La factura no puede ser entregada, el código de encaminamiento es incorrecto"). La publicación de este estado, o el correspondiente rechazo es obligatorio|
+|Contabilizada la obligación de pago|2400|RECOGNISED|La obligación de pago derivada de la factura ha sido reconocida|
+|Pagada|2500|PAID|La obligación de pago derivada de la factura ha sido pagada|
 
 Durante el proceso de registro y aprobación de la factura se puede producir el rechazo de la factura , bien por problemas de forma o contenido en la factura. En ese momento la factura pasara a estado Rechazada
 
-![imagen](https://user-images.githubusercontent.com/92558339/144376363-40f51289-9811-4bd0-8351-9d78aae217bf.png)
-
-El flujo de anulación   (*) permite al proveedor solicitar la Anulación de la factura . Requiere la aprobación o rechazo por parte del receptor de esta anulación para que sea efectiva. Se recoge en los siguientes estados: 
-
-![imagen](https://user-images.githubusercontent.com/92558339/144376650-5218c943-5bb0-4294-8046-ec862fbfa4d7.png)
+|Nombre|Codigo Estado: <br> BOE A - 2014 - 10660|eFACT|Descripcion|
+|------|----------------------------------------|-----|-----------|
+|Rechazada|2600|REJECTED|El portal general de entrada de facturas no ha podido identificar al destinatario. La oficina contable o la unidad tramitadora han rechzado la factura, se debe indiar al proveedor el motivo del rechazo|
  
 # Documentación para integradores
 
