@@ -149,6 +149,8 @@ A continuació, es detallen els possibles errors que pot tornar el servei:
 Aquesta operació permet obtenir les factures pendents de descarregar per a la plataforma associada a l'usuari que realitza la petició.
 Retorna un màxim de 500 factures. De manera opcional, es permetrà filtrar pel NIF de l'entitat i/o pel codi d'oficina comptable.
 
+**[REV.SERES-2025.01.21] Es necesario marcar como DESCARGADA una factura una vez completada la descarga por la operación. Para actualizar una factura como descargada, , es necesario actualizar su estado a DELIVERED o ANNOTATED. Ver apartado 7- actualitzación d'estats de factura) **
+
 **Path relatiu de l'operació:** /factures-pendents
 
 ### **Petició**
