@@ -149,7 +149,7 @@ A continuació, es detallen els possibles errors que pot tornar el servei:
 Aquesta operació permet obtenir les factures pendents de descarregar per a la plataforma associada a l'usuari que realitza la petició.
 Retorna un màxim de 500 factures. De manera opcional, es permetrà filtrar pel NIF de l'entitat i/o pel codi d'oficina comptable.
 
-**[REV.SERES-2025.01.21] Es necesario marcar como DESCARGADA una factura una vez completada la descarga por la operación. Para actualizar una factura como descargada, , es necesario actualizar su estado a DELIVERED o ANNOTATED. Ver apartado 7- actualitzación d'estats de factura) **
+**[REV.SERES-2025.01.21] Las facturas dejaran de estar como pendientes de descarga cuando el receptor las actualice como descargadas. Para actualizar una factura como descargada es necesario cambiar su estado a DELIVERED o ANNOTATED. Ver apartado 7- actualitzación d'estats de factura **
 
 **Path relatiu de l'operació:** /factures-pendents
 
@@ -238,6 +238,11 @@ Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un missa
 - **numeroRegistre:** Número de registre de la factura.
 - **dataRegistre:** Data de registre de la factura. Format: YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM.
 - **numeroRegistreRCF:** Número de registre comptable de la factura. Només en cas que es tracti d'una factura "registrada a RCF" per a la qual s'hagi informat aquesta dada a l'estat corresponent (ANNOTATED).
+
+**[REV.SERES-2025.01.21]**
+
+- **numeroRegistreFACe:** número de registro de la factura en FACe. Sólo en caso de que se trate de una factura descargada de FACe.
+- **dataRegistreFACe:** fecha de registro de la factura en FACe. Sólo en caso de que se trate de una factura descargada de FACe. Formato: YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM.
 - **oficinaComptable:** Codi dir3 de l'oficina comptable a la qual va dirigida la factura.
 - **organGestor:** Codi dir3 de l'òrgan gestor al qual va dirigida la factura.
 - **unitatTramitadora:** Codi dir3 de la unitat tramitadora comptable a la qual va dirigida la factura.
@@ -347,6 +352,8 @@ Si la petició s'ha dut a terme amb èxit (codi HTTP "200"), es retornarà un fi
 
 Aquesta operació permet obtenir l'històric d'estats corresponent a l'identificador de factura especificat com a paràmetre.
 
+**[REV.SERES-2025.01.21] En el apartado ESTADOS FACTURA se detallan los estados por los que puede pasar una factura en el servicio y el flujo recomendado.**
+
 **Path relatiu de l'operació:** /factura/:id/estats
 
 ### **Petició**
@@ -409,10 +416,11 @@ Aquesta operació té dues funcions:
 
 • A més, en cas que l'estat a què actualitzar la factura sigui DELIVERED o ANNOTATED, la factura corresponent a l'identificador especificat com a paràmetre s'actualitzarà com a descarregada, de manera que ja no sigui tinguda en compte per l'operació de consulta de factures pendents ( GET [urlServei]/factures-pendents).
 
+**[REV.SERES-2025.01.21]**
+Una factura sólo puede ser actualizada a alguno de los siguientes estados: DELIVERED, ANNOTATED, RECEIVED, ACCEPTED, RECOGNISED, PAID y REJECTED. Si se intenta actualizar una factura a un estado diferente a los anteriormente detallados, se devolverá un error indicando que la actualización de estado especificada no está permitida. No se aceptará el estado REGISTERED, ya que dicho estado lo genera automáticamente el servicio e-FACT. 
+**Obligatoriamente, las entidades receptoras deben informar los siguientes estados: ANNOTATED, RECOGNISED, PAID y, en caso de rechazo, REJECTED. El resto de los estados se consideran opcionales.**
 
-Restriccions:
-
-• L'estat REGISTERED no s'acceptarà. Només s'acceptaran els estats següents: DELIVERED, ANNOTATED, RECEIVED, ACCEPTED, RECOGNISED, PAID i REJECTED. Si s'informa un estat diferent, es tornarà un error indicant que l'actualització d'estat especificada no és permesa.
+Además, para los siguientes estados es obligatorio informar algún dato adicional:
 
 • En actualitzar a l'estat ANNOTATED serà obligatori informar el número de registre comptable (numeroRegistreRCF).
 
@@ -420,7 +428,7 @@ Restriccions:
 
 • En actualitzar a l'estat PAID serà obligatori informar-ne la data de pagament corresponent (dataPagament). Aquesta data s'ha d'especificar seguint el patró YYYY-MM-DD (exemple: 2023-09-15).
 
-• Els estats que han d'informar les entitats de forma obligatòria són: ANNOTATED, RECOGNISED, PAID i, en cas de rebuig, REJECTED.
+**[REV.SERES-2025.01.21] En el apartado ESTADOS FACTURA se detallan los estados por los que puede pasar una factura en el servicio y el flujo recomendado.**
 
 **Path relatiu de l'operació:** /factura/:id
 
@@ -610,6 +618,37 @@ GET [urlServei]/ens
 	]
 }
 ```
+# ESTADOS FACTURAS **[REV.SERES-2025.01.21] **
+
+## 1. DETALLE ESTADOS FACTURAS 
+A continuación, se detallan los estados por lo que puede pasar una factura en el servicio:
+
+•	**SENT:** factura enviada. Código numérico: 1000. Este estado lo asigna el servicio de forma automática.
+
+•	**REGISTERED:**  factura registrada en el sistema. Código numérico: 1200. Este estado lo asigna el servicio de forma automática.
+
+•	**DELIVERED:** factura entregada al destinatario. Código numérico: 1200. Este estado es opcional y lo genera la entidad receptora de la factura.
+
+•	**ANNOTATED:** factura registrada/verificada en el registro contable de facturas (RCF). Código numérico: 1300. Este estado es obligatorio y lo debe generar la entidad receptora de la factura.
+
+•	**RECEIVED:** factura recibida en la unidad destino. Código numérico: 1300. Este estado es opcional y lo genera la entidad receptora de la factura.
+
+•	**ACCEPTED:** factura conformada Código numérico: 1300. Este estado es opcional y lo genera la entidad receptora de la factura.
+
+•	**RECOGNISED:** contabilizada la obligación de pago de la factura. Código numérico: 2400. Este estado es obligatorio y lo debe generar la entidad receptora de la factura.
+
+•	**PAID:** factura pagada. Código numérico: 2500. Este estado es obligatorio y lo debe generar la entidad receptora de la factura.
+
+•	**REJECTED:** factura rechazada. Código numérico: 2600. En caso de que haya que rechazar una factura, este estado es obligatorio y lo debe generar la entidad receptora de la factura.
+
+Es recomendable establecer los estados PAID y REJECTED como estados finales, es decir, una vez alcanzado uno de estos estados, se considera que la factura ya no deberia cambiar de estado.
+
+## 2. FLUJO DE ESTADOS FACTURAS 
+
+<img width="868" alt="diagrama-estados" src="https://github.com/user-attachments/assets/beb9da64-127a-49f2-b54f-6a9e3e43ebd6" />
+
+
+
 
 # Com donar-se d'alta al servei
 
