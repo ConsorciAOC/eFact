@@ -652,10 +652,9 @@ A continuación, se detallan los estados por lo que puede pasar una factura en e
 Los estados PAID y REJECTED se consideran estados finales, es decir, una vez alcanzado uno de estos estados, la factura ya no deberia cambiar de estado.
 
 
-## 2. Flux d'actualització d'estats d'una factura 
+## 2. Flux d'actualització d'estats d'una factura
 
-<img width="868" alt="diagrama-estados" src="https://github.com/user-attachments/assets/beb9da64-127a-49f2-b54f-6a9e3e43ebd6" />
-
+![Flux d'actualització d'estats d'una factura](/imgs/diagrama-estados.png)
 
 
 
