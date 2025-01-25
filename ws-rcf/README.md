@@ -625,34 +625,23 @@ GET [urlServei]/ens
 }
 ```
 
-# Estados de factura
+# Estats de factura 
+A continuació, es detallen els estats pel que pot passar una factura en el servei:
 
-## 1. Posibles estados de una factura
-
-A continuación, se detallan los estados por lo que puede pasar una factura en el servicio:
-
-•	**SENT:** factura enviada. Código numérico: 1000. Este estado lo asigna el servicio de forma automática.
-
-•	**REGISTERED:**  factura registrada en el sistema. Código numérico: 1200. Este estado lo asigna el servicio de forma automática.
-
-•	**DELIVERED:** factura entregada al destinatario. Código numérico: 1200. Este estado es opcional y lo genera la entidad receptora de la factura.
-
-•	**ANNOTATED:** factura registrada/verificada en el registro contable de facturas (RCF). Código numérico: 1300. Este estado es obligatorio y lo debe generar la entidad receptora de la factura.
-
-•	**RECEIVED:** factura recibida en la unidad destino. Código numérico: 1300. Este estado es opcional y lo genera la entidad receptora de la factura.
-
-•	**ACCEPTED:** factura conformada Código numérico: 1300. Este estado es opcional y lo genera la entidad receptora de la factura.
-
-•	**RECOGNISED:** contabilizada la obligación de pago de la factura. Código numérico: 2400. Este estado es obligatorio y lo debe generar la entidad receptora de la factura.
-
-•	**PAID:** factura pagada. Código numérico: 2500. Este estado es obligatorio y lo debe generar la entidad receptora de la factura.
-
-•	**REJECTED:** factura rechazada. Código numérico: 2600. En caso de que haya que rechazar una factura, este estado es obligatorio y lo debe generar la entidad receptora de la factura.
-
-Los estados PAID y REJECTED se consideran estados finales, es decir, una vez alcanzado uno de estos estados, la factura ya no deberia cambiar de estado.
+|Codi d'estat eFACT|Codi d'estat númeric<br>(BOE A-2014-10660)|Descripció|
+|------------------|------------------------------------------|----------|
+|SENT|1000|Factura lliurada al servei eFACT. Aquest estat el genera el servei de manera automàtica.|
+|REGISTERED|1200|La factura ha estat registrada administrativament, proporcionant un número i data de registre, tant al proveïdor com a l'entitat. Aquest estat el genera el servei de manera automàtica.|
+|DELIVERED|1200|La factura ha estat lliurada a l'entitat destinatària. Aquest estat és opcional i el genera l'entitat receptora de la factura.|
+|ANNOTATED|1300|La factura ha estat verificada i registrada al registre comptable de factures (RCF), generant un número de registre comptable que cal proporcionar al proveïdor. Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
+|RECEIVED|1300|La factura ha estat rebuda a la unitat de destinació. Aquest estat és opcional i el genera l'entitat receptora de la factura.|
+|ACCEPTED|1300|La factura ha estat conformada. Aquest estat és opcional i el genera l'entitat receptora de la factura.|
+|RECOGNISED|2400|L'obligació de pagament derivada de la factura ha estat reconeguda i comptabilitzada. Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
+|PAID|2500|La factura ha estat pagada. Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
+|REJECTED|2600|La factura ha estat rebutjada. S'ha d'indicar al proveïdor el motiu del rebuig. En cas que calgui rebutjar una factura, aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
 
 
-## 2. Flux d'actualització d'estats d'una factura
+És recomanable establir els estats PAID i REJECTED com a estats finals, és a dir, un cop assolit un d'aquests estats, es considera que la factura ja no hauria de canviar d'estat.
 
 ![Flux d'actualització d'estats d'una factura](/imgs/diagrama-estados.png)
 
