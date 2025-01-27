@@ -5,17 +5,18 @@
 	1. [Connectivitat](#connectivitat)
 	2. [Autenticació i autorització](#autenticació-i-autorització)
 3. [Operacions](#operacions)
-	1. [Llistat Errors](#llistat-errors)
-	2. [1. Consulta de factures pendents](#1-consulta-de-factures-pendents)
-	3. [2. Consulta de dades d'una factura](#2-consulta-de-dades-duna-factura)
-	4. [3. Obtenció del fitxer d'una factura](#3-obtenció-del-fitxer-duna-factura)
-	5. [4. Obtenció del fitxer d'un document adjunt](#4-obtenció-del-fitxer-dun-document-adjunt)
-	6. [5. Obtenció del rebut electrònic de factura](#5-obtenció-del-rebut-electrònic-de-factura)
-	7. [6. Obtenció de l'històric d'estats d'una factura](#6-obtenció-de-lhistòric-destats-duna-factura)
-	8. [7. Actualització d'estats de factura](#7-actualització-destats-de-factura)
-	9. [8. Consulta d'adjunts pendents](#8-consulta-dadjunts-pendents)
-	10. [9. Eliminació d'adjunts pendents de descàrrega](#9-eliminació-dadjunts-pendents-de-descàrrega)
-	11. [10. Consulta de les entitats adherides a una plataforma](#10-consulta-de-les-entitats-adherides-a-una-plataforma)
+	1. [Consulta de factures pendents](#consulta-de-factures-pendents)
+	2. [Consulta de dades d'una factura](#consulta-de-dades-duna-factura)
+	3. [Obtenció del fitxer d'una factura](#obtenció-del-fitxer-duna-factura)
+	4. [Obtenció del fitxer d'un document adjunt](#obtenció-del-fitxer-dun-document-adjunt)
+	5. [Obtenció del rebut electrònic de factura](#obtenció-del-rebut-electrònic-de-factura)
+	6. [Obtenció de l'històric d'estats d'una factura](#obtenció-de-lhistòric-destats-duna-factura)
+	7. [Actualització d'estats de factura](#actualització-destats-de-factura)
+	8. [Consulta d'adjunts pendents](#consulta-dadjunts-pendents)
+	9. [Eliminació d'adjunts pendents de descàrrega](#eliminació-dadjunts-pendents-de-descàrrega)
+	10. [Consulta de les entitats adherides a una plataforma](#consulta-de-les-entitats-adherides-a-una-plataforma)
+ 	11. [Codis de resposta del servei](#codis-de-resposta-del-servei)
+	12. [Llistat d'errors](#llistat-derrors)
 4. [Estats de factura](#estats-de-factura)
 5. [Com donar-se d'alta al servei](#com-donar-se-dalta-al-servei)
 6. [Entorns](#entorns)
@@ -107,69 +108,12 @@ A l'exemple de capçalera HTTP amb el token JWT es mostren els diferents segment
 
 # Operacions
 
-El servei tornarà algun dels codis d'estat de resposta HTTP següents:
-
-- **200:** petició realitzada satisfactòriament.
-- **400:** petició incorrecta (per exemple, error als paràmetres d'entrada).
-- **401:** petició no autoritzada.
-- **404:** recurs no trobat.
-- **500:** altres errors
-
-## Llistat Errors
-
-En cas d'error, el servei tornarà un fitxer de tipus `application/json`, amb el contingut següent:
-
-```json
-{
-	"codiError": 9999,
-	"descripcioError": "descripcio error" 
-}
-```
-
-A continuació, es detallen els possibles errors que pot tornar el servei:
-
-### Errors d'autenticació (HttpStatus 401):
-
-- **1001:** No s'ha especificat un token d’autenticació
-- **1002:** No s'ha especificat un usuari
-- **1003:** Usuari no vàlid
-- **1004:** No s'ha especificat una data d'expiració del token
-- **1005:** No s'ha especificat una data de creació del token
-- **1006:** No s'ha especificat una data d'activació del token
-- **1007:** No s'ha especificat el camp audience del token
-- **1008:** El token ha expirat
-- **1009:** El token encara no pot ser utilitzat
-- **1010:** El temps d'expiració del token és superior al permès
-- **1011:** El camp audience especificat no és vàlid
-
-### Errors de recurs no trobat (HttpStatus 404):
-
-- **2001:** No s'ha trobat la factura especificada
-- **2002:** No s'ha trobat el document adjunt especificat
-- **2003:** No s'ha trobat un històric d'estats per a la factura
-
-### Errors de validació (HttpStatus: 400):
-
-- **3001:** L'estat proporcionat no és vàlid
-- **3002:** Per a actualitzar l'estat de la factura a ANNOTATED, és necessari especificar un número de registre
-- **3003:** Per a actualitzar l'estat de la factura a REJECTED, és necessari especificar un motiu de rebuig
-- **3004:** Per a actualitzar l'estat de la factura a PAID, és necessari especificar una data de pagament
-- **3005:** La factura especificada no té número de registre
-- **3006:** La data de pagament especificada no compleix el format esperat
-- **3007:** No és possible actualitzar la factura especificada
-
-### Errors genèrics (HttpStatus 500):
-
-- **9001:** S'ha produït un error intern de connexió amb la base de dades
-- **9002:** S'ha produït un error en la generació del rebut electrònic de la factura
-- **9999:** S'ha produït un error inesperat en l'execució de l'operació sol·licitada
-
-## 1. Consulta de factures pendents
+## Consulta de factures pendents
 
 Aquesta operació permet obtenir les factures pendents de descarregar per a la plataforma associada a l'usuari que realitza la petició.
 Retorna un màxim de 500 factures. De manera opcional, es permetrà filtrar pel NIF de l'entitat i/o pel codi d'oficina comptable.
 
-**NOTA:** un cop processades, és necessari marcar les factures com "descarregades". Per a això, s'ha d'actualitzar l'estat de les factures a DELIVERED o ANNOTATED (veure operació [Actualització d'estats d'una factura](#7-actualització-destats-de-factura)). Si no es fa això, les factures sempre quedaran com a pendents de descàrrega i es tornarien obtenir com a resultat de l'execució d'aquesta operació.
+**NOTA:** un cop processades, és necessari marcar les factures com "descarregades". Per a això, s'ha d'actualitzar l'estat de les factures a DELIVERED o ANNOTATED (veure operació [Actualització d'estats d'una factura](#actualització-destats-de-factura)). Si no es fa això, les factures sempre quedaran com a pendents de descàrrega i es tornarien obtenir com a resultat de l'execució d'aquesta operació.
 
 **Path relatiu de l'operació:** /factures-pendents
 
@@ -226,7 +170,7 @@ Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un missa
 }
 ```
 
-## 2. Consulta de dades d'una factura
+## Consulta de dades d'una factura
 
 Aquesta operació permet obtenir les dades de la factura corresponent a l'identificador de factura especificat com a paràmetre. Si la factura té documents adjunts associats, també es retornen les dades d'aquests.
 
@@ -299,7 +243,7 @@ Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un missa
 }
 ```
          
-## 3. Obtenció del fitxer d'una factura
+## Obtenció del fitxer d'una factura
 
 Aquesta operació permet obtenir el fitxer de la factura corresponent a l'identificador de factura especificat com a paràmetre.
 
@@ -320,7 +264,7 @@ paràmetre|descripció|
 
 Si la petició s'ha dut a terme amb èxit (codi HTTP "200"), es retornarà un fitxer de tipus "application/xml" corresponent a la factura sol·licitada.
 
-## 4. Obtenció del fitxer d'un document adjunt
+## Obtenció del fitxer d'un document adjunt
 
 Aquesta operació permet obtenir el fitxer del document adjunt corresponent a l'identificador del document adjunt i l'identificador de factura especificats com a paràmetres.
 
@@ -343,7 +287,7 @@ paràmetre|descripció|
  Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà el fitxer del document adjunt sol·licitat. A la capçalera Content-type s'especificarà el tipus mime corresponent.
  
 
-## 5. Obtenció del rebut electrònic de factura
+## Obtenció del rebut electrònic de factura
 
 Aquesta operació permet obtenir el rebut electrònic corresponent a l'identificador de factura especificat com a paràmetre.
 
@@ -365,7 +309,7 @@ paràmetre|descripció|
 
 Si la petició s'ha dut a terme amb èxit (codi HTTP "200"), es retornarà un fitxer de tipus "application/pdf" corresponent al rebut electrònic de la factura especificada com a paràmetre.
 
-## 6. Obtenció de l'històric d'estats d'una factura
+## Obtenció de l'històric d'estats d'una factura
 
 Aquesta operació permet obtenir l'històric d'estats corresponent a l'identificador de factura especificat com a paràmetre.
 
@@ -425,7 +369,7 @@ paràmetre|descripció|
 
 Pel que fa a la data de pagament d'una factura (dataPagament), per als casos de factures anteriors a la integració per aquest API REST en què no es disposi d'una data de pagament concreta informada pel receptor, es considerarà com a data de pagament la mateixa data d'estat (dataEstat) de l'estat "pagada" (PAID) corresponent.
 
-## 7. Actualització d'estats de factura
+## Actualització d'estats de factura
 
 Aquesta operació té dues funcions:
 
@@ -528,7 +472,7 @@ Exemple de fitxer JSON per actualitzar una factura com a pagada (PAID):
 
 Si la petició s'ha dut a terme amb èxit, es torna un JSON amb les dades de la factura actualitzada. L'estructura d'aquest JSON seria exactament la mateixa que la que s'especifica al punt 2 per a l'operació *"Consulta de dades d'una factura"*.
 
-## 8. Consulta d'adjunts pendents
+## Consulta d'adjunts pendents
 
 Atès que es poden rebre documents adjunts en qualsevol moment posterior a l'enviament de les factures associades, aquesta operació permet obtenir els documents adjunts pendents de descarregar per a la plataforma associada a l'usuari que fa la petició. Retorna un màxim de 500 documents adjunts. De manera opcional, es permetrà filtrar pel NIF de l'entitat i/o pel codi d'oficina comptable.
 
@@ -586,7 +530,7 @@ paràmetre|descripció|
 ```
 
 
-## 9. Eliminació d'adjunts pendents de descàrrega
+## Eliminació d'adjunts pendents de descàrrega
 
 Aquesta operació permet actualitzar com a descarregat l'adjunt especificat, de manera que ja no sigui tingut en compte per l'operació de consulta d'adjunts pendents de descàrrega (GET [urlServei]/adjunts-pendents).
 
@@ -608,7 +552,7 @@ DELETE [urlServei]/adjunts-pendents/2755
 
 Si la petició s'ha dut a terme amb èxit, simplement es torna el codi HTTP "200".
 
-## 10. Consulta de les entitats adherides a una plataforma
+## Consulta de les entitats adherides a una plataforma
 
 Aquesta operació permet obtenir les dades principals de les entitats adherides a la plataforma associada a l'usuari que realitza la petició.
 
@@ -641,6 +585,66 @@ GET [urlServei]/ens
 	]
 }
 ```
+
+## Codis de resposta del servei
+
+El servei tornarà algun dels codis d'estat de resposta HTTP següents:
+
+- **200:** petició realitzada satisfactòriament.
+- **400:** petició incorrecta (per exemple, error als paràmetres d'entrada).
+- **401:** petició no autoritzada.
+- **404:** recurs no trobat.
+- **500:** altres errors
+
+## Llistat d'errors
+
+En cas d'error, el servei tornarà un fitxer de tipus `application/json`, amb el contingut següent:
+
+```json
+{
+	"codiError": 9999,
+	"descripcioError": "descripcio error" 
+}
+```
+
+A continuació, es detallen els possibles errors que pot tornar el servei:
+
+### Errors d'autenticació (HttpStatus 401):
+
+- **1001:** No s'ha especificat un token d’autenticació
+- **1002:** No s'ha especificat un usuari
+- **1003:** Usuari no vàlid
+- **1004:** No s'ha especificat una data d'expiració del token
+- **1005:** No s'ha especificat una data de creació del token
+- **1006:** No s'ha especificat una data d'activació del token
+- **1007:** No s'ha especificat el camp audience del token
+- **1008:** El token ha expirat
+- **1009:** El token encara no pot ser utilitzat
+- **1010:** El temps d'expiració del token és superior al permès
+- **1011:** El camp audience especificat no és vàlid
+
+### Errors de recurs no trobat (HttpStatus 404):
+
+- **2001:** No s'ha trobat la factura especificada
+- **2002:** No s'ha trobat el document adjunt especificat
+- **2003:** No s'ha trobat un històric d'estats per a la factura
+
+### Errors de validació (HttpStatus: 400):
+
+- **3001:** L'estat proporcionat no és vàlid
+- **3002:** Per a actualitzar l'estat de la factura a ANNOTATED, és necessari especificar un número de registre
+- **3003:** Per a actualitzar l'estat de la factura a REJECTED, és necessari especificar un motiu de rebuig
+- **3004:** Per a actualitzar l'estat de la factura a PAID, és necessari especificar una data de pagament
+- **3005:** La factura especificada no té número de registre
+- **3006:** La data de pagament especificada no compleix el format esperat
+- **3007:** No és possible actualitzar la factura especificada
+
+### Errors genèrics (HttpStatus 500):
+
+- **9001:** S'ha produït un error intern de connexió amb la base de dades
+- **9002:** S'ha produït un error en la generació del rebut electrònic de la factura
+- **9999:** S'ha produït un error inesperat en l'execució de l'operació sol·licitada
+
 
 # Estats de factura
 A continuació, es detallen els estats pels quals pot passar una factura al servei, en l'ordre coherent d'ocurrència:
