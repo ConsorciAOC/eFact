@@ -149,7 +149,7 @@ A continuació, es detallen els possibles errors que pot tornar el servei:
 Aquesta operació permet obtenir les factures pendents de descarregar per a la plataforma associada a l'usuari que realitza la petició.
 Retorna un màxim de 500 factures. De manera opcional, es permetrà filtrar pel NIF de l'entitat i/o pel codi d'oficina comptable.
 
-**NOTA:** un cop processades, és necessari marcar com "descarregades" les factures. Per a això, s'ha d'actualitzar l'estat de les factures a DELIVERED o ANNOTATED (veure punt *7 Actualització d'estats d'una factura*). Si no es fa això, les factures sempre quedaran com a pendents de descàrrega i es tornarien obtenir com a resultat de l'execució d'aquesta operació.
+**NOTA:** un cop processades, és necessari marcar com "descarregades" les factures. Per a això, s'ha d'actualitzar l'estat de les factures a DELIVERED o ANNOTATED (veure operació [Actualització d'estats d'una factura](#op-act-estat-factura)). Si no es fa això, les factures sempre quedaran com a pendents de descàrrega i es tornarien obtenir com a resultat de l'execució d'aquesta operació.
 
 **Path relatiu de l'operació:** /factures-pendents
 
@@ -349,7 +349,7 @@ Si la petició s'ha dut a terme amb èxit (codi HTTP "200"), es retornarà un fi
 
 Aquesta operació permet obtenir l'històric d'estats corresponent a l'identificador de factura especificat com a paràmetre.
 
-En la secció *Estats Factura* es descriuen els estats pels quals pot passar una factura i com ha de ser flux d'actualització d'estats d'una factura.
+En la secció [Estats de factura](#estats-factura-annex) es descriuen els estats pels quals pot passar una factura i com ha de ser flux d'actualització d'estats d'una factura.
 
 **Path relatiu de l'operació:** /factura/:id/estats
 
@@ -405,13 +405,14 @@ paràmetre|descripció|
 
 Pel que fa a la data de pagament d'una factura (dataPagament), per als casos de factures anteriors a la integració per aquest API REST en què no es disposi d'una data de pagament concreta informada pel receptor, es considerarà com a data de pagament la mateixa data d'estat (dataEstat) de l'estat "pagada" (PAID) corresponent.
 
+<a id="op-act-estat-factura"></a>
 ## 7. Actualització d'estats de factura
 
 Aquesta operació té dues funcions:
 
 - Actualitzar l'estat de una factura.
 
-- Quan una factura s'actualitza a l'estat DELIVERED o ANNOTATED, la factura es considera descarregada i, per tant, ja no serà tinguda en compte per l'operació de consulta de factures pendents de descàrrega (GET [urlServei]/factures-pendents).
+- Quan una factura s'actualitza a l'estat DELIVERED o ANNOTATED, la factura es considera descarregada i, per tant, ja no serà tinguda en compte per l'operació de consulta de factures pendents de descàrrega (*GET [urlServei]/factures-pendents*).
 
 Els estats de les factures només poden ser els següents: DELIVERED, ANNOTATED, RECEIVED, ACCEPTED, RECOGNISED, PAID i REJECTED. Si s'intenta actualitzar una factura a un estat diferent, es tornarà un error indicant que l'actualització d'estat especificada no està permesa.
 
@@ -433,7 +434,7 @@ La seqüència d'estats coherent d'una factura hauria de ser la següent:
 3. RECOGNISED
 4. PAID
 
-En la secció *Estats Factura* es descriuen els estats pels quals pot passar una factura i com ha de ser flux d'actualització d'estats d'una factura.
+En la secció [Estats de factura](#estats-factura-annex) es descriuen els estats pels quals pot passar una factura i com ha de ser flux d'actualització d'estats d'una factura.
 
 
 **Path relatiu de l'operació:** /factura/:id
@@ -509,7 +510,7 @@ Exemple de fitxer JSON per actualitzar una factura com a pagada (PAID):
    
 ### **Resposta**
 
-Si la petició s'ha dut a terme amb èxit, es torna un JSON amb les dades de la factura actualitzada. L'estructura d'aquest JSON seria exactament la mateixa que la que especifica l'apartat 2.3 per a l'operació "Consulta les dades d'una factura".
+*.Si la petició s'ha dut a terme amb èxit, es torna un JSON amb les dades de la factura actualitzada. L'estructura d'aquest JSON seria exactament la mateixa que la que s'especifica al punt 2 per a l'operació *"Consulta de dades d'una factura"*.
 
 ## 8. Consulta d'adjunts pendents
 
@@ -624,26 +625,25 @@ GET [urlServei]/ens
 	]
 }
 ```
-
-# Estats de factura 
-A continuació, es detallen els estats pel que pot passar una factura en el servei:
+<a id="estats-factura-annex"></a>
+# Estats de factura
+A continuació, es detallen els estats pels quals pot passar una factura al servei, en l'ordre coherent d'ocurrència:
 
 |Codi d'estat eFACT|Codi d'estat númeric<br>(BOE A-2014-10660)|Descripció|
 |------------------|------------------------------------------|----------|
-|SENT|1000|Factura lliurada al servei eFACT. Aquest estat el genera el servei de manera automàtica.|
-|REGISTERED|1200|La factura ha estat registrada administrativament, proporcionant un número i data de registre, tant al proveïdor com a l'entitat. Aquest estat el genera el servei de manera automàtica.|
-|DELIVERED|1200|La factura ha estat lliurada a l'entitat destinatària. Aquest estat és opcional i el genera l'entitat receptora de la factura.|
-|ANNOTATED|1300|La factura ha estat verificada i registrada al registre comptable de factures (RCF), generant un número de registre comptable que cal proporcionar al proveïdor. Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
-|RECEIVED|1300|La factura ha estat rebuda a la unitat de destinació. Aquest estat és opcional i el genera l'entitat receptora de la factura.|
-|ACCEPTED|1300|La factura ha estat conformada. Aquest estat és opcional i el genera l'entitat receptora de la factura.|
-|RECOGNISED|2400|L'obligació de pagament derivada de la factura ha estat reconeguda i comptabilitzada. Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
-|PAID|2500|La factura ha estat pagada. Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
-|REJECTED|2600|La factura ha estat rebutjada. S'ha d'indicar al proveïdor el motiu del rebuig. En cas que calgui rebutjar una factura, aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
+|SENT|1000|Factura lliurada al servei eFACT.<br>Aquest estat el genera el servei eFACT de manera automàtica.|
+|REGISTERED|1200|La factura ha estat registrada administrativament, proporcionant un número i data de registre, tant al proveïdor com a l'entitat.<br>Aquest estat el genera el servei eFACT de manera automàtica.|
+|DELIVERED|1200|La factura ha estat lliurada a l'entitat destinatària.<br>Aquest estat és opcional i el genera l'entitat receptora de la factura.|
+|ANNOTATED|1300|La factura ha estat verificada i registrada al registre comptable de factures (RCF), generant un número de registre comptable que cal proporcionar al proveïdor.<br>Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
+|RECEIVED|1300|La factura ha estat rebuda a la unitat de destinació.<br>Aquest estat és opcional i el genera l'entitat receptora de la factura.|
+|ACCEPTED|1300|La factura ha estat conformada.<br>Aquest estat és opcional i el genera l'entitat receptora de la factura.|
+|RECOGNISED|2400|L'obligació de pagament derivada de la factura ha estat reconeguda i comptabilitzada.<br>Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
+|PAID|2500|La factura ha estat pagada.<br>Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
+|REJECTED|2600|La factura ha estat rebutjada. S'ha d'indicar al proveïdor el motiu del rebuig.<br>En cas que calgui rebutjar una factura, aquest estat és obligatori i l'ha de generar:<br>- L'entitat receptora de la factura, sempre que la factura li hagi estat lliurada pel servei eFACT.<br>- El servei eFACT, en qualsevol altre cas (error de validació de signatura/certificat, error de registre, etc.).|
 
+Una factura es pot rebutjar (estat REJECTED) en qualsevol moment, excepte si està en estat PAID.
 
-És recomanable establir els estats PAID i REJECTED com a estats finals, és a dir, un cop assolit un d'aquests estats, es considera que la factura ja no hauria de canviar d'estat.
-
-![Flux d'actualització d'estats d'una factura](/imgs/diagrama-estados.png)
+Els estats PAID i REJECTED són estats finals i, un cop actualitzada a un d'aquests estats, s'entén que la gestió de la factura ja ha finalitzat.
 
 
 
