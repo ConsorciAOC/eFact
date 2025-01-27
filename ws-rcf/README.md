@@ -1,11 +1,31 @@
-# Integració vía WS per Registres Comptables de Factures (RCF)
+# Integració via WS per Registres Comptables de Factures (RCF)
+
+1. [Introducció](#introducció)
+2. [Mètode d'autenticació](#mètode-dautenticació)
+	1. [Connectivitat](#connectivitat)
+	2. [Autenticació i autorització](#autenticació-i-autorització)
+3. [Operacions](#operacions)
+	1. [Llistat Errors](#llistat-errors)
+	2. [1. Consulta de factures pendents](#1-consulta-de-factures-pendents)
+	3. [2. Consulta de dades d'una factura](#2-consulta-de-dades-duna-factura)
+	4. [3. Obtenció del fitxer d'una factura](#3-obtenció-del-fitxer-duna-factura)
+	5. [4. Obtenció del fitxer d'un document adjunt](#4-obtenció-del-fitxer-dun-document-adjunt)
+	6. [5. Obtenció del rebut electrònic de factura](#5-obtenció-del-rebut-electrònic-de-factura)
+	7. [6. Obtenció de l'històric d'estats d'una factura](#6-obtenció-de-lhistòric-destats-duna-factura)
+	8. [7. Actualització d'estats de factura](#7-actualització-destats-de-factura)
+	9. [8. Consulta d'adjunts pendents](#8-consulta-dadjunts-pendents)
+	10. [9. Eliminació d'adjunts pendents de descàrrega](#9-eliminació-dadjunts-pendents-de-descàrrega)
+	11. [10. Consulta de les entitats adherides a una plataforma](#10-consulta-de-les-entitats-adherides-a-una-plataforma)
+4. [Estats de factura](#estats-de-factura)
+5. [Com donar-se d'alta al servei](#com-donar-se-dalta-al-servei)
+6. [Entorns](#entorns)
 
 # Introducció
 Aquest document pretén descriure l'API REST per a la integració de les plataformes receptores amb el hub d'eFACT, amb l'objectiu de substituir la integració actual per FTP.
 
 # Mètode d'autenticació
 ## Connectivitat
-S'establirà un sistema de filtres d'IPs per origen, de manera que només es permeti l'accés al servei des d'IPs l'origen dels quals estigui dins dels admesos.
+S'establirà un sistema de filtres d'IPs per origen, de manera que només es permeti l'accés al servei des d'IPs l'origen de les quals estigui dins dels admesos.
 
 ## Autenticació i autorització
 
@@ -97,7 +117,7 @@ El servei tornarà algun dels codis d'estat de resposta HTTP següents:
 
 ## Llistat Errors
 
-En cas d'error, el servei tornarà un fitxer de tipus `application/json` amb el contingut següent:
+En cas d'error, el servei tornarà un fitxer de tipus `application/json`, amb el contingut següent:
 
 ```json
 {
@@ -126,7 +146,7 @@ A continuació, es detallen els possibles errors que pot tornar el servei:
 
 - **2001:** No s'ha trobat la factura especificada
 - **2002:** No s'ha trobat el document adjunt especificat
-- **2003:** No s'ha trobat un historico d'estats per a la factura
+- **2003:** No s'ha trobat un històric d'estats per a la factura
 
 ### Errors de validació (HttpStatus: 400):
 
@@ -149,16 +169,16 @@ A continuació, es detallen els possibles errors que pot tornar el servei:
 Aquesta operació permet obtenir les factures pendents de descarregar per a la plataforma associada a l'usuari que realitza la petició.
 Retorna un màxim de 500 factures. De manera opcional, es permetrà filtrar pel NIF de l'entitat i/o pel codi d'oficina comptable.
 
-**NOTA:** un cop processades, és necessari marcar com "descarregades" les factures. Per a això, s'ha d'actualitzar l'estat de les factures a DELIVERED o ANNOTATED (veure operació [Actualització d'estats d'una factura](#op-act-estat-factura)). Si no es fa això, les factures sempre quedaran com a pendents de descàrrega i es tornarien obtenir com a resultat de l'execució d'aquesta operació.
+**NOTA:** un cop processades, és necessari marcar les factures com "descarregades". Per a això, s'ha d'actualitzar l'estat de les factures a DELIVERED o ANNOTATED (veure operació [Actualització d'estats d'una factura](#7-actualització-destats-de-factura)). Si no es fa això, les factures sempre quedaran com a pendents de descàrrega i es tornarien obtenir com a resultat de l'execució d'aquesta operació.
 
 **Path relatiu de l'operació:** /factures-pendents
 
 ### **Petició**
 
 paràmetre|descripció|
----------|-----------|
-**nif:**| Paràmetre opcional. NIF de l'entitat per a la qual es volen obtenir les factures pendents de descàrrega.
-**oficinaComptable:** |Paràmetre opcional. Codi de l'oficina comptable per a la qual es volen obtenir les factures pendents de descàrrega.
+---------|----------|
+**nif:** | Paràmetre opcional. NIF de l'entitat per a la qual es volen obtenir les factures pendents de descàrrega.
+**oficinaComptable:** | Paràmetre opcional. Codi de l'oficina comptable per a la qual es volen obtenir les factures pendents de descàrrega.
 
 **Exemple petició:**
 
@@ -170,11 +190,11 @@ paràmetre|descripció|
 
 ### **Resposta**
 
-Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un missatge de tipus `application/json` amb el contingut següent :
+Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un missatge de tipus `application/json` amb el contingut següent:
 
 - **mesFactures**: Com que aquesta operació torna un màxim de 500 factures, en aquest camp s'indica si hi ha més factures, a part de les tornades, pendents de descàrrega per als paràmetres especificats. 	Possibles valors: true o false.
 
-- **factures**: Col·lecció amb les dades de les factures pendents de descàrrega tornades. Com a màxim es tornaran 500 factures Per cada factura s'especificaran les dades següents :
+- **factures**: Col·lecció amb les dades de les factures pendents de descàrrega tornades. Com a màxim es tornaran 500 factures. Per cada factura s'especificaran les dades següents :
   - **id:** Identificador de la factura al hub
   - **nif:** NIF de l'entitat receptora de la factura.
   - **oficinaComptable:** Codi dir3 de l'oficina comptable a la qual va dirigida la factura. 
@@ -215,8 +235,8 @@ Aquesta operació permet obtenir les dades de la factura corresponent a l'identi
 ### **Petició**
 
 paràmetre|descripció|
----------|-----------|
-**id:**| identificador de la factura que es vol consultar.
+---------|----------|
+**id:** | Identificador de la factura que es vol consultar.
 
 **Exemple petició:**
 
@@ -288,8 +308,8 @@ Aquesta operació permet obtenir el fitxer de la factura corresponent a l'identi
 ### **Petició**
 
 paràmetre|descripció|
----------|-----------|
-**id:**| identificador de la factura a descarregar.
+---------|----------|
+**id:** | Identificador de la factura a descarregar.
 
 **Exemple petició:**
 
@@ -309,9 +329,9 @@ Aquesta operació permet obtenir el fitxer del document adjunt corresponent a l'
 ### **Petició**
 
 paràmetre|descripció|
----------|-----------|
-**id:**| identificador de la factura a què està associat el document adjunt.
-**idAdjunt:**| identificador del document adjunt a descarregar
+---------|----------|
+**id:** | Identificador de la factura a què està associat el document adjunt.
+**idAdjunt:** | Identificador del document adjunt a descarregar
 
 **Exemple petició:**
 
@@ -332,8 +352,8 @@ Aquesta operació permet obtenir el rebut electrònic corresponent a l'identific
 ### **Petició**
 
 paràmetre|descripció|
----------|-----------|
-**id:**| identificador de la factura de la qual voleu obtenir el vostre rebut electrònic.
+---------|----------|
+**id:** | Identificador de la factura de la qual voleu obtenir el vostre rebut electrònic.
 
 
 **Exemple petició:**
@@ -349,15 +369,15 @@ Si la petició s'ha dut a terme amb èxit (codi HTTP "200"), es retornarà un fi
 
 Aquesta operació permet obtenir l'històric d'estats corresponent a l'identificador de factura especificat com a paràmetre.
 
-En la secció [Estats de factura](#estats-factura-annex) es descriuen els estats pels quals pot passar una factura i com ha de ser flux d'actualització d'estats d'una factura.
+En la secció [Estats de factura](#estats-de-factura) es descriuen els estats pels quals pot passar una factura i com ha de ser flux d'actualització d'estats d'una factura.
 
 **Path relatiu de l'operació:** /factura/:id/estats
 
 ### **Petició**
 
 paràmetre|descripció|
----------|-----------|
-**id:**| identificador de la factura de la qual voleu obtenir el vostre històric d'estats.
+---------|----------|
+**id:** | Identificador de la factura de la qual voleu obtenir el vostre històric d'estats.
 
 
 **Exemple petició:**
@@ -405,12 +425,11 @@ paràmetre|descripció|
 
 Pel que fa a la data de pagament d'una factura (dataPagament), per als casos de factures anteriors a la integració per aquest API REST en què no es disposi d'una data de pagament concreta informada pel receptor, es considerarà com a data de pagament la mateixa data d'estat (dataEstat) de l'estat "pagada" (PAID) corresponent.
 
-<a id="op-act-estat-factura"></a>
 ## 7. Actualització d'estats de factura
 
 Aquesta operació té dues funcions:
 
-- Actualitzar l'estat de una factura.
+- Actualitzar l'estat d'una factura.
 
 - Quan una factura s'actualitza a l'estat DELIVERED o ANNOTATED, la factura es considera descarregada i, per tant, ja no serà tinguda en compte per l'operació de consulta de factures pendents de descàrrega (*GET [urlServei]/factures-pendents*).
 
@@ -434,7 +453,7 @@ La seqüència d'estats coherent d'una factura hauria de ser la següent:
 3. RECOGNISED
 4. PAID
 
-En la secció [Estats de factura](#estats-factura-annex) es descriuen els estats pels quals pot passar una factura i com ha de ser flux d'actualització d'estats d'una factura.
+En la secció [Estats de factura](#estats-de-factura) es descriuen els estats pels quals pot passar una factura i com ha de ser flux d'actualització d'estats d'una factura.
 
 
 **Path relatiu de l'operació:** /factura/:id
@@ -442,8 +461,8 @@ En la secció [Estats de factura](#estats-factura-annex) es descriuen els estats
 ### **Petició**
 
 paràmetre|descripció|
----------|-----------|
-**id:**| identificador de la factura de la qual voleu obtenir el vostre històric d'estats.
+---------|----------|
+**id:** | Identificador de la factura de la qual voleu obtenir el vostre històric d'estats.
 
 
 **Exemple petició:**
@@ -455,8 +474,8 @@ Tot seguit, s'indiquen totes les possibles dades susceptibles de ser informades.
 ```json
 {
 	"estat": "",
-	"codiMotiuRebuig ": "",
-	"descripcioMotiuRebuig ": "",
+	"codiMotiuRebuig": "",
+	"descripcioMotiuRebuig": "",
 	"numeroRegistreRCF": "", 
 	"dataPagament": ""
 }
@@ -464,11 +483,8 @@ Tot seguit, s'indiquen totes les possibles dades susceptibles de ser informades.
 
 Tots els camps són opcionals, excepte el camp "estat" i els especificats anteriorment com a obligatoris per a un determinat estat:
 
-•	"numeroRegistreRCF": només és obligatori per a l'estat ANNOTATED.
-
-•	"descripcioMotiu": només és obligatori per a l'estat REJECTED.
-
-•	"dataPagament". només és obligatori per a l'estat PAID.
+-	**descripcioMotiu:** només és obligatori per a l'estat REJECTED.
+-	**dataPagament:** només és obligatori per a l'estat PAID.
 
 
 Exemple de fitxer JSON per actualitzar una factura rebutjada (REJECTED):
@@ -476,8 +492,8 @@ Exemple de fitxer JSON per actualitzar una factura rebutjada (REJECTED):
 ```json
 {
 	"estat": "REJECTED",
-	"codiMotiuRebuig ": "E01",
-	"descripcioMotiuRebuig ": "No s'ha especificat el número d'expedient"
+	"codiMotiuRebuig": "E01",
+	"descripcioMotiuRebuig": "No s'ha especificat el número d'expedient"
 }
 ```
 
@@ -510,7 +526,7 @@ Exemple de fitxer JSON per actualitzar una factura com a pagada (PAID):
    
 ### **Resposta**
 
-*.Si la petició s'ha dut a terme amb èxit, es torna un JSON amb les dades de la factura actualitzada. L'estructura d'aquest JSON seria exactament la mateixa que la que s'especifica al punt 2 per a l'operació *"Consulta de dades d'una factura"*.
+Si la petició s'ha dut a terme amb èxit, es torna un JSON amb les dades de la factura actualitzada. L'estructura d'aquest JSON seria exactament la mateixa que la que s'especifica al punt 2 per a l'operació *"Consulta de dades d'una factura"*.
 
 ## 8. Consulta d'adjunts pendents
 
@@ -522,9 +538,9 @@ Atès que es poden rebre documents adjunts en qualsevol moment posterior a l'env
 ### **Petició**
 
 paràmetre|descripció|
----------|-----------|
-**nif:**| Paràmetre opcional. NIF de l'entitat associada a la plataforma corresponent a l'usuari que fa la petició per al qual es volen obtenir les documents adjunts pendents de descàrrega.
-**oficinaComptable:** |Paràmetre opcional. Codi d'oficina comptable associat a la plataforma corresponent a l'usuari que realitza la petició per al qual es volen obtenir les documents adjunts pendents de descàrrega.
+---------|----------|
+**nif:** | Paràmetre opcional. NIF de l'entitat associada a la plataforma corresponent a l'usuari que fa la petició per al qual es volen obtenir les documents adjunts pendents de descàrrega.
+**oficinaComptable:** | Paràmetre opcional. Codi d'oficina comptable associat a la plataforma corresponent a l'usuari que realitza la petició per al qual es volen obtenir les documents adjunts pendents de descàrrega.
 
 **Exemple petició:**
 
@@ -579,8 +595,8 @@ Aquesta operació permet actualitzar com a descarregat l'adjunt especificat, de 
 ### **Petició**
 
 paràmetre|descripció|
----------|-----------|
-**idAdjunt:**| identificador del document adjunt que es vol marcar com a descarregat..
+---------|----------|
+**idAdjunt:** | Identificador del document adjunt que es vol marcar com a descarregat.
 
 
 **Exemple petició:**
@@ -594,7 +610,7 @@ Si la petició s'ha dut a terme amb èxit, simplement es torna el codi HTTP "200
 
 ## 10. Consulta de les entitats adherides a una plataforma
 
-Aquesta operació permet obtenir les dades principals de les entitats adherides a la plataforma associada a lusuari que realitza la petició.
+Aquesta operació permet obtenir les dades principals de les entitats adherides a la plataforma associada a l'usuari que realitza la petició.
 
 **Path relatiu de l'operació:** /ens
 
@@ -607,10 +623,10 @@ GET [urlServei]/ens
 
  Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un fitxer de tipus `application/json` amb el contingut següent:
  
-- **ens:** Llistat d'entitats adherides a la plataforma
+- **ens:** Llistat d'entitats adherides a la plataforma.
   - **nif:** NIF de l'entitat
-  - **nom:** Nom de lentitat.
-  - **ine10:** Codi INE10 de l'entitat
+  - **nom:** Nom de l'entitat.
+  - **ine10:** Codi INE10 de l'entitat.
 
 **Exemple resposta:**
 
@@ -625,7 +641,7 @@ GET [urlServei]/ens
 	]
 }
 ```
-<a id="estats-factura-annex"></a>
+
 # Estats de factura
 A continuació, es detallen els estats pels quals pot passar una factura al servei, en l'ordre coherent d'ocurrència:
 
@@ -645,14 +661,11 @@ Una factura es pot rebutjar (estat REJECTED) en qualsevol moment, excepte si est
 
 Els estats PAID i REJECTED són estats finals i, un cop actualitzada a un d'aquests estats, s'entén que la gestió de la factura ja ha finalitzat.
 
-
-
 # Com donar-se d'alta al servei
+
 
 # Entorns
 
 A continuació, s'indica l'URL base del servei segons l'entorn:
-
-•	**TEST**: https://efact-pre.aoc.cat/rcf 
-
-•	**PRO**:  https://efact.aoc.cat/rcf
+-	**TEST**: https://efact-pre.aoc.cat/rcf 
+-	**PRO**:  https://efact.aoc.cat/rcf
