@@ -58,12 +58,12 @@ nombre |  Nombre del documento anexo.
 mime|  Mime type del documento. 
 
 __Restricciones en el nombre de los documentos anexos__
-- El conjunto de caracteres permitidos para el nomntre de un anexo es el formado por letras minúsculas y mayúsculas (incluyendo la eñe y la cedilla), números, guión medio (-), guión bajo (_), punto (.) y signo más (+). Todo carácter que no se encuentre dentro de este conjunto será eliminado.
+- El conjunto de caracteres permitidos para el nombre de un anexo es el formado por letras minúsculas y mayúsculas (incluyendo la eñe y la cedilla), números, guion medio (-), guion bajo (_), punto (.) y signo más (+). Todo carácter que no se encuentre dentro de este conjunto será eliminado.
 - Los caracteres con algún signo ortográfico auxiliar (acentos, diéresis, etc.) se sustituirán por el carácter equivalente sin signo ortográfico.
-- El carácter espacio en blanco se sustituirá el carácter por guión bajo.
+- El carácter espacio en blanco se sustituirá el carácter por guion bajo.
 - El nombre de los anexos podrá tener una longitud máxima de 70 caracteres, sin tener en cuenta la extensión. Los nombres que superen esta longitud se truncarán a 70 caracteres.
 
-Para evitar posibles duplicidades en el nombre de los documentos anexos, se añadirá la posición del anexo precedida de un guión bajo como sufijo del nombre, justo antes de la extensión. Teniendo esto en cuenta, la longitud máxima del nombre final de un documento anexo, sin tener en cuenta la extensión, sería de 72 caracteres.
+Para evitar posibles duplicidades en el nombre de los documentos anexos, se añadirá la posición del anexo precedida de un guion bajo como sufijo del nombre, justo antes de la extensión. Teniendo esto en cuenta, la longitud máxima del nombre final de un documento anexo, sin tener en cuenta la extensión, sería de 72 caracteres.
 
 Por ejemplo, si junto a una factura se envían dos documentos anexos con nombres *"#InformeFacturación-Enero2024.xlsx"* y *"Justificante estándar operaciones (enero 2024).pdf"*, dichos anexos se renombrarán respectivamente a *"InformeFacturacion-Enero2024_1.xlsx"* y *"Justificante_estandar_operaciones_enero_2024_2.pdf"*.
 
