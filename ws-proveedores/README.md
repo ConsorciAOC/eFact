@@ -1,5 +1,25 @@
 # Integración vía WS para Proveedores
 
+1. [Introducción](#introducción)
+2. [Método de autenticación](#método-de-autenticación)
+3. [Operaciones](#operaciones)
+   1. [Enviar Factura](#1-enviar-factura--enviarfactura)
+   2. [Operación Consultar Factura](#2operación-consultar-factura-consultarfactura)
+   3. [Operación Consultar Estados](#3-operación-consultar-estados-consultarestados)
+   4. [Operación Consultar Listado Facturas](#4-operación-consultar-listado-facturas-consultarlistadofacturas)
+   5. [Flujo completo para solicitud descargas de estados pendientes para un emisor](#5-flujo-completo-para-solicitud-descargas-de-estados-pendientes-para-un-emisor)
+      1. [Método 1: Solicitud de posibles descargas](#método-1-solicitud-de-posibles-descargas)
+      2. [Método 2: Petición de descargas:](#método-2-petición-de-descargas)
+      3. [Método 3: Confirmación de descargas](#método-3-confirmación-de-descargas)
+4. [Casos de prueba para cada operación](#casos-de-prueba-para-cada-operación)
+   1. [CONECTIVIDAD](#conectividad)
+   2. [ENVIO FACTURA](#envio-factura)
+   3. [CONSULTA ESTADOS](#consulta-estados)
+   4. [ANULACION FACTURA](#anulacion-factura)
+5. [Como darse de alta en el servicio](#como-darse-de-alta-en-el-servicio)
+6. [Entornos](#entornos)
+
+
 # Introducción
 
 El objetivo de este documento es facilitar la labor de integración para los sistemas automatizados de proveedores dentro de la plataforma de facturación electrónica eFACT a través de servicios Web. 
@@ -214,61 +234,7 @@ registroAdministrativo|Numero de Registro Administrativo en eFACT
 
 [consultarFactura.zip](https://github.com/ConsorciAOC/eFact/files/7639553/consultarFactura.zip)
 
-# 3. Operación Anular Factura [anularFactura]
-
-Este método permite solicitar la anulación de una factura ya enviada.
-
-### Petición 
-------------
-
-parámetro|descripción| 
----------|-----------|
-numeroRegistro  |Código de identificación único de entrada, identificador único de la factura dentro de la plataforma eFACT.
-motivo          |Descripción del motivo por el que se hace la anulación de la factura
-
-#### RPC-Literal
-```xml
-<soapenv:Body>
-    <web:anularFactura>
-        <numeroRegistro>NUMERO_REGISTRO</numeroRegistro>
-        <motivo>DESCRIPCION DEL MOTIVO DE LA SOLICITUD DE ANULACION</motivo>
-    </web:anularFactura>
-</soapenv:Body>
-```
-
-### Respuesta  
--------------
-
-parámetro|descripción| 
----------|-----------|
-numeroRegistro | Código de identificación único de entrada, identificador único de la factura dentro de la plataforma eFACT. 
-mensaje        | "Anulación solicitada correctamente". En caso de error o cambio de estado no válido, se devolverá la excepción correspondiente.
-
-#### RPC-Literal 
-```xml     
-<soapenv:Body>
-    <ns1:anularFacturaResponse>
-        <return>
-            <resultado>
-                <codigo>0</codigo>
-                <descripcion>Correcto</descripcion>
-                <codigoSeguimiento/>
-            </resultado>
-            <factura>
-                <numeroRegistro>NUMERO_REGISTRO</numeroRegistro>
-                <mensaje>Anulación solicitada correctamente</mensaje>
-            </factura>
-        </return>
-    </ns1:anularFacturaResponse>
-</soapenv:Body>
-```
-
-### Ejemplo peticion/respuesta:
--------------------------------
-
-[anularFactura.zip](https://github.com/ConsorciAOC/eFact/files/7639560/anularFactura.zip)
-
-# 4. Operación Consultar Estados [consultarEstados]
+# 3. Operación Consultar Estados [consultarEstados]
  
 Este método permite obtener el listado de estados asignados a cambios en la factura. 
 
@@ -358,7 +324,7 @@ descripcion|Descripción del estado
 </soapenv:Body>
 ```
 
-# 5. Operación Consultar Listado Facturas [consultarListadoFacturas]
+# 4. Operación Consultar Listado Facturas [consultarListadoFacturas]
  
 Este servicio permite consultar el estado de varias facturas. Este método permite buscar las facturas con el código de registro indicado. 
 Se puede solicitar un máximo de 500 facturas por petición.
@@ -440,7 +406,7 @@ registroAdministrativo |Numero de Registro Administrativo en eFACT
 </soapenv:Body>
 ```
 
-# 6. Flujo completo para solicitud descargas de estados pendientes para un emisor
+# 5. Flujo completo para solicitud descargas de estados pendientes para un emisor
 
 A través de los siguientes métodos es posible obtener el listado completo de los estados que estan pendientes de descargar para un emisor de facturas
 
