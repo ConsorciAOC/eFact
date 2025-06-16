@@ -4,7 +4,7 @@
 2. [Método de autenticación](#método-de-autenticación)
 3. [Operaciones](#operaciones)
    1. [Enviar Factura](#1-enviar-factura--enviarfactura)
-   2. [Operación Consultar Factura](#2operación-consultar-factura-consultarfactura)
+   2. [Operación Consultar Factura](#2-operación-consultar-factura-consultarfactura)
    3. [Operación Consultar Estados](#3-operación-consultar-estados-consultarestados)
    4. [Operación Consultar Listado Facturas](#4-operación-consultar-listado-facturas-consultarlistadofacturas)
    5. [Flujo completo para solicitud descargas de estados pendientes para un emisor](#5-flujo-completo-para-solicitud-descargas-de-estados-pendientes-para-un-emisor)
