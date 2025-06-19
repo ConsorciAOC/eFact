@@ -445,7 +445,7 @@ Exemple de fitxer JSON per actualitzar una factura a registrada a RCF(ANNOTATED)
 
 ```json
 {
-	"estat": "ANNOTATED ",
+	"estat": "ANNOTATED",
 	"numeroRegistreRCF": "RCF-2023-89584"
 }
 ```
@@ -454,7 +454,7 @@ Exemple de fitxer JSON per actualitzar una factura a reconeguda l'obligació del
 
 ```json
 {
-	"estat": "RECOGNISED "
+	"estat": "RECOGNISED"
 }
 ```
 
