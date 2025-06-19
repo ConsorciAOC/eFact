@@ -20,6 +20,8 @@
 4. [Estats de factura](#estats-de-factura)
 5. [Com donar-se d'alta al servei](#com-donar-se-dalta-al-servei)
 6. [Entorns](#entorns)
+7. [Preguntes freqüents](#preguntes-freqüents)
+
 
 # Introducció
 Aquest document pretén descriure l'API REST per a la integració de les plataformes receptores amb el hub d'eFACT, amb l'objectiu de substituir la integració actual per FTP.
@@ -673,3 +675,16 @@ Els estats PAID i REJECTED són estats finals i, un cop actualitzada a un d'aque
 A continuació, s'indica l'URL base del servei segons l'entorn:
 -	**TEST**: https://efact-pre.aoc.cat/rcf 
 -	**PRO**:  https://efact.aoc.cat/rcf
+
+
+# Preguntes freqüents
+
+- **Un cop realitzada la migració al API REST, es continuarà tenint accés a la bústia FTP?**
+No, una vegada realitza la migració, es deshabilitarà immediatament l'accés a la bústia FTP i la platafroma corresponent només podrà integrar amb el hub a través d'aquest API REST. Les factures que haguessin quedat sense descarregar a la bústia FTP, es traspassaran de forma automàtica a la interfície API REST perquè la platafroma corresponent se les pugui descarregar. Si aquestes factures tinguessin documents adjunts associats, la plataforma receptora podrà obtenir els identificadors dels documents adjunts executant l'operació _[Consulta de dades d'una factura](#consulta-de-dades-duna-factura)_, i podrà descarregar-los executant l'operació _[Obtenció del fitxer d'un document adjunt](#obtenció-del-fitxer-dun-document-adjunt)_, especificant l'identificador de document adjunt corresponent.
+
+
+- **Com es podrà continuar la gestió del cicle de vida de les factures descarregades per FTP?**
+Es continuarà podent consultar les dades de qualsevol factura passada i continuar amb la gestió del cicle de vida de les factures "pendents de finalitzar" a través de les operacions corresponents d'aquest API REST. Per a això, només cal saber l'identificador de la factura al hub. Actualment, en la integració per FTP, aquesta dada es proporciona el hub a la plataforma receptora de dues formes:
+   - A la pròpia nomenclatura del fitxer de factura que es diposita a la carpeta out de la bústia FTP. Aquesta dada va informada a la quarta posició: _[id_emissor]@[id_receptor]@[referència_emissor]@**[hubid]**_
+     
+   - Al node _DeliveryFeedback/StatusFeedback/HubFeedback/HubId_ del fitxer XML d'estat que es lliura a la plataforma receptora al costat de la factura a la carpeta _statout_.
