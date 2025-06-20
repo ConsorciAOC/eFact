@@ -684,7 +684,7 @@ No, una vegada realitza la migració, es deshabilitarà immediatament l'accés a
 
 
 - **Com es podrà continuar la gestió del cicle de vida de les factures descarregades per FTP?**
-Es continuarà podent consultar les dades de qualsevol factura passada i continuar amb la gestió del cicle de vida de les factures "pendents de finalitzar" a través de les operacions corresponents d'aquest API REST. Per a això, només cal saber l'identificador de la factura al hub. Actualment, en la integració per FTP, aquesta dada es proporciona el hub a la plataforma receptora de dues formes:
-   - A la pròpia nomenclatura del fitxer de factura que es diposita a la carpeta out de la bústia FTP. Aquesta dada va informada a la quarta posició: _[id_emissor]@[id_receptor]@[referència_emissor]@**[hubid]**_
-     
+Es continuarà podent consultar les dades de qualsevol factura passada i continuar amb la gestió del cicle de vida de les factures "pendents de finalitzar" a través de les operacions corresponents d'aquest API REST. Per a això, només cal saber l'identificador de la factura al hub. Actualment, a la integració per FTP, aquesta dada la proporciona el hub a la plataforma receptora de dues formes:
+   - A la pròpia nomenclatura del fitxer de factura que es diposita a la carpeta _out_ de la bústia FTP. Aquesta dada va informada a la quarta posició: _[id_emissor]@[id_receptor]@[referència_emissor]@**[hubid]**_
+
    - Al node _DeliveryFeedback/StatusFeedback/HubFeedback/HubId_ del fitxer XML d'estat que es lliura a la plataforma receptora al costat de la factura a la carpeta _statout_.
