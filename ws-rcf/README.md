@@ -214,7 +214,6 @@ Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un missa
 - **codiMotiuRebuig:** Codi del motiu de rebuig de la factura. Només en cas que es tracti d'una factura rebutjada (REJECTED).
 - **descripcioMotiuRebuig:** Descripció del motiu de rebuig de la factura. Només en cas que es tracti d'una factura rebutjada (REJECTED).
 - **dataPagament:** Data en què s'ha pagat la factura. Format: YYYY-MM-DD. Només si es tracta d'una factura "pagada" (PAID).
-- **numeroRegistreFace:** Número de registre de la factura a FACE. Només si es tracta d'una factura descarregada de FACE.
 - **adjunts:** Col·lecció amb les dades dels documents adjunts, associats a la factura, pendents de descàrrega. Per cada document adjunt s'especificaran les dades següents:
   - **idAdjunt:** Identificador del document adjunt.
   - **nom:** Nom informat per l'emissor per al document adjunt.
