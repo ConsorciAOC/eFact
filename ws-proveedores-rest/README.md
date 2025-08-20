@@ -4,7 +4,9 @@
 2. [Mètode d'autenticació](#mètode-dautenticació)
 	1. [Connectivitat](#connectivitat)
 	2. [Autenticació i autorització](#autenticació-i-autorització)
-3. [Operacions](#operacions)
+3. [Entorns](#entorns)
+4. [Operacions](#operacions)
+	1. [Enviament d'una factura](#enviament-duna-factura)
 
 
 # Introducció
@@ -18,7 +20,7 @@ S'establirà un sistema de filtres d'IPs per origen geogràfic, de manera que no
 
 L'autenticació es farà mitjançant l'ús de tokens JWT. Aquests tokens contenen tota la informació necessària per fer les tasques d'autenticació i autorització del peticionari. Els camps necessaris als tokens JWT seran els següents:
 
-**•	iss:** aquest camp (Issuer) estableix l'emissor del token i cal informar-hi el codi o nom d'usuari que identifica l'integrador. Aquesta dada serà assignada pel servei de suport al procés d'alta o migració de la plataforma receptora.
+**•	iss:** aquest camp (Issuer) estableix l'emissor del token i cal informar-hi el codi o nom d'usuari que identifica l'integrador. Aquesta dada serà assignada pel servei de suport al procés d'alta o migració de la plataforma emissora.
 
 **•	aud:** aquest camp (Audience) estableix el servei al qual va dirigit el token. D'aquesta manera s'evita l'ús indegut de tokens generats per a altres serveis. Aquest camp haurà de contenir el literal "efact".
 
@@ -28,7 +30,7 @@ L'autenticació es farà mitjançant l'ús de tokens JWT. Aquests tokens contene
 
 **•	exp:** Aquest camp (Expires At) conté la data d'expiració, en format *epoch* amb precisió de segons, del token. És recomanable emetre els tokens amb una vigència d'uns pocs segons per evitar-ne un ús indegut en cas de robatori. El temps màxim d'expiració permès és de 300 segons (5 minuts).
 
-Un cop emplenat el token, aquest s'haurà de signar amb l'algorisme HMAC-SHA256, utilitzant una clau secreta que serà assignada pel servei de suport en el procés d'alta o migració de la plataforma receptora. Aquesta clau haurà de ser custodiada de manera segura per part de l'integrador i no haurà de viatjar mai dins d'una petició o capçalera HTTP.
+Un cop emplenat el token, aquest s'haurà de signar amb l'algorisme HMAC-SHA256, utilitzant una clau secreta que serà assignada pel servei de suport en el procés d'alta o migració de la plataforma emissora. Aquesta clau haurà de ser custodiada de manera segura per part de l'integrador i no haurà de viatjar mai dins d'una petició o capçalera HTTP.
 
 A continuació, es mostra un exemple de token JWT en clar, abans de codificar a Base64:
 
@@ -92,6 +94,14 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUFawMDAxIiwic3ViIjoiOTgyMTkyMDA
 A l'exemple de capçalera HTTP amb el token JWT es mostren els diferents segments del token pintats de diferent color. Com es pot observar, els segments estan separats per un punt.
 
 
+# Entorns
+
+A continuació, s'indica l'URL base del servei segons l'entorn:
+-	**TEST**: https://efact-pre.aoc.cat/proveidors
+-	**PRO**:  https://efact.aoc.cat/proveidors
+
+
+
 # Operacions
 
-## Consulta de factures pendents
+## Enviament d'una factura
