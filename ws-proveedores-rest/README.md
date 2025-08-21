@@ -15,17 +15,33 @@
    	7. [Consulta de les entitats adherides a eFACT](#consulta-de-les-entitats-adherides-a-efact)
    	8. [Consulta del detall d'una entitat eFACT](#consulta-del-detall-duna-entitat-efact)
 5. [Definició dels objectes de resposta](#definició-dels-objectes-de-resposta)
+	1. [Factura](#factura)
+ 	2. [HistoricEstatsFactura](#historicestatsfactura)
+  	3. [EstatsPendents](#estatspendents)
+	4. [ReceptorsEfact](#receptorsefact)
+	5. [ReceptorEfact](#receptorefact)
+	6. [EstatPendent](#estatpendent)
+	7. [Estat](#estat)
+	8. [EstatDetallat](#estatdetallat)
+	9. [RelacioDir3](#relaciodir3)
+	10. [CentreAdministratiu](#centreadministratiu)
+	11. [DadesRegistre](#dadesregistre)
+	12. [DadesMotiuRebuig](#dadesmotiurebuig)
+6. [Annexos](#annexos)
+	1. [Codis de resposta del servei](#codis-de-resposta-del-servei)
+	2. [Possibles estats d'una factura](#possibles-estats-duna-factura)
+	3. [Tipus mime admesos](#tipus-mime-admesos)
 
 
 # Introducció
 Aquest document pretén descriure l'API REST per a la integració de les plataformes emissores amb el hub d'eFACT, amb l'objectiu de substituir la integració actual per FTP i al web service SOAP de proveïdors.
 
 # Mètode d'autenticació
+
 ## Connectivitat
 S'establirà un sistema de filtres d'IPs per origen geogràfic, de manera que només es permeti l'accés al servei des d'IPs l'origen geogràfic de les quals estigui dins dels admesos. Per exemple, Rússia, Iran o Xina serien orígens geogràfics no permesos.
 
 ## Autenticació i autorització
-
 L'autenticació es farà mitjançant l'ús de tokens JWT. Aquests tokens contenen tota la informació necessària per fer les tasques d'autenticació i autorització del peticionari. Els camps necessaris als tokens JWT seran els següents:
 
 - **iss:** aquest camp (Issuer) estableix l'emissor del token i cal informar-hi el codi o nom d'usuari que identifica l'integrador. Aquesta dada serà assignada pel servei de suport al procés d'alta o migració de la plataforma emissora.
@@ -78,7 +94,6 @@ Signatura del token, necessària per verificar que no ha estat alterat, així co
 ```
 
 ### Notes
-
 Els segments van delimitats per punts, de manera que trobem el primer segment, un punt, el segon segment, un punt i el tercer segment.
 
 </details>
@@ -103,7 +118,6 @@ A l'exemple de capçalera HTTP amb el token JWT es mostren els diferents segment
 
 
 # Entorns
-
 A continuació, s'indica l'URL base del servei segons l'entorn:
 - **TEST**: https://efact-pre.aoc.cat/proveidors
 - **PRO**:  https://efact.aoc.cat/proveidors
@@ -119,7 +133,6 @@ Esta operación permite el envío de una factura y, opcionalmente, de sus docume
 **Path relatiu de l'operació:** /factura
 
 ### **Petició**
-
 *POST [urlServicio]/factura*
 
 A continuación, se indican todos los posibles datos susceptibles de ser informados en el JSON de petición de envío de una factura:
@@ -154,7 +167,6 @@ Ejemplo de petición de envío de factura:
 ```
 
 ### **Resposta**
-
 Si la petición se ha llevado a cabo con éxito (código HTTP "200") se devolverá un objeto Factura (fichero de tipo `application/json`), cuyo contenido se detalla en el apartado 4.1 de este documento. A continuación, se muestra un ejemplo de respuesta:
 
 ```json
@@ -205,7 +217,6 @@ Si la petición se ha llevado a cabo con éxito (código HTTP "200") se devolver
 
 
 ## Consulta de les dades d'una factura
-
 Esta operación permite obtener los datos de la factura correspondiente al identificador de factura especificado como parámetro. Si la factura tiene documentos adjuntos asociados, también se devuelven sus datos.
 
 **Path relatiu de l'operació:** /factura/:id
@@ -276,7 +287,6 @@ paràmetre|descripció|
 
 
 ## Consulta de l'històric d'estats d'una factura
-
 Esta operación permite obtener todos los estados por lo que ha pasado la factura correspondiente al identificador de factura especificado como parámetro.
 
 **Path relatiu de l'operació:** /historicEstatsFactura/:id
@@ -289,6 +299,7 @@ paràmetre|descripció|
 
 *GET [urlServicio]/historicEstatsFactura/159732145*
 
+### **Resposta**
 Si la petición se ha llevado a cabo con éxito (código HTTP "200") se devolverá un objeto *HistoricEstatsFactura* (fichero de tipo `application/json`), cuyo contenido se detalla en el apartado 4.2 de este documento. A continuación, se muestra un ejemplo de respuesta:
 
 ```json
@@ -315,7 +326,6 @@ Si la petición se ha llevado a cabo con éxito (código HTTP "200") se devolver
 
 
 ## Obtenció del rebut electrònic de factura
-
 Aquesta operació permet obtenir el rebut electrònic corresponent a l'identificador de factura especificat com a paràmetre.
 
 **Path relatiu de l'operació:** /factura/:id/rebut
@@ -329,12 +339,10 @@ paràmetre|descripció|
 *GET [urlServei]/factura/12345/rebut*
    
 ### **Resposta**
-
 Si la petició s'ha dut a terme amb èxit (codi HTTP "200"), es retornarà un fitxer de tipus `application/pdf` corresponent al rebut electrònic de la factura especificada com a paràmetre.
 
 
 ## Consulta d'estats pendents de descàrrega
-
 Esta operación permite obtener los cambios estado pendientes de descarga para la plataforma asociada al usuario que realiza la petición. Devuelve un máximo de 500 estados. Si hubiese más estados a devolver del máximo estipulado, se informará en el atributo de tipo booleano mesEstats de la respuesta. De forma opcional se permitirá filtrar por el NIF de la entidad emisora.
 
 **Path relatiu de l'operació:** /estats-pendents
@@ -349,8 +357,7 @@ paràmetre|descripció|
 
 *GET [urlServicio]/estats-pendents?nifProveidor=XXXXXXXX*
 
-### **Resposta**
-
+### **Resposta*
 Si la petición se ha llevado a cabo con éxito (código HTTP "200") se devolverá un objeto *EstatsPendents* (fichero de tipo `application/json`), cuyo contenido se detalla en el apartado 4.3 de este documento. A continuación, se muestra un ejemplo de respuesta:
 
 ```json
@@ -378,7 +385,6 @@ En cuanto a la fecha de pago de una factura (dataPagament), para los casos en lo
 
 
 ## Eliminació d'estats pendents de descàrrega
-
 Esta operación permite actualizar como descargado el estado especificado, de forma que ya no sea tenido en cuenta por la operación de consulta de estados pendientes de descarga (*GET [urlServicio]/estats-pendents*).
 
 **Path relatiu de l'operació:** /estats-pendents/:id
@@ -392,12 +398,10 @@ paràmetre|descripció|
 *DELETE [urlServicio]/estats-pendents/1602*
    
 ### **Resposta**
-
 Si la petición se ha llevado a cabo con éxito, simplemente se devuelve el código HTTP "200".
 
 
 ## Consulta de les entitats adherides a eFACT
-
 Esta operación permite obtener los datos principales de las entidades adheridas al servicio eFACT.
 
 **Path relatiu de l'operació:** /receptors
@@ -406,8 +410,7 @@ Esta operación permite obtener los datos principales de las entidades adheridas
 
 *GET [urlServicio]/receptors*
    
-### **Resposta**
-
+### **Resposta*
 Si la petición se ha llevado a cabo con éxito (código HTTP "200") se devolverá un objeto *ReceptorsEfact* (fichero de tipo `application/json`), cuyo contenido se detalla en el apartado 4.4 de este documento. A continuación, se muestra un ejemplo de respuesta:
 
 ```json
@@ -428,7 +431,6 @@ Si la petición se ha llevado a cabo con éxito (código HTTP "200") se devolver
 
 
 ## Consulta del detall d'una entitat eFACT
-
 Esta operación permite obtener la información detallada (dirección, dir3, etc.) para la entidad del servicio eFACT especificada.
 
 **Path relatiu de l'operació:** /receptors
@@ -442,7 +444,6 @@ paràmetre|descripció|
 *GET [urlServicio]/receptors/:nif*
    
 ### **Resposta**
-
 Si la petición se ha llevado a cabo con éxito (código HTTP "200") se devolverá un objeto *ReceptorEfact* (fichero de tipo `application/json`), cuyo contenido se detalla en el apartado 4.5 de este documento. A continuación, se muestra un ejemplo de respuesta:
 
 ```json
@@ -476,3 +477,135 @@ Si la petición se ha llevado a cabo con éxito (código HTTP "200") se devolver
 
 
 # Definició dels objectes de resposta
+
+## Factura
+A continuació, es descriuen tots els possibles atributs d'un objecte *Factura*:
+- **correuElectronic:** adreça de correu electrònic informada per l'emissor a l'operació d'enviament de la factura, en la qual es rebran les notificacions amb els canvis d'estat de la factura.
+- **face:** atribut de tipus booleà, informat per l'emissor a l'operació d'enviament de la factura, en el qual s'indica si la factura s'ha lliurat la factura a FACe.
+- **id:** identificador assignat a la factura al servei eFACT.
+- **dataRecepcio:** data de recepció de la factura al servei eFACT. Format: *YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM*.
+- **numero:** número de la factura.
+- **serie:** número de sèrie de la factura.
+- **dataExpedicio:** data d'expedició de la factura. Format: *YYYY-MM-DD*.
+- **import:** import total de la factura.
+- **proveidor:** dades del proveïdor de la factura. Aquest bloc conté les dades següents:
+	- **nif:** NIF del proveïdor de la factura.
+	- **nom:** nom del proveïdor de la factura.
+- **receptor:** dades de l'entitat receptora de la factura. Aquest bloc conté les dades següents:
+	- **nif:** NIF de l'entitat receptora de la factura.
+	- **nom:** nom de l'entitat receptora de la factura.
+	- **dir3:** objecte *RelacioDir3* amb les dades de l'oficina comptable, l'òrgan gestor i la unitat tramitadora als quals va dirigida la factura.
+- **registre:** objecte *DadesRegistre* amb les dades de registre de la factura. Aquest bloc només es retornarà en el cas que es tracti d'una factura ja registrada al sistema, és a dir, si està o ha passat per l'estat REGISTERED.
+- **numeroRegistreRCF:** número de registre comptable de la factura (RCF). Aquesta dada només es retornarà quan es tracti d'una factura ja "registrada al RCF", és a dir, si està o ha passat per l'estat ANNOTATED, i el receptor ha informat correctament aquesta dada.
+- **motiuRebuig:** objecte *DadesMotiuRebuig* amb les dades de rebuig de la factura. Aquest bloc només es retornarà quan es tracti d'una factura "rebutjada" (REJECTED).
+- **dataPagament:** data en què s'ha pagat la factura. Format: *YYYY-MM-DD*. Aquesta dada només es retornarà quan es tracti d'una factura "pagada" (PAID).
+- **estat:** objecte *Estat* amb les dades principals de l'estat actual de la factura.
+- **adjunts:** col·lecció amb les dades dels documents adjunts enviats juntament amb la factura. Per cada document adjunt s'informen les dades següents:
+	- **nom:** nom informat per l'emissor per al document adjunt.
+	- **mime:** tipus mime informat per l'emissor per al document adjunt.
+
+## HistoricEstatsFactura
+A continuació, es descriuen tots els possibles atributs d'un objecte *HitoricEstatsFactura*:
+
+- **id:** identificador de la factura al servei eFACT.
+- **estats:** col·lecció d'objectes *EstatDetallat*, un per cada estat de la factura.
+
+## EstatsPendents
+A continuació, es descriuen tots els possibles atributs d'un objecte *EstatsPendents*:
+- **mesEstats:** atribut booleà que indica si hi ha més estats pendents de descàrrega, a part dels retornats a l'operació actual.
+- **estats:** col·lecció d'objectes *EstatPendent*, un per cada estat pendent de descàrrega.
+
+## ReceptorsEfact
+A continuació, es descriuen tots els possibles atributs d'un objecte *ReceptorsEfact*:
+- **receptors:** col·lecció d'objectes amb les dades principals de les entitats receptores del servei eFACT. A cada objecte de la col·lecció s'informen les dades següents:
+	- **nif:** NIF de l'entitat receptora.
+	- **nom:** nom de l'entitat receptora.
+
+## ReceptorEfact
+A continuació, es descriuen tots els possibles atributs d'un objecte *ReceptorEfact*:
+- **nif:** NIF de l'entitat receptora.
+- **nom:** nom de l'entitat receptora.
+- **direccio:** adreça fiscal de l'entitat receptora. Aquest bloc conté les dades següents:
+	- **carrer:** carrer de l'entitat receptora.
+	- **localitat:** localitat de l'entitat receptora.
+	- **provincia:** província de l'entitat receptora.
+	- **codiPostal:** codi postal de l'entitat receptora.
+- **dir3:** col·lecció d'objectes *RelacioDir3*, un per cada terna DIR3 associada a l'entitat receptora al directori comú de FACe.
+
+## EstatPendent
+A continuació, es descriuen tots els possibles atributs d'un objecte *EstatPendent*:
+- **id:** identificador de l'estat.
+- **idFactura:** identificador de la factura a la qual està associada l'estat.
+- **estat:** objecte *EstatDetallat* amb les dades de l'estat.
+
+## Estat
+A continuació, es descriuen tots els possibles atributs d'un objecte *Estat*:
+- **codi:** codi de l'estat (codi tradicional hub).
+- **codiNumeric:** codi numèric FACe corresponent a l'estat (BOE A-2014-10660).
+- **data:** data de l'estat. Format: *YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM*.
+
+## EstatDetallat
+A continuació, es descriuen tots els possibles atributs d'un objecte *EstatDetallat*:
+- **codi:** codi de l'estat (codi tradicional hub).
+- **codiNumeric:** codi numèric FACe corresponent a l'estat (BOE A-2014-10660).
+- **data:** data de l'estat. Format: *YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM*.
+- **registre:** objecte *DadesRegistre* amb les dades de registre de la factura a la qual està associada aquest estat. Aquest bloc només es retornarà quan es tracti d'un estat de factura "registrada" (REGISTERED).
+- **numeroRegistreRCF:** número de registre comptable de la factura (RCF). Aquesta dada només es mostrarà quan es tracti d'un estat de factura "registrada a RCF" (ANNOTATED) i el receptor l'hagi informat correctament.
+- **motiuRebuig:** objecte *DadesMotiuRebuig* amb les dades de rebuig de la factura. Aquest bloc només es retornarà quan es tracti d'un estat de factura "rebutjada" (REJECTED).
+- **dataPagament:** data en la qual s'ha pagat la factura. Format: *YYYY-MM-DD*. Aquesta dada només es mostrarà quan es tracti d'un estat de factura "pagada" (PAID). Per als casos en els quals no es disposi d'una data de pagament concreta informada pel receptor, es considerarà com a data de pagament la mateixa data de l'estat (atribut data).
+
+## RelacioDir3
+A continuació, es descriuen tots els possibles atributs d'un objecte *RelacioDir3*:
+- **oficinaComptable:** objecte *CentreAdministratiu* amb les dades de l'oficina comptable..
+- **organGestor:** objecte *CentreAdministratiu* amb les dades de l'òrgan gestor.
+- **unitatTramitadora:** objecte *CentreAdministratiu* amb les dades de la unitat tramitadora.
+
+## CentreAdministratiu
+A continuació, es descriuen tots els possibles atributs d'un objecte *CentreAdministratiu*:
+- **codi:** codi del centre administratiu.
+- **nom:** nom o descripció del centre administratiu.
+
+## DadesRegistre
+A continuació, es descriuen tots els possibles atributs d'un objecte *DadesRegistre*:
+- **numero:** número de registre.
+- **data:** data de registre. Format: *YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM*.
+
+## DadesMotiuRebuig
+A continuació, es descriuen tots els possibles atributs d'un objecte *DadesMotiuRebuig*:
+- **codi:** codi del motiu de rebuig.
+- **descripcio:** descripció del motiu de rebuig.
+
+
+# Annexos
+
+## Codis de resposta del servei
+
+
+## Possibles estats d'una factura
+A continuació, es detallen els estats pels quals pot passar una factura al servei, en l'ordre coherent d'ocurrència:
+
+|Codi d'estat eFACT|Codi d'estat númeric<br>(BOE A-2014-10660)|Descripció|
+|------------------|------------------------------------------|----------|
+|SENT|1000|Factura lliurada al servei eFACT.<br>Aquest estat el genera el servei eFACT de manera automàtica.|
+|REGISTERED|1200|La factura ha estat registrada administrativament, proporcionant un número i data de registre, tant al proveïdor com a l'entitat.<br>Aquest estat el genera el servei eFACT de manera automàtica.|
+|DELIVERED|1200|La factura ha estat lliurada a l'entitat destinatària.<br>Aquest estat és opcional i el genera l'entitat receptora de la factura.|
+|ANNOTATED|1300|La factura ha estat verificada i registrada al registre comptable de factures (RCF), generant un número de registre comptable que cal proporcionar al proveïdor.<br>Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
+|RECEIVED|1300|La factura ha estat rebuda a la unitat de destinació.<br>Aquest estat és opcional i el genera l'entitat receptora de la factura.|
+|ACCEPTED|1300|La factura ha estat conformada.<br>Aquest estat és opcional i el genera l'entitat receptora de la factura.|
+|RECOGNISED|2400|L'obligació de pagament derivada de la factura ha estat reconeguda i comptabilitzada.<br>Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
+|PAID|2500|La factura ha estat pagada.<br>Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
+|REJECTED|2600|La factura ha estat rebutjada. S'ha d'indicar al proveïdor el motiu del rebuig.<br>En cas que calgui rebutjar una factura, aquest estat és obligatori i l'ha de generar:<br>- L'entitat receptora de la factura, sempre que la factura li hagi estat lliurada pel servei eFACT.<br>- El servei eFACT, en qualsevol altre cas (error de validació de signatura/certificat, error de registre, etc.).|
+
+Una factura es pot rebutjar (estat REJECTED) en qualsevol moment, excepte si està en estat PAID.
+
+Els estats PAID i REJECTED són estats finals i, un cop actualitzada a un d'aquests estats, s'entén que la gestió de la factura ja ha finalitzat.
+
+
+## Tipus mime admesos
+A continuació, s'indiquen els tipus mime admesos per a documents adjunts:
+- **application/pdf** (pdf)
+- **application/msword** (doc o docx)
+- **application/vnd.ms-excel** (xls o xlsx)
+- **application/vnd.oasis.opendocument.text** (odt)
+- **application/vnd.oasis.opendocument.spreadsheet** (ods)
+- **text/plain** (txt)
