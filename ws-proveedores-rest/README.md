@@ -494,12 +494,12 @@ A continuació, es descriuen tots els possibles atributs d'un objecte *Factura*:
 - **receptor:** dades de l'entitat receptora de la factura. Aquest bloc conté les dades següents:
 	- **nif:** NIF de l'entitat receptora de la factura.
 	- **nom:** nom de l'entitat receptora de la factura.
-	- **dir3:** objecte *RelacioDir3* amb les dades de l'oficina comptable, l'òrgan gestor i la unitat tramitadora als quals va dirigida la factura.
-- **registre:** objecte *DadesRegistre* amb les dades de registre de la factura. Aquest bloc només es retornarà en el cas que es tracti d'una factura ja registrada al sistema, és a dir, si està o ha passat per l'estat REGISTERED.
+	- **dir3:** objecte *[RelacioDir3](#relaciodir3)* amb les dades de l'oficina comptable, l'òrgan gestor i la unitat tramitadora als quals va dirigida la factura.
+- **registre:** objecte *[DadesRegistre](#dadesregistre)* amb les dades de registre de la factura. Aquest bloc només es retornarà en el cas que es tracti d'una factura ja registrada al sistema, és a dir, si està o ha passat per l'estat REGISTERED.
 - **numeroRegistreRCF:** número de registre comptable de la factura (RCF). Aquesta dada només es retornarà quan es tracti d'una factura ja "registrada al RCF", és a dir, si està o ha passat per l'estat ANNOTATED, i el receptor ha informat correctament aquesta dada.
-- **motiuRebuig:** objecte *DadesMotiuRebuig* amb les dades de rebuig de la factura. Aquest bloc només es retornarà quan es tracti d'una factura "rebutjada" (REJECTED).
+- **motiuRebuig:** objecte *[DadesMotiuRebuig](#dadesmotiurebuig)* amb les dades de rebuig de la factura. Aquest bloc només es retornarà quan es tracti d'una factura "rebutjada" (REJECTED).
 - **dataPagament:** data en què s'ha pagat la factura. Format: *YYYY-MM-DD*. Aquesta dada només es retornarà quan es tracti d'una factura "pagada" (PAID).
-- **estat:** objecte *Estat* amb les dades principals de l'estat actual de la factura.
+- **estat:** objecte *[Estat](#estat)* amb les dades principals de l'estat actual de la factura.
 - **adjunts:** col·lecció amb les dades dels documents adjunts enviats juntament amb la factura. Per cada document adjunt s'informen les dades següents:
 	- **nom:** nom informat per l'emissor per al document adjunt.
 	- **mime:** tipus mime informat per l'emissor per al document adjunt.
@@ -508,12 +508,12 @@ A continuació, es descriuen tots els possibles atributs d'un objecte *Factura*:
 A continuació, es descriuen tots els possibles atributs d'un objecte *HitoricEstatsFactura*:
 
 - **id:** identificador de la factura al servei eFACT.
-- **estats:** col·lecció d'objectes *EstatDetallat*, un per cada estat de la factura.
+- **estats:** col·lecció d'objectes *[EstatDetallat](#estatdetallat)*, un per cada estat de la factura.
 
 ## EstatsPendents
 A continuació, es descriuen tots els possibles atributs d'un objecte *EstatsPendents*:
 - **mesEstats:** atribut booleà que indica si hi ha més estats pendents de descàrrega, a part dels retornats a l'operació actual.
-- **estats:** col·lecció d'objectes *EstatPendent*, un per cada estat pendent de descàrrega.
+- **estats:** col·lecció d'objectes *[EstatPendent](#estatpendent)*, un per cada estat pendent de descàrrega.
 
 ## ReceptorsEfact
 A continuació, es descriuen tots els possibles atributs d'un objecte *ReceptorsEfact*:
@@ -530,13 +530,13 @@ A continuació, es descriuen tots els possibles atributs d'un objecte *ReceptorE
 	- **localitat:** localitat de l'entitat receptora.
 	- **provincia:** província de l'entitat receptora.
 	- **codiPostal:** codi postal de l'entitat receptora.
-- **dir3:** col·lecció d'objectes *RelacioDir3*, un per cada terna DIR3 associada a l'entitat receptora al directori comú de FACe.
+- **dir3:** col·lecció d'objectes *[RelacioDir3](#relaciodir3)*, un per cada terna DIR3 associada a l'entitat receptora al directori comú de FACe.
 
 ## EstatPendent
 A continuació, es descriuen tots els possibles atributs d'un objecte *EstatPendent*:
 - **id:** identificador de l'estat.
 - **idFactura:** identificador de la factura a la qual està associada l'estat.
-- **estat:** objecte *EstatDetallat* amb les dades de l'estat.
+- **estat:** objecte *[EstatDetallat](#estatdetallat)* amb les dades de l'estat.
 
 ## Estat
 A continuació, es descriuen tots els possibles atributs d'un objecte *Estat*:
@@ -549,16 +549,16 @@ A continuació, es descriuen tots els possibles atributs d'un objecte *EstatDeta
 - **codi:** codi de l'estat (codi tradicional hub).
 - **codiNumeric:** codi numèric FACe corresponent a l'estat (BOE A-2014-10660).
 - **data:** data de l'estat. Format: *YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM*.
-- **registre:** objecte *DadesRegistre* amb les dades de registre de la factura a la qual està associada aquest estat. Aquest bloc només es retornarà quan es tracti d'un estat de factura "registrada" (REGISTERED).
+- **registre:** objecte *[DadesRegistre](#dadesregistre)* amb les dades de registre de la factura a la qual està associada aquest estat. Aquest bloc només es retornarà quan es tracti d'un estat de factura "registrada" (REGISTERED).
 - **numeroRegistreRCF:** número de registre comptable de la factura (RCF). Aquesta dada només es mostrarà quan es tracti d'un estat de factura "registrada a RCF" (ANNOTATED) i el receptor l'hagi informat correctament.
-- **motiuRebuig:** objecte *DadesMotiuRebuig* amb les dades de rebuig de la factura. Aquest bloc només es retornarà quan es tracti d'un estat de factura "rebutjada" (REJECTED).
+- **motiuRebuig:** objecte *[DadesMotiuRebuig](#dadesmotiurebuig)* amb les dades de rebuig de la factura. Aquest bloc només es retornarà quan es tracti d'un estat de factura "rebutjada" (REJECTED).
 - **dataPagament:** data en la qual s'ha pagat la factura. Format: *YYYY-MM-DD*. Aquesta dada només es mostrarà quan es tracti d'un estat de factura "pagada" (PAID). Per als casos en els quals no es disposi d'una data de pagament concreta informada pel receptor, es considerarà com a data de pagament la mateixa data de l'estat (atribut data).
 
 ## RelacioDir3
 A continuació, es descriuen tots els possibles atributs d'un objecte *RelacioDir3*:
-- **oficinaComptable:** objecte *CentreAdministratiu* amb les dades de l'oficina comptable..
-- **organGestor:** objecte *CentreAdministratiu* amb les dades de l'òrgan gestor.
-- **unitatTramitadora:** objecte *CentreAdministratiu* amb les dades de la unitat tramitadora.
+- **oficinaComptable:** objecte *[CentreAdministratiu](#centreadministratiu)* amb les dades de l'oficina comptable.
+- **organGestor:** objecte *[CentreAdministratiu](#centreadministratiu)* amb les dades de l'òrgan gestor.
+- **unitatTramitadora:** objecte *[CentreAdministratiu](#centreadministratiu)* amb les dades de la unitat tramitadora.
 
 ## CentreAdministratiu
 A continuació, es descriuen tots els possibles atributs d'un objecte *CentreAdministratiu*:
