@@ -126,27 +126,27 @@ A continuació, s'indica l'URL base del servei segons l'entorn:
 # Operacions
 
 ## Enviament d'una factura
-Esta operación permite el envío de una factura y, opcionalmente, de sus documentos adjuntos al servicio e-FACT. En la propia petición se informarán tanto la factura como sus posibles documentos adjuntos, teniendo en cuenta las siguientes restricciones:
--	Sólo se puede informar un máximo 5 documentos adjuntos.
--	El tamaño de la petición no puede ser superior a 10 MB.
+Aquesta operació permet l'enviament d'una factura i, opcionalment, dels seus documents adjunts al servei eFACT. A la mateixa petició s'informaran tant la factura com els seus possibles documents adjunts, tenint en compte les restriccions següents:
+-	Només es pot informar un màxim de 5 documents adjunts.
+-	La mida de la petició no pot ser superior a 10 MB.
 
 **Path relatiu de l'operació:** /factura
 
 ### **Petició**
 *POST [urlServicio]/factura*
 
-A continuación, se indican todos los posibles datos susceptibles de ser informados en el JSON de petición de envío de una factura:
-- **correuElectronic:** dirección de correo electrónico en la que recibir las notificaciones con los cambios de estado de la factura. Este dato es opcional.
-- **face:** atributo de tipo booleano para indicar si hay que entregar la factura a FACe. Esta opción de envío sólo podrá ser utilizada por emisores que sea entidades públicas catalanas registradas como receptores en e-FACT. Este dato es opcional y, en caso de no informarse, tomará el valor false. 
-- **factura:** información de la factura a enviar.
-	- **nom:** nombre del fichero de factura.
-	- **contingut:** contenido del fichero de factura codificado en base64. El tipo mime de la factura debe ser application/xml.
-- **adjunts:** colección con los datos de los documentos adjuntos a enviar junto con la factura. Por cada documento adjunto se especificarán los siguientes datos:
-	- **nom:** nombre del fichero adjunto.
-	- **mime:** tipo mime del fichero adjunto. En el anexo 4.2 se indican los tipos mime admitidos.
- 	- **contingut:** contenido del fichero adjunto codificado en base64.
+A continuació, s'indiquen tots les possibles dades susceptibles de ser informats al JSON de petició d'enviament d'una factura:
+- **correuElectronic:** adreça de correu electrònic en la qual rebre les notificacions amb els canvis d'estat de la factura. Aquesta dada és opcional.
+- **face:** atribut de tipus booleà per a indicar si cal lliurar la factura a FACe. Aquesta opció d'enviament només podrà ser utilitzada per emissors que siguin entitats públiques catalanes registrades com a receptors a eFACT. Aquesta dada és opcional i, en cas de no venir informat, prendrà el valor false. 
+- **factura:** informació de la factura a enviar.
+	- **nom:** nom del fitxer de factura.
+	- **contingut:** contingut del fitxer de factura codificat en base64. El tipus mime de la factura ha de ser `application/xml`.
+- **adjunts:** col·lecció amb les dades dels documents adjunts a enviar juntament amb la factura. Per cada document adjunt s'especificaran les dades següents:
+	- **nom:** nom del fitxer adjunt.
+	- **mime:** tipus mime del fitxer adjunt. Veure l'annex [Tipus mime admesos](#tipus-mime-admesos).
+ 	- **contingut:** contingut del fitxer adjunt codificat en base64.
 
-Ejemplo de petición de envío de factura: 
+Exemple de petició d'enviament de factura:
 
 ```json
 {
@@ -167,7 +167,7 @@ Ejemplo de petición de envío de factura:
 ```
 
 ### **Resposta**
-Si la petición se ha llevado a cabo con éxito (código HTTP "200") se devolverá un objeto Factura (fichero de tipo `application/json`), cuyo contenido se detalla en el apartado 4.1 de este documento. A continuación, se muestra un ejemplo de respuesta:
+Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un objecte Factura (fitxer de tipus `application/json`), el contingut del qual es detalla en l'apartat [Factura](#factura). A continuació, es mostra un exemple de resposta:
 
 ```json
 {
@@ -339,7 +339,7 @@ paràmetre|descripció|
 *GET [urlServei]/factura/12345/rebut*
    
 ### **Resposta**
-Si la petició s'ha dut a terme amb èxit (codi HTTP "200"), es retornarà un fitxer de tipus `application/pdf` corresponent al rebut electrònic de la factura especificada com a paràmetre.
+Si la petició s'ha dut a terme amb èxit (codi HTTP "200"), es tornarà un fitxer de tipus `application/pdf` corresponent al rebut electrònic de la factura especificada com a paràmetre.
 
 
 ## Consulta d'estats pendents de descàrrega
@@ -495,10 +495,10 @@ A continuació, es descriuen tots els possibles atributs d'un objecte *Factura*:
 	- **nif:** NIF de l'entitat receptora de la factura.
 	- **nom:** nom de l'entitat receptora de la factura.
 	- **dir3:** objecte *[RelacioDir3](#relaciodir3)* amb les dades de l'oficina comptable, l'òrgan gestor i la unitat tramitadora als quals va dirigida la factura.
-- **registre:** objecte *[DadesRegistre](#dadesregistre)* amb les dades de registre de la factura. Aquest bloc només es retornarà en el cas que es tracti d'una factura ja registrada al sistema, és a dir, si està o ha passat per l'estat REGISTERED.
-- **numeroRegistreRCF:** número de registre comptable de la factura (RCF). Aquesta dada només es retornarà quan es tracti d'una factura ja "registrada al RCF", és a dir, si està o ha passat per l'estat ANNOTATED, i el receptor ha informat correctament aquesta dada.
-- **motiuRebuig:** objecte *[DadesMotiuRebuig](#dadesmotiurebuig)* amb les dades de rebuig de la factura. Aquest bloc només es retornarà quan es tracti d'una factura "rebutjada" (REJECTED).
-- **dataPagament:** data en què s'ha pagat la factura. Format: *YYYY-MM-DD*. Aquesta dada només es retornarà quan es tracti d'una factura "pagada" (PAID).
+- **registre:** objecte *[DadesRegistre](#dadesregistre)* amb les dades de registre de la factura. Aquest bloc només es tornarà en el cas que es tracti d'una factura ja registrada al sistema, és a dir, si està o ha passat per l'estat REGISTERED.
+- **numeroRegistreRCF:** número de registre comptable de la factura (RCF). Aquesta dada només es tornarà quan es tracti d'una factura ja "registrada al RCF", és a dir, si està o ha passat per l'estat ANNOTATED, i el receptor ha informat correctament aquesta dada.
+- **motiuRebuig:** objecte *[DadesMotiuRebuig](#dadesmotiurebuig)* amb les dades de rebuig de la factura. Aquest bloc només es tornarà quan es tracti d'una factura "rebutjada" (REJECTED).
+- **dataPagament:** data en què s'ha pagat la factura. Format: *YYYY-MM-DD*. Aquesta dada només es tornarà quan es tracti d'una factura "pagada" (PAID).
 - **estat:** objecte *[Estat](#estat)* amb les dades principals de l'estat actual de la factura.
 - **adjunts:** col·lecció amb les dades dels documents adjunts enviats juntament amb la factura. Per cada document adjunt s'informen les dades següents:
 	- **nom:** nom informat per l'emissor per al document adjunt.
@@ -549,9 +549,9 @@ A continuació, es descriuen tots els possibles atributs d'un objecte *EstatDeta
 - **codi:** codi de l'estat (codi tradicional hub).
 - **codiNumeric:** codi numèric FACe corresponent a l'estat (BOE A-2014-10660).
 - **data:** data de l'estat. Format: *YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM*.
-- **registre:** objecte *[DadesRegistre](#dadesregistre)* amb les dades de registre de la factura a la qual està associada aquest estat. Aquest bloc només es retornarà quan es tracti d'un estat de factura "registrada" (REGISTERED).
+- **registre:** objecte *[DadesRegistre](#dadesregistre)* amb les dades de registre de la factura a la qual està associada aquest estat. Aquest bloc només es tornarà quan es tracti d'un estat de factura "registrada" (REGISTERED).
 - **numeroRegistreRCF:** número de registre comptable de la factura (RCF). Aquesta dada només es mostrarà quan es tracti d'un estat de factura "registrada a RCF" (ANNOTATED) i el receptor l'hagi informat correctament.
-- **motiuRebuig:** objecte *[DadesMotiuRebuig](#dadesmotiurebuig)* amb les dades de rebuig de la factura. Aquest bloc només es retornarà quan es tracti d'un estat de factura "rebutjada" (REJECTED).
+- **motiuRebuig:** objecte *[DadesMotiuRebuig](#dadesmotiurebuig)* amb les dades de rebuig de la factura. Aquest bloc només es tornarà quan es tracti d'un estat de factura "rebutjada" (REJECTED).
 - **dataPagament:** data en la qual s'ha pagat la factura. Format: *YYYY-MM-DD*. Aquesta dada només es mostrarà quan es tracti d'un estat de factura "pagada" (PAID). Per als casos en els quals no es disposi d'una data de pagament concreta informada pel receptor, es considerarà com a data de pagament la mateixa data de l'estat (atribut data).
 
 ## RelacioDir3
@@ -579,6 +579,53 @@ A continuació, es descriuen tots els possibles atributs d'un objecte *DadesMoti
 # Annexos
 
 ## Codis de resposta del servei
+El servei tornarà algun dels codis d'estat de resposta HTTP següents:
+- **200:** petició realitzada satisfactòriament.
+- **400:** petició incorrecta (per exemple, error als paràmetres d'entrada).
+- **401:** petició no autoritzada.
+- **404:** recurs no trobat.
+- **500:** altres errors
+
+En cas d'error, el servei tornarà un fitxer de tipus `application/json`, amb el contingut següent:
+
+```json
+{
+	"codiError": 9999,
+	"descripcioError": "descripció error" 
+}
+```
+
+A continuació, es detallen els possibles errors que pot tornar el servei:
+
+### Errors d'autenticació (HttpStatus 401):
+- **1001:** No s'ha especificat un token d’autenticació
+- **1002:** No s'ha especificat un usuari
+- **1003:** Usuari no vàlid
+- **1004:** No s'ha especificat una data d'expiració del token
+- **1005:** No s'ha especificat una data de creació del token
+- **1006:** No s'ha especificat una data d'activació del token
+- **1007:** No s'ha especificat el camp audience del token
+- **1008:** El token ha expirat
+- **1009:** El token encara no pot ser utilitzat
+- **1010:** El temps d'expiració del token és superior al permès
+- **1011:** El camp audience especificat no és vàlid
+
+### Errors de recurs no trobat (HttpStatus 404):
+- **2001:** No s'ha trobat la factura especificada
+- **2002:** No s'ha trobat el document adjunt especificat
+- **2003:** No s'ha trobat un històric d'estats per a la factura
+
+### Errors de validació (HttpStatus: 400):
+- **3001:** S'ha excedit el numero d'annexos permès
+- **3002:** S'ha excedit la mida màxima permesa
+- **3003:** El format de la factura no és correcte
+- **3004:** El receptor de la factura no està donat d'alta en e-FACT
+- **3005:** La signatura de la factura no és vàlida
+
+### Errors genèrics (HttpStatus 500):
+- **9001:** S'ha produït un error intern de connexió amb la base de dades
+- **9002:** S'ha produït un error en la generació del rebut electrònic de la factura
+- **9999:** S'ha produït un error inesperat en l'execució de l'operació sol·licitada
 
 
 ## Possibles estats d'una factura
