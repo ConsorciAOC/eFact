@@ -137,7 +137,7 @@ Aquesta operació permet l'enviament d'una factura i, opcionalment, dels seus do
 
 A continuació, s'indiquen tots les possibles dades susceptibles de ser informats al JSON de petició d'enviament d'una factura:
 - **correuElectronic:** adreça de correu electrònic en la qual rebre les notificacions amb els canvis d'estat de la factura. Aquesta dada és opcional.
-- **face:** atribut de tipus booleà per a indicar si cal lliurar la factura a FACe. Aquesta opció d'enviament només podrà ser utilitzada per emissors que siguin entitats públiques catalanes registrades com a receptors a eFACT. Aquesta dada és opcional i, en cas de no venir informat, prendrà el valor false. 
+- **face:** atribut de tipus booleà per a indicar si cal lliurar la factura a FACe. Aquesta opció d'enviament només podrà ser utilitzada per emissors que siguin entitats públiques catalanes registrades com a receptors a eFACT. Aquesta dada és opcional i, en cas de no venir informat, prendrà el valor *false*. 
 - **factura:** informació de la factura a enviar.
 	- **nom:** nom del fitxer de factura.
 	- **contingut:** contingut del fitxer de factura codificat en base64. El tipus mime de la factura ha de ser `application/xml`.
@@ -167,7 +167,7 @@ Exemple de petició d'enviament de factura:
 ```
 
 ### **Resposta**
-Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un objecte Factura (fitxer de tipus `application/json`), el contingut del qual es detalla en l'apartat [Factura](#factura). A continuació, es mostra un exemple de resposta:
+Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un objecte *[Factura](#factura)* (fitxer de tipus `application/json`). A continuació, es mostra un exemple de resposta:
 
 ```json
 {
@@ -217,7 +217,7 @@ Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un objec
 
 
 ## Consulta de les dades d'una factura
-Esta operación permite obtener los datos de la factura correspondiente al identificador de factura especificado como parámetro. Si la factura tiene documentos adjuntos asociados, también se devuelven sus datos.
+Aquesta operació permet obtenir les dades de la factura corresponent a l'identificador de factura especificat com a paràmetre. Si la factura té documents adjunts associats, també es tornen les seves dades.
 
 **Path relatiu de l'operació:** /factura/:id
 
@@ -230,6 +230,7 @@ paràmetre|descripció|
 *GET [urlServicio]/factura/159732145*
 
 ### **Resposta**
+Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un objecte *[Factura](#factura)* (fitxer de tipus `application/json`). A continuació, es mostra un exemple de resposta:
 
 ```json
 {
@@ -287,7 +288,7 @@ paràmetre|descripció|
 
 
 ## Consulta de l'històric d'estats d'una factura
-Esta operación permite obtener todos los estados por lo que ha pasado la factura correspondiente al identificador de factura especificado como parámetro.
+Aquesta operació permet obtenir tots els estats pel que ha passat la factura corresponent a l'identificador de factura especificat com a paràmetre.
 
 **Path relatiu de l'operació:** /historicEstatsFactura/:id
 
@@ -300,7 +301,7 @@ paràmetre|descripció|
 *GET [urlServicio]/historicEstatsFactura/159732145*
 
 ### **Resposta**
-Si la petición se ha llevado a cabo con éxito (código HTTP "200") se devolverá un objeto *HistoricEstatsFactura* (fichero de tipo `application/json`), cuyo contenido se detalla en el apartado 4.2 de este documento. A continuación, se muestra un ejemplo de respuesta:
+Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un objecte *[HistoricEstatsFactura](#historicestatsfactura)* (fitxer de tipus `application/json`). A continuació, es mostra un exemple de resposta:
 
 ```json
 {
@@ -343,7 +344,7 @@ Si la petició s'ha dut a terme amb èxit (codi HTTP "200"), es tornarà un fitx
 
 
 ## Consulta d'estats pendents de descàrrega
-Esta operación permite obtener los cambios estado pendientes de descarga para la plataforma asociada al usuario que realiza la petición. Devuelve un máximo de 500 estados. Si hubiese más estados a devolver del máximo estipulado, se informará en el atributo de tipo booleano mesEstats de la respuesta. De forma opcional se permitirá filtrar por el NIF de la entidad emisora.
+Aquesta operació permet obtenir els canvis d'estat pendents de descàrrega per a la plataforma associada a l'usuari que realitza la petició. Retorna un màxim de 500 estats. Si hi hagués més estats a tornar del màxim establert, s'indicarà en l'atribut de tipus booleà *mesEstats* de la resposta. De manera opcional es permetrà filtrar pel NIF de l'entitat emissora.
 
 **Path relatiu de l'operació:** /estats-pendents
 
@@ -351,14 +352,14 @@ Esta operación permite obtener los cambios estado pendientes de descarga para l
 
 paràmetre|descripció|
 ---------|----------|
-**nifProveidor** | Parámetro opcional. NIF de la entidad emisora, asociada a la plataforma correspondiente al usuario que realiza la petición, para la que se quieren obtener los cambios de estado pendientes de descarga.
+**nifProveidor** | Paràmetre opcional. NIF de l'entitat emissora, associada a la plataforma corresponent a l'usuari que realitza la petició, per a la qual obtenir els canvis d'estat pendents de descàrrega.
 
 *GET [urlServicio]/estats-pendents*
 
 *GET [urlServicio]/estats-pendents?nifProveidor=XXXXXXXX*
 
-### **Resposta*
-Si la petición se ha llevado a cabo con éxito (código HTTP "200") se devolverá un objeto *EstatsPendents* (fichero de tipo `application/json`), cuyo contenido se detalla en el apartado 4.3 de este documento. A continuación, se muestra un ejemplo de respuesta:
+### **Resposta**
+Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un objecte *[EstatsPendents](#estatspendents)* (fitxer de tipus `application/json`). A continuació, es mostra un exemple de resposta:
 
 ```json
 {
@@ -381,11 +382,11 @@ Si la petición se ha llevado a cabo con éxito (código HTTP "200") se devolver
 }
 ```
 
-En cuanto a la fecha de pago de una factura (dataPagament), para los casos en los que no se disponga de una fecha de pago concreta informada por el receptor, se considerará como fecha de pago la propia fecha de estado (atributo data) del estado "pagada" (PAID) correspondiente.
+Quant a la data de pagament d'una factura (*dataPagament*), per als casos en els quals no es disposi d'una data de pagament concreta informada pel receptor, es considerarà com a data de pagament la data d'estat (atribut *data*) de l'estat "pagada" (PAID) corresponent.
 
 
 ## Eliminació d'estats pendents de descàrrega
-Esta operación permite actualizar como descargado el estado especificado, de forma que ya no sea tenido en cuenta por la operación de consulta de estados pendientes de descarga (*GET [urlServicio]/estats-pendents*).
+Aquesta operació permet actualitzar l'estat especificat com "descarregat", de manera que ja no es tingui en compte per l'operació de consulta d'estats pendents de descàrrega (*GET [urlServicio]/estats-pendents*).
 
 **Path relatiu de l'operació:** /estats-pendents/:id
 
@@ -398,11 +399,11 @@ paràmetre|descripció|
 *DELETE [urlServicio]/estats-pendents/1602*
    
 ### **Resposta**
-Si la petición se ha llevado a cabo con éxito, simplemente se devuelve el código HTTP "200".
+Si la petició s'ha dut a terme amb èxit, simplement es torna el codi HTTP "200".
 
 
 ## Consulta de les entitats adherides a eFACT
-Esta operación permite obtener los datos principales de las entidades adheridas al servicio eFACT.
+Aquesta operació permet obtenir les dades principals de les entitats adherides al servei eFACT.
 
 **Path relatiu de l'operació:** /receptors
 
@@ -410,8 +411,8 @@ Esta operación permite obtener los datos principales de las entidades adheridas
 
 *GET [urlServicio]/receptors*
    
-### **Resposta*
-Si la petición se ha llevado a cabo con éxito (código HTTP "200") se devolverá un objeto *ReceptorsEfact* (fichero de tipo `application/json`), cuyo contenido se detalla en el apartado 4.4 de este documento. A continuación, se muestra un ejemplo de respuesta:
+### **Resposta**
+Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un objecte *[ReceptorsEfact](#receptorsefact)* (fitxer de tipus `application/json`). A continuació, es mostra un exemple de resposta:
 
 ```json
 {
@@ -431,7 +432,7 @@ Si la petición se ha llevado a cabo con éxito (código HTTP "200") se devolver
 
 
 ## Consulta del detall d'una entitat eFACT
-Esta operación permite obtener la información detallada (dirección, dir3, etc.) para la entidad del servicio eFACT especificada.
+Aquesta operació permet obtenir la informació detallada (adreça, dir3, etc.) per a l'entitat del servei eFACT especificada.
 
 **Path relatiu de l'operació:** /receptors
 
@@ -444,7 +445,7 @@ paràmetre|descripció|
 *GET [urlServicio]/receptors/:nif*
    
 ### **Resposta**
-Si la petición se ha llevado a cabo con éxito (código HTTP "200") se devolverá un objeto *ReceptorEfact* (fichero de tipo `application/json`), cuyo contenido se detalla en el apartado 4.5 de este documento. A continuación, se muestra un ejemplo de respuesta:
+Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un objecte *[ReceptorEfact](#receptorefact)* (fitxer de tipus `application/json`). A continuació, es mostra un exemple de resposta:
 
 ```json
 {
