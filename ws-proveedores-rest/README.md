@@ -139,7 +139,7 @@ A continuació, s'indiquen tots les possibles dades susceptibles de ser informat
 - **correuElectronic:** adreça de correu electrònic en la qual rebre les notificacions amb els canvis d'estat de la factura. Aquesta dada és opcional.
 - **face:** atribut de tipus booleà per a indicar si cal lliurar la factura a FACe. Aquesta opció d'enviament només podrà ser utilitzada per emissors que siguin entitats públiques catalanes registrades com a receptors a eFACT. Aquesta dada és opcional i, en cas de no venir informat, prendrà el valor *false*. 
 - **factura:** informació de la factura a enviar.
-	- **nom:** nom del fitxer de factura.
+	- **nom:** nom del fitxer de factura. L'extensió ha de ser `xml` o `xsig`.
 	- **contingut:** contingut del fitxer de factura codificat en base64. El tipus mime de la factura ha de ser `application/xml`.
 - **adjunts:** col·lecció amb les dades dels documents adjunts a enviar juntament amb la factura. Per cada document adjunt s'especificaran les dades següents:
 	- **nom:** nom del fitxer adjunt.
@@ -599,7 +599,7 @@ En cas d'error, el servei tornarà un fitxer de tipus `application/json`, amb el
 A continuació, es detallen els possibles errors que pot tornar el servei:
 
 ### Errors d'autenticació (HttpStatus 401):
-- **1001:** No s'ha especificat un token d’autenticació
+- **1001:** No s'ha especificat un token d'autenticació
 - **1002:** No s'ha especificat un usuari
 - **1003:** Usuari no vàlid
 - **1004:** No s'ha especificat una data d'expiració del token
@@ -617,11 +617,31 @@ A continuació, es detallen els possibles errors que pot tornar el servei:
 - **2003:** No s'ha trobat un històric d'estats per a la factura
 
 ### Errors de validació (HttpStatus: 400):
-- **3001:** S'ha excedit el numero d'annexos permès
-- **3002:** S'ha excedit la mida màxima permesa
-- **3003:** El format de la factura no és correcte
-- **3004:** El receptor de la factura no està donat d'alta en e-FACT
-- **3005:** La signatura de la factura no és vàlida
+- **3001:** S'ha excedit el número màxim d'annexos permès
+- **3002:** S'ha excedit la mida màxima permesa per a la petició
+- **3003:** L'extensió del fitxer de factura a enviar no està suportada
+- **3004:** El receptor de la factura no està donat d'alta a eFACT
+- **3005:** La signatura de factura a enviar no és vàlida
+- **3006:** No s'ha especificat el nom de fitxer d'algun adjunt
+- **3007:** No s'ha especificat el tipus mime d'algun adjunt
+- **3008:** No s'ha especificat el contingut d'algun adjunt
+- **3009:** S'han informat adjunts amb tipus mime no suportats
+- **3010:** S'han informat adjunts l'extensió dels quals no coincideix amb el tipus mime especificat
+- **3011:** No ha estat possible obtenir la factura a enviar
+- **3012:** La factura especificada no té número de registre
+- **3013:** No s'ha especificat el nom del fitxer de factura
+- **3014:** No s'ha especificat el contingut del fitxer de factura codificat en base64
+- **3015:** S'han informat adjunts amb extensions no suportades
+- **3016:** El format de la factura no és correcte
+- **3017:** No ha estat possible determinar la versió de Facturae de la factura
+- **3018:** La versió de Facturae de la factura no està suportada pel receptor
+- **3019:** No es permeten lots de factures
+- **3020:** El format del NIF de l'emissor no és vàlid
+- **3021:** El format del NIF del receptor no és vàlid
+- **3022:** El valor informat al camp correuElectronic supera els 512 caràcters permesos
+- **3023:** El valor informat al camp correuElectronic no té el format esperat
+- **3024:** La factura a enviar no està signada o bé el node de signatura no és correcte
+- **3025:** L'emissor de la factura no té habilitat l'enviament a FACe
 
 ### Errors genèrics (HttpStatus 500):
 - **9001:** S'ha produït un error intern de connexió amb la base de dades
