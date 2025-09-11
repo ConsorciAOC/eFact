@@ -28,7 +28,7 @@ Aquest document pretén descriure l'API REST per a la integració de les platafo
 
 # Mètode d'autenticació
 ## Connectivitat
-S'establirà un sistema de filtres d'IPs per origen, de manera que només es permeti l'accés al servei des d'IPs l'origen de les quals estigui dins dels admesos.
+S'establirà un sistema de filtres d'IPs per origen geogràfic, de manera que només es permeti l'accés al servei des d'IPs l'origen geogràfic de les quals estigui dins dels admesos. Per exemple, Rússia, Iran o Xina serien orígens geogràfics no permesos.
 
 ## Autenticació i autorització
 
