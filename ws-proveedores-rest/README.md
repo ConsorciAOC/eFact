@@ -2,8 +2,6 @@
 
 1. [Introducció](#introducció)
 2. [Mètode d'autenticació](#mètode-dautenticació)
-	1. [Connectivitat](#connectivitat)
-	2. [Autenticació i autorització](#autenticació-i-autorització)
 3. [Entorns](#entorns)
 4. [Operacions](#operacions)
 	1. [Enviament d'una factura](#enviament-duna-factura)
@@ -37,8 +35,6 @@
 Aquest document pretén descriure l'API REST per a la integració de les plataformes emissores amb el hub d'eFACT, amb l'objectiu de substituir la integració actual per FTP i al web service SOAP de proveïdors.
 
 # Mètode d'autenticació
-
-## Autenticació i autorització
 L'autenticació es farà mitjançant l'ús de tokens JWT. Aquests tokens contenen tota la informació necessària per fer les tasques d'autenticació i autorització del peticionari. Els camps necessaris als tokens JWT seran els següents:
 
 - **iss:** aquest camp (Issuer) estableix l'emissor del token i cal informar-hi el codi o nom d'usuari que identifica l'integrador. Aquesta dada serà assignada pel servei de suport al procés d'alta o migració de la plataforma emissora.
