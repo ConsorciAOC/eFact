@@ -2,8 +2,6 @@
 
 1. [Introducció](#introducció)
 2. [Mètode d'autenticació](#mètode-dautenticació)
-	1. [Connectivitat](#connectivitat)
-	2. [Autenticació i autorització](#autenticació-i-autorització)
 3. [Operacions](#operacions)
 	1. [Consulta de factures pendents](#consulta-de-factures-pendents)
 	2. [Consulta de dades d'una factura](#consulta-de-dades-duna-factura)
@@ -27,10 +25,6 @@
 Aquest document pretén descriure l'API REST per a la integració de les plataformes receptores amb el hub d'eFACT, amb l'objectiu de substituir la integració actual per FTP.
 
 # Mètode d'autenticació
-## Connectivitat
-S'establirà un sistema de filtres d'IPs per origen geogràfic, de manera que només es permeti l'accés al servei des d'IPs l'origen geogràfic de les quals estigui dins dels admesos. Per exemple, Rússia, Iran o Xina serien orígens geogràfics no permesos.
-
-## Autenticació i autorització
 
 L'autenticació es farà mitjançant l'ús de tokens JWT. Aquests tokens contenen tota la informació necessària per fer les tasques d'autenticació i autorització del peticionari. Els camps necessaris als tokens JWT seran els següents:
 
@@ -623,6 +617,7 @@ A continuació, es detallen els possibles errors que pot tornar el servei:
 - **1009:** El token encara no pot ser utilitzat
 - **1010:** El temps d'expiració del token és superior al permès
 - **1011:** El camp audience especificat no és vàlid
+- **1012:** La clau secreta no és vàlida
 
 ### Errors de recurs no trobat (HttpStatus 404):
 
@@ -639,6 +634,7 @@ A continuació, es detallen els possibles errors que pot tornar el servei:
 - **3005:** La factura especificada no té número de registre
 - **3006:** La data de pagament especificada no compleix el format esperat
 - **3007:** No és possible actualitzar la factura especificada
+- **3008:** Els camps codiMotiuRebuig i descripcioMotiuRebuig només es poden informar per a actualitzar una factura a l'estat REJECTED
 
 ### Errors genèrics (HttpStatus 500):
 
