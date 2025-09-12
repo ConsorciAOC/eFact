@@ -610,6 +610,7 @@ A continuació, es detallen els possibles errors que pot tornar el servei:
 - **1009:** El token encara no pot ser utilitzat
 - **1010:** El temps d'expiració del token és superior al permès
 - **1011:** El camp audience especificat no és vàlid
+- **1012:** La clau secreta no és vàlida
 
 ### Errors de recurs no trobat (HttpStatus 404):
 - **2001:** No s'ha trobat la factura especificada
