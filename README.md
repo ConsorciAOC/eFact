@@ -47,7 +47,7 @@ Durante el proceso de registro y aprobación de la factura se puede producir el 
 
 En este apartado podéis encontrar la guía de integración via WS para los diferentes servicios web proporcionados por eFact:
 
-[Integración WS para proveedores de facturas](/ws-proveedores/README.md)
+[Integración WS para proveedores de facturas](/ws-proveedores/README.md) (válido hasta 01/01/2026)
 
 [Integración WS para Registros Contables de Facturas](/ws-rcf/README.md)
 
