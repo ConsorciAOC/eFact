@@ -1,3 +1,6 @@
+⚠️ **Aviso:** Este documento es válido hasta el **01/01/2026**. Tras esta fecha, se actualizará el sistema de integración.
+
+
 # Integración vía WS para Proveedores
 
 1. [Introducción](#introducción)
