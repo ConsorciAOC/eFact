@@ -1,4 +1,4 @@
-# Integración vía WS para Proveedores
+# Integración vía API REST para Proveedores
 
 1. [Introducció](#introducció)
 2. [Mètode d'autenticació](#mètode-dautenticació)
