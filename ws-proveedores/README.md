@@ -1,723 +1,673 @@
-⚠️ **Aviso:** Este documento es válido hasta el **01/01/2026**. Tras esta fecha, se actualizará el sistema de integración.
+# Integració via API REST per Proveïdors
+
+1. [Introducció](#introducció)
+2. [Mètode d'autenticació](#mètode-dautenticació)
+3. [Entorns](#entorns)
+4. [Operacions](#operacions)
+	1. [Enviament d'una factura](#enviament-duna-factura)
+ 	2. [Consulta de les dades d'una factura](#consulta-de-les-dades-duna-factura)
+  	3. [Consulta de l'històric d'estats d'una factura](#consulta-de-lhistòric-destats-duna-factura)
+   	4. [Obtenció del rebut electrònic de factura](#obtenció-del-rebut-electrònic-de-factura)
+   	5. [Consulta d'estats pendents de descàrrega](#consulta-destats-pendents-de-descàrrega)
+   	6. [Eliminació d'estats pendents de descàrrega](#eliminació-destats-pendents-de-descàrrega)
+   	7. [Consulta de les entitats adherides a eFACT](#consulta-de-les-entitats-adherides-a-efact)
+   	8. [Consulta del detall d'una entitat eFACT](#consulta-del-detall-duna-entitat-efact)
+5. [Definició dels objectes de resposta](#definició-dels-objectes-de-resposta)
+	1. [Factura](#factura)
+ 	2. [HistoricEstatsFactura](#historicestatsfactura)
+  	3. [EstatsPendents](#estatspendents)
+	4. [ReceptorsEfact](#receptorsefact)
+	5. [ReceptorEfact](#receptorefact)
+	6. [EstatPendent](#estatpendent)
+	7. [Estat](#estat)
+	8. [EstatDetallat](#estatdetallat)
+	9. [RelacioDir3](#relaciodir3)
+	10. [CentreAdministratiu](#centreadministratiu)
+	11. [DadesRegistre](#dadesregistre)
+	12. [DadesMotiuRebuig](#dadesmotiurebuig)
+6. [Annexos](#annexos)
+	1. [Codis de resposta del servei](#codis-de-resposta-del-servei)
+	2. [Possibles estats d'una factura](#possibles-estats-duna-factura)
+	3. [Tipus mime admesos](#tipus-mime-admesos)
 
 
-# Integración vía WS para Proveedores
+# Introducció
+Aquest document pretén descriure l'API REST per a la integració de les plataformes emissores amb el hub d'eFACT, amb l'objectiu de substituir la integració actual per FTP i al web service SOAP de proveïdors.
 
-1. [Introducción](#introducción)
-2. [Método de autenticación](#método-de-autenticación)
-3. [Operaciones](#operaciones)
-   1. [Enviar Factura](#1-enviar-factura--enviarfactura)
-   2. [Operación Consultar Factura](#2-operación-consultar-factura-consultarfactura)
-   3. [Operación Consultar Estados](#3-operación-consultar-estados-consultarestados)
-   4. [Operación Consultar Listado Facturas](#4-operación-consultar-listado-facturas-consultarlistadofacturas)
-   5. [Flujo completo para solicitud descargas de estados pendientes para un emisor](#5-flujo-completo-para-solicitud-descargas-de-estados-pendientes-para-un-emisor)
-      1. [Método 1: Solicitud de posibles descargas](#método-1-solicitud-de-posibles-descargas)
-      2. [Método 2: Petición de descargas:](#método-2-petición-de-descargas)
-      3. [Método 3: Confirmación de descargas](#método-3-confirmación-de-descargas)
-4. [Casos de prueba para cada operación](#casos-de-prueba-para-cada-operación)
-   1. [CONECTIVIDAD](#conectividad)
-   2. [ENVIO FACTURA](#envio-factura)
-   3. [CONSULTA ESTADOS](#consulta-estados)
-   4. [ANULACION FACTURA](#anulacion-factura)
-5. [Como darse de alta en el servicio](#como-darse-de-alta-en-el-servicio)
-6. [Entornos](#entornos)
+# Mètode d'autenticació
+L'autenticació es farà mitjançant l'ús de tokens JWT. Aquests tokens contenen tota la informació necessària per fer les tasques d'autenticació i autorització del peticionari. Els camps necessaris als tokens JWT seran els següents:
+
+- **iss:** aquest camp (Issuer) estableix l'emissor del token i cal informar-hi el codi o nom d'usuari que identifica l'integrador. Aquesta dada serà assignada pel servei de suport al procés d'alta o migració de la plataforma emissora.
+
+- **aud:** aquest camp (Audience) estableix el servei al qual va dirigit el token. D'aquesta manera s'evita l'ús indegut de tokens generats per a altres serveis. Aquest camp haurà de contenir el literal "efact".
+
+- **nbf**: aquest camp (Not Before) conté la data, expressada en format *epoch* amb precisió de segons, a partir de la qual el token entrarà en vigor. Aquest mecanisme es preveu per poder emetre tokens que començaran a ser vàlids en un instant futur. Normalment aquest camp contindrà la data actual.
+
+- **iat:** aquest camp (Issued At) conté la data d'emissió, en format *epoch* amb precisió de segons, del token.
+
+- **exp:** Aquest camp (Expires At) conté la data d'expiració, en format *epoch* amb precisió de segons, del token. És recomanable emetre els tokens amb una vigència d'uns pocs segons per evitar-ne un ús indegut en cas de robatori. El temps màxim d'expiració permès és de 300 segons (5 minuts).
+
+Un cop emplenat el token, aquest s'haurà de signar amb l'algorisme HMAC-SHA256, utilitzant una clau secreta que serà assignada pel servei de suport en el procés d'alta o migració de la plataforma emissora. Aquesta clau haurà de ser custodiada de manera segura per part de l'integrador i no haurà de viatjar mai dins d'una petició o capçalera HTTP.
+
+A continuació, es mostra un exemple de token JWT en clar, abans de codificar a Base64:
+
+![A continuació hi ha un desplegable amb l'explicació de descripció de la imatge](https://github.com/ConsorciAOC/eFact/assets/92558339/c5f67b58-363b-43e1-a1fe-6d15d778f1fa)
+
+<details>
+  <summary><i>Explicació textual de la imatge</i></summary>
+
+### SEGMENT I
+L'algorisme de signatura emprat per protegir el token, així com el tipus de token. Només es suportarà l'algoritme HS256 i el tipus de token JWT.
+
+```json
+{
+    "alg": "HS256",
+    "typ": "JWT"
+}
+```
+
+### SEGMENT II
+Dades d'autenticació i autorització comentades anteriorment.
+
+```json
+{
+    "iss": "hub_0012",
+    "aud": "efact",
+    "iat": 1516239022,
+    "nbf": 1516239022,
+    "exp": 1516239042
+}
+```
+
+### SEGMENT III
+Signatura del token, necessària per verificar que no ha estat alterat, així com la seva autenticitat.
+
+```
+3oGx4zGJy7YfYTIiBiPNBPCUGrC8oNlKQaGHSO4D5M0
+```
+
+### Notes
+Els segments van delimitats per punts, de manera que trobem el primer segment, un punt, el segon segment, un punt i el tercer segment.
+
+</details>
+
+Un cop generat el token, aquest s'inclourà a la capçalera HTTP 'Authorization' de la següent manera:
+
+![A continuació hi ha un desplegable amb l'explicació de descripció de la imatge](https://github.com/ConsorciAOC/eFact/assets/92558339/5faf7b0f-22ac-4f6f-96ba-1cbc0a9c86ef)
+
+<details>
+  <summary><i>Explicació textual de la imatge</i></summary>
+
+La cadena que hi ha a continuació és una concatenació dels tres segments un cop codificat a Base64
+
+```
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUFawMDAxIiwic3ViIjoiOTgyMTkyMDAwMiIsInVzZXIiOiIxMTExMTEwMTExMUgiLCJvYW1pIjoiSm9zZXZA9zZXAgSm9zZXAgSm9zZXAiOjE1MTYyMzkwMjIsIm5iZiI6MTUxMTUxOTAyMiwiZXhwIjoxNTE2MjM5MDQyfQ.3oGx4zGJy7YfYTIiBiPNBPCUGrC8oNlKQaGHSO4D5M0
+```
 
 
-# Introducción
+</details>
 
-El objetivo de este documento es facilitar la labor de integración para los sistemas automatizados de proveedores dentro de la plataforma de facturación electrónica eFACT a través de servicios Web. 
+A l'exemple de capçalera HTTP amb el token JWT es mostren els diferents segments del token pintats de diferent color. Com es pot observar, els segments estan separats per un punt.
 
-La integración permite tanto a proveedores para la gestión de sus propias facturas como a plataformas de facturación que ofrecen servicios como terceros para la gestión de facturas y estados con el servicio eFACT.
 
-Las facturas enviadas deben ir firmadas con un certificado independiente del certificado usado en el servicio Web.
+# Entorns
+A continuació, s'indica l'URL base del servei segons l'entorn:
+- **TEST**: https://efact-pre.aoc.cat/proveidors
+- **PRO**:  https://efact.aoc.cat/proveidors
 
-# Método de autenticación
 
-Respecto al certificado y autenticación, los certificados admitidos son los admitidos por la plataforma @firma del MINHAP y  cuya lista completa de los prestadores aceptados por esta plataforma se encuentran publicados en el siguiente [enlace](https://administracionelectronica.gob.es/PAe/aFirma-Anexo-PSC).
+# Operacions
 
-La autenticación se realiza mediante la firma de la petición SOAP, ya que tanto las peticiones como las respuestas deben ir firmadas según el estándar [WS-Security](http://en.wikipedia.org/wiki/WS-Security), en concreto el [OASIS WSSecurity 1.0 X509 Token Profile](https://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0.pdf), y contenter un elemento [Timestamp](https://docs.oasis-open.org/wss/v1.1/wss-v1.1-spec-pr-SOAPMessageSecurity-01.pdf).
+## Enviament d'una factura
+Aquesta operació permet l'enviament d'una factura i, opcionalment, dels seus documents adjunts al servei eFACT. A la mateixa petició s'informaran tant la factura com els seus possibles documents adjunts, tenint en compte les restriccions següents:
+-	Només es pot informar un màxim de 5 documents adjunts.
+-	La mida de la petició no pot ser superior a 10 MB.
 
-El certificado de firma para las peticiones se utilizará para identificar la plataforma integrada de cada proveedor y deberá ser proporcionado en el formulario de alta del servicio.
+**Path relatiu de l'operació:** /factura
 
-Las peticiones que no cumplan estos requisitos podrán ser rechazadas:
+### **Petició**
+*POST [urlServicio]/factura*
 
-- El único protocolo admitido en los servicios web es TLS>=1.2.
-- Por motivos de seguridad se requiere en la cabecera de las peticiones esté presente la definición Content-Length con el valor correcto en bytes.
-- Se recomienda también la definición del charset sea en UTF-8. Ejemplo: `Content-Type: text/xml;charset=UTF-8`.
-- Se admiten solicitudes `POST` con un tamaño máximo de 8M.
+A continuació, s'indiquen tots les possibles dades susceptibles de ser informats al JSON de petició d'enviament d'una factura:
+- **correuElectronic:** adreça de correu electrònic en la qual rebre les notificacions amb els canvis d'estat de la factura. Aquesta dada és opcional.
+- **face:** atribut de tipus booleà per a indicar si cal lliurar la factura a FACe. Aquesta opció d'enviament només podrà ser utilitzada per emissors que siguin entitats públiques catalanes registrades com a receptors a eFACT. Aquesta dada és opcional i, en cas de no venir informat, prendrà el valor *false*. 
+- **factura:** informació de la factura a enviar.
+	- **nom:** nom del fitxer de factura. L'extensió ha de ser `xml` o `xsig`.
+	- **contingut:** contingut del fitxer de factura codificat en base64. El tipus mime de la factura ha de ser `application/xml`.
+- **adjunts:** col·lecció amb les dades dels documents adjunts a enviar juntament amb la factura. Per cada document adjunt s'especificaran les dades següents:
+	- **nom:** nom del fitxer adjunt.
+	- **mime:** tipus mime del fitxer adjunt. Veure l'annex [Tipus mime admesos](#tipus-mime-admesos).
+ 	- **contingut:** contingut del fitxer adjunt codificat en base64.
 
-# Operaciones
+Exemple de petició d'enviament de factura:
 
-## 1. Enviar Factura  [enviarFactura]
+```json
+{
+	"correuElectronic": "a@a.com",
+	"face": false,
+	"factura": {
+		"nom”: "F24-00182.xml",
+		"contingut": "PD94bWwgdmVi9MLTAwVMHls8sDADSQBAyc2lvlOkZhY3R1cRQ1Cl5DrgkmFlPg…"
+	},
+	"adjunts": [
+		{
+			"nom": "adjunt1.pdf",
+			"mime": "application/pdf",
+			"contingut": "UEsDBBQAAAAIALuJNVCiVMHls8sDADSQBAALAAAAYXR0YWNoMS5wZGbMWQVQG8w…"
+		}
+	]
+}
+```
 
-Este servicio permite enviar facturas al servicio eFACT
+### **Resposta**
+Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un objecte *[Factura](#factura)* (fitxer de tipus `application/json`). A continuació, es mostra un exemple de resposta:
 
-### Petición
--------------
-Parámetros de la información del proveedor. La petición al servicio se estructura en 3 apartados:
+```json
+{
+	"correuElectronic": "a@a.com",
+	"face": false,
+	"id": "159732145",
+	"dataRecepcio": "2024-11-05T12:03:54+01:00",
+	"numero": "F2411-0018",
+	"serie": "A",
+	"dataExpedicio": "2024-11-05",
+	"import": 1542.75,
+	"proveidor": {
+		"nif": "ESR0599999J",
+		"nom": "Proveïdor de pruebas"
+	},
+	"receptor": {
+		"nif": "ESQ1111112G",
+		"nom": "ENS FORMACIO B",
+		"dir3": {
+			"oficinaComptable": {
+				"codi": "A987654321",
+				"nom": "ENS FORMACIO B"
+			},
+			"organGestor": {
+				"codi": "A987654321",
+				"nom": "ENS FORMACIO B"
+			},
+			"unitatTramitadora": {
+				"codi": "A987654321",
+				"nom": "ENS FORMACIO B"
+			}
+		}
+	},
+	"estat": {
+		"codi": "SENT",
+		"codiNumneric": "1000",
+		"data": "2024-11-05T12:03:54+01:00"
+	},
+	"adjunts": [
+		{
+			"nom": "adjunt1.pdf",
+			"mime": "application/pdf"
+		}
+	]
+}
+```
 
-**a) Información del proveedor**
 
-parámetro|descripción| 
----------|-----------|
-correo |  correo destinatario de las distintas notificaciones asociadas a la factura.
+## Consulta de les dades d'una factura
+Aquesta operació permet obtenir les dades de la factura corresponent a l'identificador de factura especificat com a paràmetre. Si la factura té documents adjunts associats, també es tornen les seves dades.
 
-**b) Fichero factura**
+**Path relatiu de l'operació:** /factura/:id
 
-parámetro|descripción| 
----------|-----------|
-factura|  Contenido codificado en base64 del documento .xsig de la factura, el fichero debe tener la extensión válida ".xsig".
-nombre|  Nombre del documento de la factura.
-mime|  Mime type del documento, en este caso debe ser "application/xml" 
+### **Petició**
 
-**c) Ficheros Anexos**
+paràmetre|descripció|
+---------|----------|
+**id** | Identificador de la factura que es vol consultar.
+
+*GET [urlServicio]/factura/159732145*
+
+### **Resposta**
+Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un objecte *[Factura](#factura)* (fitxer de tipus `application/json`). A continuació, es mostra un exemple de resposta:
+
+```json
+{
+	"correuElectronic": "a@a.com",
+	"face": false,
+	"id": "159732145", 
+	"dataRecepcio": "2024-11-05T12:03:54+01:00",
+	"numero": "F2411-0018",
+	"serie": "A",
+	"dataExpedicio": "2024-11-05",
+	"import": 1542.75,
+	"proveidor": {
+		"nif": "ESR0599999J",
+		"nom": "Proveïdor de pruebas"
+	},
+	"receptor": {
+		"nif": "ESQ1111112G",
+		"nom": "ENS FORMACIO B",
+		"dir3": {
+			"oficinaComptable": {
+				"codi": "A987654321",
+				"nom": "ENS FORMACIO B"
+         	},
+			"organGestor": {
+				"codi": "A987654321",
+				"nom": "ENS FORMACIO B"
+			},
+			"unitatTramitadora": {
+				"codi": "A987654321",
+				"nom": "ENS FORMACIO B"
+			}
+		}
+	},
+	"registre": {
+		"numero": "E2023000064",
+		"data": "2024-11-05T12:04:02.000+01:00"
+	},
+	"motiuRebuig": {
+		"codi": "DF01",
+		"descripcio": "Descipcio Motiu"
+	},
+	"estat": {
+		"codi": "REJECTED",
+		"codiNumneric": "2600",
+		"data": "2024-11-18T10:03:54+01:00"
+	},
+	"adjunts": [
+		{
+			"nom": "1.pdf",
+			"mime": "application/pdf"
+		}
+	]
+}
+```
+
+
+## Consulta de l'històric d'estats d'una factura
+Aquesta operació permet obtenir tots els estats pel que ha passat la factura corresponent a l'identificador de factura especificat com a paràmetre.
+
+**Path relatiu de l'operació:** /historicEstatsFactura/:id
+
+### **Petició**
+
+paràmetre|descripció|
+---------|----------|
+**id** | Identificador de la factura que es vol consultar.
+
+*GET [urlServicio]/historicEstatsFactura/159732145*
+
+### **Resposta**
+Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un objecte *[HistoricEstatsFactura](#historicestatsfactura)* (fitxer de tipus `application/json`). A continuació, es mostra un exemple de resposta:
+
+```json
+{
+	"id": "159732145",
+	"estats": [
+		{
+			"codi": "SENT",
+			"codiNumeric": "1000",
+			"data": "2024-11-05T12:03:54+01:00"            
+		},
+		{
+			"codi": "REGISTERED",
+			"codiNumeric": "1200",
+			"data": "2024-11-05T12:04:35.000+01:00",
+			"registre": {
+				"numero": "E2023000064",
+				"data": "2024-11-05T12:04:02.000+01:00"
+			}
+		}
+	]
+}
+```
+
+
+## Obtenció del rebut electrònic de factura
+Aquesta operació permet obtenir el rebut electrònic corresponent a l'identificador de factura especificat com a paràmetre.
+
+**Path relatiu de l'operació:** /factura/:id/rebut
+
+### **Petició**
+
+paràmetre|descripció|
+---------|----------|
+**id** | Identificador de la factura de la qual es vol obtenir el rebut electrònic.
+
+*GET [urlServei]/factura/12345/rebut*
    
-Los anexos son optativos, existe un máximo de 5 anexos o hasta 8MB 
+### **Resposta**
+Si la petició s'ha dut a terme amb èxit (codi HTTP "200"), es tornarà un fitxer de tipus `application/pdf` corresponent al rebut electrònic de la factura especificada com a paràmetre.
 
-parámetro|descripción| 
----------|-----------|
-anexo| Contenido codificado en base64 del documento anexo
-nombre |  Nombre del documento anexo.
-mime|  Mime type del documento. 
 
-__Restricciones en el nombre de los documentos anexos__
-- El conjunto de caracteres permitidos para el nombre de un anexo es el formado por letras minúsculas y mayúsculas, números, guion medio (-), guion bajo (_), punto (.) y signo más (+). Todo carácter que no se encuentre dentro de este conjunto será eliminado.
-- Los caracteres con algún signo ortográfico auxiliar (acentos, diéresis, etc.) se sustituirán por el carácter equivalente sin signo ortográfico.
-- La letra ñ se sustituirá por la letra n y la cedilla (ç) por la letra c, respetando la forma original de mayúscula o minúscula.
-- El carácter espacio en blanco se sustituirá el carácter por guion bajo.
-- El nombre de los anexos podrá tener una longitud máxima de 70 caracteres, sin tener en cuenta la extensión. Los nombres que superen esta longitud se truncarán a 70 caracteres.
+## Consulta d'estats pendents de descàrrega
+Aquesta operació permet obtenir els canvis d'estat pendents de descàrrega per a la plataforma associada a l'usuari que realitza la petició. Retorna un màxim de 500 estats. Si hi hagués més estats a tornar del màxim establert, s'indicarà en l'atribut de tipus booleà *mesEstats* de la resposta. De manera opcional es permetrà filtrar pel NIF de l'entitat emissora.
 
-Para evitar posibles duplicidades en el nombre de los documentos anexos, se añadirá la posición del anexo precedida de un guion bajo como sufijo del nombre, justo antes de la extensión. Teniendo esto en cuenta, la longitud máxima del nombre final de un documento anexo, sin tener en cuenta la extensión, sería de 72 caracteres.
+**Path relatiu de l'operació:** /estats-pendents
 
-Por ejemplo, si junto a una factura se envían dos documentos anexos con nombres *"#InformeFacturación-Enero2024.xlsx"* y *"Justificante estándar operaciones (enero 2024).pdf"*, dichos anexos se renombrarán respectivamente a *"InformeFacturacion-Enero2024_1.xlsx"* y *"Justificante_estandar_operaciones_enero_2024_2.pdf"*.
+### **Petició**
 
-__mimes admitidos__
-- pdf: application/pdf
-- doc: application/msword
-- docx:	application/msword
-- xls: application/vnd.ms-excel
-- xlsx: application/vnd.ms-excel
-- odt: application/vnd.oasis.opendocument.text
-- ods: application/vnd.oasis.opendocument.spreadsheet
-- txt: text/plain
+paràmetre|descripció|
+---------|----------|
+**nifProveidor** | Paràmetre opcional. NIF de l'entitat emissora, associada a la plataforma corresponent a l'usuari que realitza la petició, per a la qual obtenir els canvis d'estat pendents de descàrrega.
+
+*GET [urlServicio]/estats-pendents*
+
+*GET [urlServicio]/estats-pendents?nifProveidor=XXXXXXXX*
+
+### **Resposta**
+Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un objecte *[EstatsPendents](#estatspendents)* (fitxer de tipus `application/json`). A continuació, es mostra un exemple de resposta:
+
+```json
+{
+	"mesEstats": false,
+	"estats": [
+		{
+			"id": "1597",
+			"idFactura": "159732145",
+			"estat": {
+				"codi": "REGISTERED",
+				"codiNumneric": "1200",
+				"data": "2024-11-05T12:04:35.000+01:00",
+				"registre": {
+					"numero": "E2023000064",
+					"data": "2024-11-05T12:04:02.000+01:00"
+				}
+			}
+		}
+	]
+}
+```
+
+Quant a la data de pagament d'una factura (*dataPagament*), per als casos en els quals no es disposi d'una data de pagament concreta informada pel receptor, es considerarà com a data de pagament la data d'estat (atribut *data*) de l'estat "pagada" (PAID) corresponent.
+
+
+## Eliminació d'estats pendents de descàrrega
+Aquesta operació permet actualitzar l'estat especificat com "descarregat", de manera que ja no es tingui en compte per l'operació de consulta d'estats pendents de descàrrega (*GET [urlServicio]/estats-pendents*).
+
+**Path relatiu de l'operació:** /estats-pendents/:id
+
+### **Petició**
+
+paràmetre|descripció|
+---------|----------|
+**id** | Identificador de l'estat que es vol marcar com descarregat.
+
+*DELETE [urlServicio]/estats-pendents/1602*
    
-#### RPC-Literal
-```xml
-<soapenv:Body>
-    <web:enviarFactura>
-        <request>
-            <correo>desarrollo.efact@desarrolloefact.es</correo>
-            <factura>
-                <factura>PD94bWwgdmVyc2lv...lOkZhY3R1cmFlPg==</factura>
-                <nombre>FC23.xsig</nombre>
-                <mime>application/xml</mime>
-            </factura>
-            <anexos>
-                <anexo>
-                    <anexo>PD94bWwgdmVyc</anexo>
-                    <nombre>anexo.txt</nombre>
-                    <mime>text/plain</mime>
-                </anexo>
-            </anexos>
-        </request>
-    </web:enviarFactura>
-</soapenv:Body>
-```
+### **Resposta**
+Si la petició s'ha dut a terme amb èxit, simplement es torna el codi HTTP "200".
 
-### Respuesta 
-------------
 
-La respuesta contiene los datos más representativos de la factura que ha sido enviada:
- 
-parámetro|descripción| 
----------|-----------|
-numeroRegistro| ódigo de identificación único de entrada, identificador único de la factura dentro de la plataforma eFACT.|
-organoGestor|Código dir del Organo Gestor destino.|
-unidadTramitadora|Código dir de la unidad tramitadora destino.
-oficinaContable|Código dir de la oficina contable destino
-identificadorEmisor|Identificador del emisor (NIF o CIF o NIE ...)
-numeroFactura|Número de la factura.
-serieFactura|Serie de la factura
-fechaRecepcion|Fecha de recepción de la factura. Fecha de Entrada en eFACT
+## Consulta de les entitats adherides a eFACT
+Aquesta operació permet obtenir les dades principals de les entitats adherides al servei eFACT.
 
-#### RPC-Literal 
-```xml
-<soapenv:Body>
-    <ns1:enviarFacturaResponse>
-        <return>
-            <resultado>
-                <codigo>0</codigo>
-                <descripcion>Correcto</descripcion>
-                <codigoSeguimiento/>
-            </resultado>
-            <factura>
-                <numeroRegistro>NUMERO_REGISTRO</numeroRegistro>
-                <organoGestor>P00000010</organoGestor>
-                <unidadTramitadora>P00000010</unidadTramitadora>
-                <oficinaContable>P00000010</oficinaContable>
-                <identificadorEmisor>12345678Z</identificadorEmisor>
-                <numeroFactura>NUMERO</numeroFactura>
-                <serieFactura>SERIE</serieFactura>
-                <fechaRecepcion>2021-09-17 13:17:48</fechaRecepcion>
-            </factura>
-        </return>
-    </ns1:enviarFacturaResponse>
-</soapenv:Body>
-```
+**Path relatiu de l'operació:** /receptors
 
-###     Ejemplo peticion/respuesta:
------------------------------------
-             
-[enviarFactura.zip](https://github.com/ConsorciAOC/eFact/files/7639552/enviarFactura.zip)
+### **Petició**
 
-## 2.	Operación Consultar Factura [consultarFactura]
-
-Este método permite consultar el estado de una factura. Esta petición buscará la factura con el código de registro indicado.
-
-### Petición  
-------------
-
-parámetro|descripción| 
----------|-----------|
-numeroRegistro|Código de identificación único de entrada, identificador único de la factura dentro de la plataforma eFACT. Parámetro recibido en la respuesta del método anterior (__enviarFactura.numeroRegistro__)
+*GET [urlServicio]/receptors*
    
-#### RPC-Literal 
-```xml
-<soapenv:Body>
-    <web:consultarFactura>
-        <numeroRegistro>NUMERO_REGISTRO</numeroRegistro>
-    </web:consultarFactura>
-</soapenv:Body>
+### **Resposta**
+Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un objecte *[ReceptorsEfact](#receptorsefact)* (fitxer de tipus `application/json`). A continuació, es mostra un exemple de resposta:
+
+```json
+{
+	"receptors": [
+		{
+			"nif": "ESQ1111111I",
+			"nom": "ENS FORMACIO A",
+		},
+		{
+			"nif": "ESQ1111112G",
+			"nom": "ENS FORMACIO B",
+		},
+		…
+	]
+}
 ```
 
-### Respuesta  
--------------
 
-parámetro|descripción| 
----------|-----------|
-numeroRegistro|Código de identificación único de entrada, identificador único de la factura dentro de la plataforma eFACT. 
-tramitacion|Información del estado de tramitación. Contiene los elementos codigo_estado, descripcion_estado y motivo_estado
-anulacion|Informacion del estado de anulación. Contiene los elementos codigo_estado, descripcion_estado y motivo_estado
-codigo|Código del estado actual de la factura
-descripcion|Descripción del motivo del cambio de estado al actual
-codigoSeguimiento|Comentario asociado al estado
-registroAdministrativo|Numero de Registro Administrativo en eFACT 
+## Consulta del detall d'una entitat eFACT
+Aquesta operació permet obtenir la informació detallada (adreça, dir3, etc.) per a l'entitat del servei eFACT especificada.
+
+**Path relatiu de l'operació:** /receptors
+
+### **Petició**
+
+paràmetre|descripció|
+---------|----------|
+**nif** | NIF de l'entitat del servei eFACT per a la qual realitzar la consulta.
+
+*GET [urlServicio]/receptors/:nif*
    
-#### RPC-Literal 
-```xml                 
-<soapenv:Body>
-    <ns1:consultarFacturaResponse>
-        <return>
-            <resultado>
-                <codigo>0</codigo>
-                <descripcion>Correcto</descripcion>
-                <codigoSeguimiento/>
-                <registroAdministrativo >12345</registroAdministrativo>
-            </resultado>
-            <factura>
-                <numeroRegistro>NUMERO_REGISTRO</numeroRegistro>
-                <tramitacion>
-                    <codigo>1200</codigo>
-                    <descripcion>La factura ha sido registrada en el registro electrónico REC</descripcion>
-                    <motivo/>
-                </tramitacion>
-                <anulacion>
-                    <codigo>4200</codigo>
-                    <descripcion>Solicitada anulación</descripcion>
-                    <motivo>prueba</motivo>
-                </anulacion>
-            </factura>
-        </return>
-    </ns1:consultarFacturaResponse>
-</soapenv:Body>
+### **Resposta**
+Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un objecte *[ReceptorEfact](#receptorefact)* (fitxer de tipus `application/json`). A continuació, es mostra un exemple de resposta:
+
+```json
+{
+	"nif": "ESQ1111111I",
+	"nom": "ENS FORMACIO A",
+	"direccio": {
+		"carrer": "Passatge de la Concepció, 11",
+		"localitat": "Barcelona",
+		"provincia": "Barcelona",
+		"codiPostal": "08008"
+	}
+	"dir3": [
+		{
+			"oficinaComptable": {
+				"codi": "A00000000",
+				"nom": "ENS FORMACIO A"
+			},
+			"organGestor": {
+				"codi": "A00000000",
+				"nom": "ENS FORMACIO A"
+			},
+			"unitatTramitadora": {
+				"codi": "A00000000",
+				"nom": "ENS FORMACIO A"
+			}
+		}
+	]
+}
 ```
 
-### Ejemplo peticion/respuesta:
--------------------------------
 
-[consultarFactura.zip](https://github.com/ConsorciAOC/eFact/files/7639553/consultarFactura.zip)
+# Definició dels objectes de resposta
 
-# 3. Operación Consultar Estados [consultarEstados]
- 
-Este método permite obtener el listado de estados asignados a cambios en la factura. 
+## Factura
+A continuació, es descriuen tots els possibles atributs d'un objecte *Factura*:
+- **correuElectronic:** adreça de correu electrònic informada per l'emissor a l'operació d'enviament de la factura, en la qual es rebran les notificacions amb els canvis d'estat de la factura.
+- **face:** atribut de tipus booleà, informat per l'emissor a l'operació d'enviament de la factura, en el qual s'indica si la factura s'ha lliurat la factura a FACe.
+- **id:** identificador assignat a la factura al servei eFACT.
+- **dataRecepcio:** data de recepció de la factura al servei eFACT. Format: *YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM*.
+- **numero:** número de la factura.
+- **serie:** número de sèrie de la factura.
+- **dataExpedicio:** data d'expedició de la factura. Format: *YYYY-MM-DD*.
+- **import:** import total de la factura.
+- **proveidor:** dades del proveïdor de la factura. Aquest bloc conté les dades següents:
+	- **nif:** NIF del proveïdor de la factura.
+	- **nom:** nom del proveïdor de la factura.
+- **receptor:** dades de l'entitat receptora de la factura. Aquest bloc conté les dades següents:
+	- **nif:** NIF de l'entitat receptora de la factura.
+	- **nom:** nom de l'entitat receptora de la factura.
+	- **dir3:** objecte *[RelacioDir3](#relaciodir3)* amb les dades de l'oficina comptable, l'òrgan gestor i la unitat tramitadora als quals va dirigida la factura.
+- **registre:** objecte *[DadesRegistre](#dadesregistre)* amb les dades de registre de la factura. Aquest bloc només es tornarà en el cas que es tracti d'una factura ja registrada al sistema, és a dir, si està o ha passat per l'estat REGISTERED.
+- **numeroRegistreRCF:** número de registre comptable de la factura (RCF). Aquesta dada només es tornarà quan es tracti d'una factura ja "registrada al RCF", és a dir, si està o ha passat per l'estat ANNOTATED, i el receptor ha informat correctament aquesta dada.
+- **motiuRebuig:** objecte *[DadesMotiuRebuig](#dadesmotiurebuig)* amb les dades de rebuig de la factura. Aquest bloc només es tornarà quan es tracti d'una factura "rebutjada" (REJECTED).
+- **dataPagament:** data en què s'ha pagat la factura. Format: *YYYY-MM-DD*. Aquesta dada només es tornarà quan es tracti d'una factura "pagada" (PAID).
+- **estat:** objecte *[Estat](#estat)* amb les dades principals de l'estat actual de la factura.
+- **adjunts:** col·lecció amb les dades dels documents adjunts enviats juntament amb la factura. Per cada document adjunt s'informen les dades següents:
+	- **nom:** nom informat per l'emissor per al document adjunt.
+	- **mime:** tipus mime informat per l'emissor per al document adjunt.
 
-Existen dos flujos, el ordinario y el de anulación. El flujo ordinario corresponde al ciclo de vida de la factura, y el flujo de anulación corresponde al ciclo de solicitud de anulación.
+## HistoricEstatsFactura
+A continuació, es descriuen tots els possibles atributs d'un objecte *HitoricEstatsFactura*:
 
-La respuesta contiene los datos más representativos de los distintos estados por los que puede pasar una factura.
+- **id:** identificador de la factura al servei eFACT.
+- **estats:** col·lecció d'objectes *[EstatDetallat](#estatdetallat)*, un per cada estat de la factura.
 
-### Petición
-------------
+## EstatsPendents
+A continuació, es descriuen tots els possibles atributs d'un objecte *EstatsPendents*:
+- **mesEstats:** atribut booleà que indica si hi ha més estats pendents de descàrrega, a part dels retornats a l'operació actual.
+- **estats:** col·lecció d'objectes *[EstatPendent](#estatpendent)*, un per cada estat pendent de descàrrega.
 
-No tiene parámetros de entrada
-#### RPC-Literal 
-```xml 
-<soapenv:Body>
-    <web:consultarEstados/>
-</soapenv:Body>
+## ReceptorsEfact
+A continuació, es descriuen tots els possibles atributs d'un objecte *ReceptorsEfact*:
+- **receptors:** col·lecció d'objectes amb les dades principals de les entitats receptores del servei eFACT. A cada objecte de la col·lecció s'informen les dades següents:
+	- **nif:** NIF de l'entitat receptora.
+	- **nom:** nom de l'entitat receptora.
+
+## ReceptorEfact
+A continuació, es descriuen tots els possibles atributs d'un objecte *ReceptorEfact*:
+- **nif:** NIF de l'entitat receptora.
+- **nom:** nom de l'entitat receptora.
+- **direccio:** adreça fiscal de l'entitat receptora. Aquest bloc conté les dades següents:
+	- **carrer:** carrer de l'entitat receptora.
+	- **localitat:** localitat de l'entitat receptora.
+	- **provincia:** província de l'entitat receptora.
+	- **codiPostal:** codi postal de l'entitat receptora.
+- **dir3:** col·lecció d'objectes *[RelacioDir3](#relaciodir3)*, un per cada terna DIR3 associada a l'entitat receptora al directori comú de FACe.
+
+## EstatPendent
+A continuació, es descriuen tots els possibles atributs d'un objecte *EstatPendent*:
+- **id:** identificador de l'estat.
+- **idFactura:** identificador de la factura a la qual està associada l'estat.
+- **estat:** objecte *[EstatDetallat](#estatdetallat)* amb les dades de l'estat.
+
+## Estat
+A continuació, es descriuen tots els possibles atributs d'un objecte *Estat*:
+- **codi:** codi de l'estat (codi tradicional hub).
+- **codiNumeric:** codi numèric FACe corresponent a l'estat (BOE A-2014-10660).
+- **data:** data de l'estat. Format: *YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM*.
+
+## EstatDetallat
+A continuació, es descriuen tots els possibles atributs d'un objecte *EstatDetallat*:
+- **codi:** codi de l'estat (codi tradicional hub).
+- **codiNumeric:** codi numèric FACe corresponent a l'estat (BOE A-2014-10660).
+- **data:** data de l'estat. Format: *YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM*.
+- **registre:** objecte *[DadesRegistre](#dadesregistre)* amb les dades de registre de la factura a la qual està associada aquest estat. Aquest bloc només es tornarà quan es tracti d'un estat de factura "registrada" (REGISTERED).
+- **numeroRegistreRCF:** número de registre comptable de la factura (RCF). Aquesta dada només es mostrarà quan es tracti d'un estat de factura "registrada a RCF" (ANNOTATED) i el receptor l'hagi informat correctament.
+- **motiuRebuig:** objecte *[DadesMotiuRebuig](#dadesmotiurebuig)* amb les dades de rebuig de la factura. Aquest bloc només es tornarà quan es tracti d'un estat de factura "rebutjada" (REJECTED).
+- **dataPagament:** data en la qual s'ha pagat la factura. Format: *YYYY-MM-DD*. Aquesta dada només es mostrarà quan es tracti d'un estat de factura "pagada" (PAID). Per als casos en els quals no es disposi d'una data de pagament concreta informada pel receptor, es considerarà com a data de pagament la mateixa data de l'estat (atribut data).
+
+## RelacioDir3
+A continuació, es descriuen tots els possibles atributs d'un objecte *RelacioDir3*:
+- **oficinaComptable:** objecte *[CentreAdministratiu](#centreadministratiu)* amb les dades de l'oficina comptable.
+- **organGestor:** objecte *[CentreAdministratiu](#centreadministratiu)* amb les dades de l'òrgan gestor.
+- **unitatTramitadora:** objecte *[CentreAdministratiu](#centreadministratiu)* amb les dades de la unitat tramitadora.
+
+## CentreAdministratiu
+A continuació, es descriuen tots els possibles atributs d'un objecte *CentreAdministratiu*:
+- **codi:** codi del centre administratiu.
+- **nom:** nom o descripció del centre administratiu.
+
+## DadesRegistre
+A continuació, es descriuen tots els possibles atributs d'un objecte *DadesRegistre*:
+- **numero:** número de registre.
+- **data:** data de registre. Format: *YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM*.
+
+## DadesMotiuRebuig
+A continuació, es descriuen tots els possibles atributs d'un objecte *DadesMotiuRebuig*:
+- **codi:** codi del motiu de rebuig.
+- **descripcio:** descripció del motiu de rebuig.
+
+
+# Annexos
+
+## Codis de resposta del servei
+El servei tornarà algun dels codis d'estat de resposta HTTP següents:
+- **200:** petició realitzada satisfactòriament.
+- **400:** petició incorrecta (per exemple, error als paràmetres d'entrada).
+- **401:** petició no autoritzada.
+- **404:** recurs no trobat.
+- **500:** altres errors
+
+En cas d'error, el servei tornarà un fitxer de tipus `application/json`, amb el contingut següent:
+
+```json
+{
+	"codiError": 9999,
+	"descripcioError": "descripció error" 
+}
 ```
 
-### Respuesta
--------------
-
-parámetro|descripción| 
----------|-----------|
-nombre|Nombre del estado. 
-codigo|Código representativo y único del estado
-descripcion|Descripción del estado
-   
-#### RPC-Literal 
-```xml
-<soapenv:Body>
-    <ns1:consultarEstadosResponse>
-        <return>
-            <resultado>
-                <codigo>0</codigo>
-                <descripcion>Correcto</descripcion>
-                <codigoSeguimiento/>
-            </resultado>
-            <estados>
-                <estado>
-                    <nombre>Registrada</nombre>
-                    <codigo>1200</codigo>
-                    <descripcion>La factura ha sido registrada en el registro electrónico REC</descripcion>
-                </estado>
-                <estado>
-                    <nombre>Contabilizada la obligación reconocida</nombre>
-                    <codigo>2400</codigo>
-                    <descripcion>Contabilizada la obligación reconocida</descripcion>
-                </estado>
-                <estado>
-                    <nombre>Pagada</nombre>
-                    <codigo>2500</codigo>
-                    <descripcion>Factura pagada</descripcion>
-                </estado>
-                <estado>
-                    <nombre>Rechazada</nombre>
-                    <codigo>2600</codigo>
-                    <descripcion>La Unidad rechaza la factura</descripcion>
-                </estado>
-                <estado>
-                    <nombre>Anulada</nombre>
-                    <codigo>3100</codigo>
-                    <descripcion>La Unidad aprueba la propuesta de anulación</descripcion>
-                </estado>
-                <estado>
-                    <nombre>No solicitada anulación</nombre>
-                    <codigo>4100</codigo>
-                    <descripcion>No solicitada anulación</descripcion>
-                </estado>
-                <estado>
-                    <nombre>Solicitada anulación</nombre>
-                    <codigo>4200</codigo>
-                    <descripcion>Solicitada anulación</descripcion>
-                </estado>
-                <estado>
-                    <nombre>Aceptada anulación</nombre>
-                    <codigo>4300</codigo>
-                    <descripcion>Aceptada anulación</descripcion>
-                </estado>
-                <estado>
-                    <nombre>Rechazada anulación</nombre>
-                    <codigo>4400</codigo>
-                    <descripcion>Rechazada anulación</descripcion>
-                </estado>
-            </estados>
-        </return>
-    </ns1:consultarEstadosResponse>
-</soapenv:Body>
-```
-
-# 4. Operación Consultar Listado Facturas [consultarListadoFacturas]
- 
-Este servicio permite consultar el estado de varias facturas. Este método permite buscar las facturas con el código de registro indicado. 
-Se puede solicitar un máximo de 500 facturas por petición.
-
-### Petición
-------------
-                
-parámetro|descripción| 
----------|-----------|
-listadoFacturas |Código de identificación único de entrada, identificador único de la factura dentro de la plataforma.
-
-#### RPC-Literal
-```xml
-<soapenv:Body>
-    <web:consultarListadoFacturas>
-        <request>
-            <!--Zero or more repetitions:-->
-            <numeroRegistro>NUMERO_REGISTRO</numeroRegistro>
-            <numeroRegistro>NUMERO_REGISTRO_2</numeroRegistro>
-        </request>
-    </web:consultarListadoFacturas>
-</soapenv:Body>
-```
-
-### Respuesta
--------------
-
-parámetro|descripción| 
----------|-----------| 
-numeroRegistro| Código de identificación único de entrada identificador único de la factura dentro de la plataforma eFACT.  
-tramitacion      | Información del estado de tramitación. Contiene los elementos codigo_estado, descripcion_estado y motivo_estado
-anulacion        | Información del estado de anulación. Contiene los elementos codigo_estado, descripcion_estado y motivo_estado
-codigo           | Código del estado actual de la factura
-descripcion      | Descripción del motivo del cambio de estado al actual
-codigoSeguimiento| Comentario asociado al estado
-registroAdministrativo |Numero de Registro Administrativo en eFACT 
-
-#### RPC-Literal 
-```xml
-<soapenv:Body>
-    <ns1:consultarListadoFacturasResponse>
-        <return>
-            <resultado>
-                <codigo>0</codigo>
-                <descripcion>Correcto</descripcion>
-                <codigoSeguimiento/>
-                <registroAdministrativo>12345</registroAdministrativo>
-            </resultado>
-            <facturas>
-                <consultarListadoFactura>
-                    <codigo>0</codigo>
-                    <descripcion>Correcto</descripcion>
-                    <factura>
-                        <numeroRegistro>NUMERO_REGISTRO</numero Registro>
-                        <tramitacion>
-                            <codigo>1200</codigo>
-                            <descripcion>La factura ha sido registrada en el registro electrónico REC</descripcion>
-                            <motivo/>
-                        </tramitacion>
-                        <anulacion>
-                            <codigo>4200</codigo>
-                            <descripcion>Solicitada anulación</descripcion>
-                            <motivo>prueba</motivo>
-                        </anulacion>
-                    </factura>
-                </consultarListadoFactura>
-                <consultarListadoFactura>
-                    <codigo>303</codigo>
-                    <descripcion>No existe factura con el número de registro especificado</descripcion>
-                    <factura>
-                        <numeroRegistro>NUMERO_REGISTRO_2</nume roRegistro>
-                        <tramitacion/>
-                        <anulacion/>
-                    </factura>
-                </consultarListadoFactura>
-            </facturas>
-        </return>
-    </ns1:consultarListadoFacturasResponse>
-</soapenv:Body>
-```
-
-# 5. Flujo completo para solicitud descargas de estados pendientes para un emisor
-
-A través de los siguientes métodos es posible obtener el listado completo de los estados que estan pendientes de descargar para un emisor de facturas
-
-1. **solicitudDescargasEstados**: Solicitud de posibles descargas: Este método será el primero a ejecutar y obligatorio, en la solicitud de descargas pendientes para un Emisor
-
-   Nos devuelve el XML con la lista completa de índices de descargas de estados que se encuentran en estado pendiente de descarga para el NIF que se incluye como parámetro de entrada
-
-2. **peticionDescargasEstados**: Petición de descargas: Este método será el segundo a ejecutar y obligatorio, en la petición de descargas pendientes para un Emisor.
-
-   A partir del listado de índices obtenido en el método anterior (solicitudDescargasEstados ) realizaremos la peticion tantas veces como índices de descargas se obtuvieran en el primer método (a la elección del interlocutor).
-
-   El parámetro opcionMarcado (S/N) determina si el índice se marca como descargado al finalizar la descarga o bien será necesario el método 3 (confirmacionDescargasEstados) para marcar como descargado los índices, puesto que el documento estará pendiente de descarga hasta lanzar este ultimo método
-
-3. **confirmacionDescargasEstados**: Confirmación de descargas: Este método será el tercero a ejecutar y obligatorio, en la petición de descargas pendientes si la opcion de Marcado ha sido N
-
-   Este método será el tercero a ejecutar y es opcional, en la petición de descargas pendientes para un interlocutor determinado.
-
-   Su objetivo es cambiar de estado en eFACT y por cada índice de descarga ya realizado, de “PendienteDescarga” a “Descargado”.
-
-   Para ello se puede utilizar el Método 2 en el mismo momento de la descarga y mediante el parámetro de entrada “Opción marcado”, o habiéndose cerrado las descargas de forma correcta, invocar al Método 3 para confirmarlas tras su recepción.
-
-## Método 1: Solicitud de posibles descargas
-
-Este método será el primero a ejecutar y obligatorio, en la solicitud de descargas pendientes para un Emisor
-
-### Petición
-------------
-
-parámetro|descripción| 
----------|-----------|
-identificadorEmisor | NIF Emisor de Facturas .
-
-#### RPC-Literal 
-```xml
-<soapenv:Body>
-    <sspp:solicitudDescargasEstados>
-        <identificadorEmisor>IDENTIFICADOR_EMISOR</identificadorEmisor>
-    </sspp:solicitudDescargasEstados>
-</soapenv:Body>
-```
-
-### Respuesta
--------------
-
-parámetro|descripción| 
----------|-----------|
-resultado    | 0 -->  Ok<br/> 1 -->  Error
-observaciones|Los posibles mensajes de respuesta en caso de error para este método, son los siguientes:<br/>1) Los datos enviados en el campo TypeRequest no son soportados o no han sido enviados.<br/>2) No se pudieron obtener los documentos pendientes
-ficheroResultante | XML con el índice de descargas, comprimido en formato ZIP y en Base64
-
-#### RPC-Literal 
-```xml
-<soapenv:Body>
-    <sspp:solicitudDescargasEstadosResponse >
-        <return>
-            <resultado>0</resultado>
-            <observaciones>OK</observaciones>
-            <ficheroResultante>UEsDBBQACAAIAGNfxFAAAAAAAAAAAAAAAAAjAAAAcGV0a…. </ficheroResultante>
-        </return>
-    </sspp:solicitudDescargasEstadosResponse>
-</soapenv:Body>
-```
-
-### Índice de descargas
-------------------------------
-
-El formato del índice de descargas es el siguiente:
-
-parámetro|descripción| 
----------|-----------|
-Document | Habrá un elemento de este tipo por cada factura que tenga cambios de estado pendientes de descargar
-DocId    | Identificador del fichero de estados a descargar (deberá proporcionarse en la siguiente operación)
-Supplier | Datos del emisor de la factura
-Buyer    | Datos del receptor de la factura
-
-#### XML 
-```xml
-<DocumentList>
-  <Document>
-    <DocId>11294</DocId>
-    <DocType>003</DocType>
-    <DocProcessingDate>2021-03-08</DocProcessingDate>
-    <Supplier>
-      <TaxNumber>IDENTIFICADOR_EMISOR</TaxNumber>
-      <DeptCode></DeptCode>
-    </Supplier>
-    <Buyer>
-      <TaxNumber>IDENTIFICADOR_RECEPTOR</TaxNumber>
-      <DeptCode></DeptCode>
-    </Buyer>
-    <DocNumber>1</DocNumber>
-    <DocDate>2021-03-08</DocDate>
-  </Document>
-  <Document>
-      ...
-  </Document>
-</DocumentList>
-```
-
-### Ejemplo peticion/respuesta
-------------------------------
-
-[solicitudDescargasEstados.zip](https://github.com/ConsorciAOC/eFact/files/7639564/solicitudDescargasEstados.zip)
-
-## Método 2: Petición de descargas: 
-
-Este método será el segundo a ejecutar y obligatorio, en la petición de descargas pendientes de estados 
-
-Siempre será realizado tras la ejecución del primer método y tantas veces como índices de descargas se obtuvieran en el primer método (a la elección del interlocutor).
-
-### Petición
-------------
-
-parámetro|descripción| 
----------|-----------|
-identificadorEmisor  | NIF Emisor de Facturas .
-indiceDescarga       | Índice de descarga
-opcionMarcado        | Admite valor S o N:<br/>S -> Si marca el índice en eFACT, con lo que no es necesario el Método 3 del WS.<br/>N -> No marca el índice en eFACT, por lo que el documento seguirá pdte de descarga y habrá que ejecutar el Método 3.
-
-#### RPC-Literal 
-```xml
-<soapenv:Body>
-    <sspp:peticionDescargasEstados>
-        <peticionDescargas>
-            <identificadorEmisor>IDENTIFICADOR_EMISOR</identificadorEmisor>
-            <indiceDescarga>INDICE_DESCARGA</indiceDescarga>
-            <opcionMarcado>N</opcionMarcado>
-        </peticionDescargas>
-    </sspp:peticionDescargasEstados>
-</soapenv:Body>
-```
-
-### Respuesta
--------------
-
-parámetro|descripción| 
----------|-----------|
-resultado    | 0 --> Ok<br/>1 --> Error
-observaciones|Los posibles mensajes de respuesta en caso de error para este método, son los siguientes:<br/>1) Los datos enviados en el campo TypeRequest no son soportados o no han sido enviados.<br/>2) No se pudieron obtener los documentos pendientes
-ficheroResultante | XML de Estado comprimido ZIP en y en Base64
- 
-#### RPC-Literal 
-```xml
-<soapenv:Body>
-    <sspp:solicitudDescargasEstadosResponse >
-        <return>
-            <resultado>01</resultado>
-            <observaciones/>
-            <ficheroResultante>UEsDBBQACAAIAGNfxFAAAAAAAAAAAAAAAAAjAAAAcGV0a…. </ficheroResultante>
-        </return>
-    </sspp:solicitudDescargasEstadosResponse>
-</soapenv:Body>
-```
-
-### Fichero de estados
-----------------------
-
-El formato del fichero de estados es el siguiente:
-
-parámetro|descripción| 
----------|-----------|
-InvoiceFeedback | Cambio de estado de la factura
-InvoiceId      | Número de la factura
-Supplier       | Datos del emisor de la factura
-Buyer          | Datos del receptor de la factura
-InvoiceDate    | Fecha de la factura
-Feedback       | Datos del cambio de estado
-Status         | Estado de la factura
-StatusCode     | Código de estado de la factura
-StatusDate     | Fecha de cambio de estado
-Reason         | Razón del cambio de estado
-Description    | Descripción del cambio de estado
-
-#### XML 
-```xml
-<DeliveryFeedback>
-  <StatusFeedback>
-    <HubFeedback>
-      <HubId>333508</HubId>
-    </HubFeedback>
-    <InvoiceFeedback>
-      <InvoiceId>1</InvoiceId>
-      <Supplier>
-        <Cif>IDENTIFICADOR_EMISOR</Cif>
-      </Supplier>
-      <Buyer>
-        <Cif>IDENTIFICADOR_RECEPTOR</Cif>
-      </Buyer>
-      <InvoiceDate>2021-03-08</InvoiceDate>
-      <Feedback>
-        <Status>REJECTED</Status>
-        <StatusCode>2600</StatusCode>
-        <StatusDate>2021-03-08T12:22:00</StatusDate>
-        <Reason>
-          <Code>HRE1</Code>
-          <Description>Error al registrar document</Description>
-        </Reason>
-      </Feedback>
-    </InvoiceFeedback>
-  </StatusFeedback>
-</DeliveryFeedback>
-```
-
-El esquema del mensaje XML de `DeliveryFeeback` lo podeis descargar de [aquí](xsds/DeliveryFeedback.xsd).
-
-## Método 3: Confirmación de descargas
-
-Este método será el tercero a ejecutar y es opcional, en la petición de descargas pendientes para un interlocutor determinado.
-
-Su objetivo es cambiar de estado en eFACT y por cada índice de descarga ya realizado, de “PendienteDescarga” a “Descargado”.
-
-Para ello se puede utilizar el Método 2 en el mismo momento de la descarga y mediante el parámetro de entrada “Opción marcado”, o habiéndose cerrado las descargas de forma correcta, invocar al Método 3 para confirmarlas tras su recepción.
-
-### Petición
-------------
-
-parámetro|descripción| 
----------|-----------|
-identificadorEmisor | NIF Emisor de Facturas
-indiceDescarga      | Índice de descarga
-
-#### RPC-Literal 
-```xml
-
-<soapenv:Body>
-    <sspp:confirmacionDescargasEstados>
-        <confirmacionDescargas>
-            <identificadorEmisor>IDENTIFICADOR_EMISOR</identificadorEmisor>
-            <indiceDescarga>INDICE_DESCARGA</indiceDescarga>
-        </confirmacionDescargas>
-    </sspp:confirmacionDescargasEstados>
-</soapenv:Body>
-```
-
-### Respuesta
--------------
-
-parámetro|descripción| 
----------|-----------|
-resultado    | 0 --> Ok<br/>1 --> Error
-observaciones|Los posibles mensajes de respuesta en caso de error para este método, son los siguientes:<br/>1) Los datos enviados en el campo TypeRequest no son soportados o no han sido enviados.<br/>2) No se pudieron obtener los documentos pendientes
-ficheroResultante | Fichero comprimido y en Base64
-
-#### RPC-Literal 
-```xml
-<soapenv:Body>
-    <sspp:confirmacionDescargasEstadosResponse>
-        <return>
-            <resultado>01</resultado>
-            <observaciones xsi:nil="true"/>
-            <ficheroResultante xsi:nil="true"/>
-        </return>
-    </sspp:confirmacionDescargasEstadosResponse>
-</soapenv:Body>
-```
-
-# Casos de prueba para cada operación
-
-## CONECTIVIDAD
-
-Prueba de conectividad utilizando servicios web a través de Internet
-
-![imagen](https://user-images.githubusercontent.com/92558339/144372517-22bfb612-78f3-4a6d-8bdc-0e0066902a49.png)
-
-## ENVIO FACTURA
-
-Pruebas de envío factura firmada correcta al sistema.	
-
-![imagen](https://user-images.githubusercontent.com/92558339/144371474-9918c065-81b0-42ba-b4f4-ed0c22dc13e4.png)
-
-## CONSULTA ESTADOS		
-
-Pruebas para consultar los posibles estados de  una factura.	
-
-![imagen](https://user-images.githubusercontent.com/92558339/144371447-3dd80daf-96dc-4122-875f-54121d54eeea.png)
-
-Pruebas para consultar el estado de una factura a partir de un identificador de registro existente	
-
-![imagen](https://user-images.githubusercontent.com/92558339/144374184-db492fd9-8468-4f44-b6cc-6702455f3bb1.png)
-
-## ANULACION FACTURA
-
-Pruebas asociadas a la anulación de una factura con id de registro existente y estado permitido.
-
-![imagen](https://user-images.githubusercontent.com/92558339/144371545-09889442-c996-42c4-a5c8-e68e9df4c032.png)
-
-# Como darse de alta en el servicio
-
-Para darse de alta se debe rellenar la solicitud de adhesion a eFACT que se puede encontrar en el portal de soporte del servicio [eFACT](https://suport-efact-empreses.aoc.cat/hc/ca/articles/4415512590481).
-
-# Entornos
-
-Se han diseñado los siguientes entornos disponibles para integradores de la plataforma:
-
-- **TEST**:	El entorno de TEST es un entorno de integración habilitado para pruebas de los sistemas de los proveedores.
-- **PROD**:	El entorno de PROD es el entorno real de la plataforma eFACT.
-
-Puede encontrar la definición de los servicios en formato WSDL en las siguientes rutas:
-
-- **TEST**: [https://efact-pre.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl](https://efact-pre.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl)
-- **PROD**: [https://efact.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl](https://efact.aoc.cat/bustia/services/EFactWebServiceProxyService.wsdl)
-
-La URL de consumo del servicio para cada entorno es la siguiente:
-
-- **TEST**: [https://efact-pre.aoc.cat/bustia/services/EFactWebServiceProxyService](https://efact-pre.aoc.cat/bustia/services/EFactWebServiceProxyService)
-- **PROD**: [https://efact.aoc.cat/bustia/services/EFactWebServiceProxyService](https://efact.aoc.cat/bustia/services/EFactWebServiceProxyService)
-
-Los certificados con los que se firman las respuestas XML son los siguientes para cada entorno (expiran cada pocos años y hay que mantenerlos actualizados):
-
-- **TEST**: [certificado-eFACT-TEST-2025.p7b](certificados/certificado-eFACT-TEST-2025.p7b) (expira el 26/2/2028)
-- **PROD**: [certificado-eFACT-PROD-2025.p7b](certificados/certificado-eFACT-PROD-2025.p7b) (expira el 20/2/2028)
+A continuació, es detallen els possibles errors que pot tornar el servei:
+
+### Errors d'autenticació (HttpStatus 401):
+- **1001:** No s'ha especificat un token d'autenticació
+- **1002:** No s'ha especificat un usuari
+- **1003:** Usuari no vàlid
+- **1004:** No s'ha especificat una data d'expiració del token
+- **1005:** No s'ha especificat una data de creació del token
+- **1006:** No s'ha especificat una data d'activació del token
+- **1007:** No s'ha especificat el camp audience del token
+- **1008:** El token ha expirat
+- **1009:** El token encara no pot ser utilitzat
+- **1010:** El temps d'expiració del token és superior al permès
+- **1011:** El camp audience especificat no és vàlid
+- **1012:** La clau secreta no és vàlida
+
+### Errors de recurs no trobat (HttpStatus 404):
+- **2001:** No s'ha trobat la factura especificada
+- **2002:** No s'ha trobat el document adjunt especificat
+- **2003:** No s'ha trobat un històric d'estats per a la factura
+
+### Errors de validació (HttpStatus: 400):
+- **3001:** S'ha excedit el número màxim d'annexos permès
+- **3002:** S'ha excedit la mida màxima permesa per a la petició
+- **3003:** L'extensió del fitxer de factura a enviar no està suportada
+- **3004:** El receptor de la factura no està donat d'alta a eFACT
+- **3005:** La signatura de factura a enviar no és vàlida
+- **3006:** No s'ha especificat el nom de fitxer d'algun adjunt
+- **3007:** No s'ha especificat el tipus mime d'algun adjunt
+- **3008:** No s'ha especificat el contingut d'algun adjunt
+- **3009:** S'han informat adjunts amb tipus mime no suportats
+- **3010:** S'han informat adjunts l'extensió dels quals no coincideix amb el tipus mime especificat
+- **3011:** No ha estat possible obtenir la factura a enviar
+- **3012:** La factura especificada no té número de registre
+- **3013:** No s'ha especificat el nom del fitxer de factura
+- **3014:** No s'ha especificat el contingut del fitxer de factura codificat en base64
+- **3015:** S'han informat adjunts amb extensions no suportades
+- **3016:** El format de la factura no és correcte
+- **3017:** No ha estat possible determinar la versió de Facturae de la factura
+- **3018:** La versió de Facturae de la factura no està suportada pel receptor
+- **3019:** No es permeten lots de factures
+- **3020:** El format del NIF de l'emissor no és vàlid
+- **3021:** El format del NIF del receptor no és vàlid
+- **3022:** El valor informat al camp correuElectronic supera els 512 caràcters permesos
+- **3023:** El valor informat al camp correuElectronic no té el format esperat
+- **3024:** La factura a enviar no està signada o bé el node de signatura no és correcte
+- **3025:** L'emissor de la factura no té habilitat l'enviament a FACe
+
+### Errors genèrics (HttpStatus 500):
+- **9001:** S'ha produït un error intern de connexió amb la base de dades
+- **9002:** S'ha produït un error en la generació del rebut electrònic de la factura
+- **9999:** S'ha produït un error inesperat en l'execució de l'operació sol·licitada
+
+
+## Possibles estats d'una factura
+A continuació, es detallen els estats pels quals pot passar una factura al servei, en l'ordre coherent d'ocurrència:
+
+|Codi d'estat eFACT|Codi d'estat númeric<br>(BOE A-2014-10660)|Descripció|
+|------------------|------------------------------------------|----------|
+|SENT|1000|Factura lliurada al servei eFACT.<br>Aquest estat el genera el servei eFACT de manera automàtica.|
+|REGISTERED|1200|La factura ha estat registrada administrativament, proporcionant un número i data de registre, tant al proveïdor com a l'entitat.<br>Aquest estat el genera el servei eFACT de manera automàtica.|
+|DELIVERED|1200|La factura ha estat lliurada a l'entitat destinatària.<br>Aquest estat és opcional i el genera l'entitat receptora de la factura.|
+|ANNOTATED|1300|La factura ha estat verificada i registrada al registre comptable de factures (RCF), generant un número de registre comptable que cal proporcionar al proveïdor.<br>Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
+|RECEIVED|1300|La factura ha estat rebuda a la unitat de destinació.<br>Aquest estat és opcional i el genera l'entitat receptora de la factura.|
+|ACCEPTED|1300|La factura ha estat conformada.<br>Aquest estat és opcional i el genera l'entitat receptora de la factura.|
+|RECOGNISED|2400|L'obligació de pagament derivada de la factura ha estat reconeguda i comptabilitzada.<br>Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
+|PAID|2500|La factura ha estat pagada.<br>Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
+|REJECTED|2600|La factura ha estat rebutjada. S'ha d'indicar al proveïdor el motiu del rebuig.<br>En cas que calgui rebutjar una factura, aquest estat és obligatori i l'ha de generar:<br>- L'entitat receptora de la factura, sempre que la factura li hagi estat lliurada pel servei eFACT.<br>- El servei eFACT, en qualsevol altre cas (error de validació de signatura/certificat, error de registre, etc.).|
+
+Una factura es pot rebutjar (estat REJECTED) en qualsevol moment, excepte si està en estat PAID.
+
+Els estats PAID i REJECTED són estats finals i, un cop actualitzada a un d'aquests estats, s'entén que la gestió de la factura ja ha finalitzat.
+
+
+## Tipus mime admesos
+A continuació, s'indiquen els tipus mime admesos per a documents adjunts:
+- **application/pdf** (pdf)
+- **application/msword** (doc o docx)
+- **application/vnd.ms-excel** (xls o xlsx)
+- **application/vnd.oasis.opendocument.text** (odt)
+- **application/vnd.oasis.opendocument.spreadsheet** (ods)
+- **text/plain** (txt)
