@@ -2,8 +2,6 @@
 
 1. [Introducció](#introducció)
 2. [Mètode d'autenticació](#mètode-dautenticació)
-	1. [Connectivitat](#connectivitat)
-	2. [Autenticació i autorització](#autenticació-i-autorització)
 3. [Operacions](#operacions)
 	1. [Consulta de factures pendents](#consulta-de-factures-pendents)
 	2. [Consulta de dades d'una factura](#consulta-de-dades-duna-factura)
@@ -27,10 +25,6 @@
 Aquest document pretén descriure l'API REST per a la integració de les plataformes receptores amb el hub d'eFACT, amb l'objectiu de substituir la integració actual per FTP.
 
 # Mètode d'autenticació
-## Connectivitat
-S'establirà un sistema de filtres d'IPs per origen, de manera que només es permeti l'accés al servei des d'IPs l'origen de les quals estigui dins dels admesos.
-
-## Autenticació i autorització
 
 L'autenticació es farà mitjançant l'ús de tokens JWT. Aquests tokens contenen tota la informació necessària per fer les tasques d'autenticació i autorització del peticionari. Els camps necessaris als tokens JWT seran els següents:
 
@@ -335,8 +329,8 @@ paràmetre|descripció|
  Si la petició s'ha dut a terme amb èxit (codi HTTP "200") es tornarà un fitxer de tipus `application/json` amb el contingut següent:
  
 - **estats:** Col·lecció amb les dades de cadascun dels estats pels quals ha passat la factura especificada. Per cada estat s'especificaran les dades següents:
-  - **estat:** Codi de l'estat. (codi eFACT estat)
-  - **codiEstat:** Codi numèric FACE corresponent a l'estat.
+  - **estat:** Codi de l'estat (codi d'estat eFACT). Veure la secció [Estats de factura](#estats-de-factura).
+  - **codiEstat:** Codi numèric tècnic corresponent a l'estat. Veure la secció [Estats de factura](#estats-de-factura).
   - **dataEstat:** Data de l'estat. Format: YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM.
   - **numeroRegistre:** Número de registre. Només en cas que es tracti de l'estat "registrada" (REGISTERED).
   - **dataRegistre:** Data de registre. Només en cas que es tracti de l'estat "registrada" (REGISTERED).Format: YYYY-MM-DD"T"HH24:MI:SS.FF3TZH:TZM.
@@ -623,6 +617,7 @@ A continuació, es detallen els possibles errors que pot tornar el servei:
 - **1009:** El token encara no pot ser utilitzat
 - **1010:** El temps d'expiració del token és superior al permès
 - **1011:** El camp audience especificat no és vàlid
+- **1012:** La clau secreta no és vàlida
 
 ### Errors de recurs no trobat (HttpStatus 404):
 
@@ -639,6 +634,7 @@ A continuació, es detallen els possibles errors que pot tornar el servei:
 - **3005:** La factura especificada no té número de registre
 - **3006:** La data de pagament especificada no compleix el format esperat
 - **3007:** No és possible actualitzar la factura especificada
+- **3008:** Els camps codiMotiuRebuig i descripcioMotiuRebuig només es poden informar per a actualitzar una factura a l'estat REJECTED
 
 ### Errors genèrics (HttpStatus 500):
 
@@ -650,17 +646,17 @@ A continuació, es detallen els possibles errors que pot tornar el servei:
 # Estats de factura
 A continuació, es detallen els estats pels quals pot passar una factura al servei, en l'ordre coherent d'ocurrència:
 
-|Codi d'estat eFACT|Codi d'estat númeric<br>(BOE A-2014-10660)|Descripció|
-|------------------|------------------------------------------|----------|
-|SENT|1000|Factura lliurada al servei eFACT.<br>Aquest estat el genera el servei eFACT de manera automàtica.|
-|REGISTERED|1200|La factura ha estat registrada administrativament, proporcionant un número i data de registre, tant al proveïdor com a l'entitat.<br>Aquest estat el genera el servei eFACT de manera automàtica.|
-|DELIVERED|1200|La factura ha estat lliurada a l'entitat destinatària.<br>Aquest estat és opcional i el genera l'entitat receptora de la factura.|
-|ANNOTATED|1300|La factura ha estat verificada i registrada al registre comptable de factures (RCF), generant un número de registre comptable que cal proporcionar al proveïdor.<br>Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
-|RECEIVED|1300|La factura ha estat rebuda a la unitat de destinació.<br>Aquest estat és opcional i el genera l'entitat receptora de la factura.|
-|ACCEPTED|1300|La factura ha estat conformada.<br>Aquest estat és opcional i el genera l'entitat receptora de la factura.|
-|RECOGNISED|2400|L'obligació de pagament derivada de la factura ha estat reconeguda i comptabilitzada.<br>Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
-|PAID|2500|La factura ha estat pagada.<br>Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
-|REJECTED|2600|La factura ha estat rebutjada. S'ha d'indicar al proveïdor el motiu del rebuig.<br>En cas que calgui rebutjar una factura, aquest estat és obligatori i l'ha de generar:<br>- L'entitat receptora de la factura, sempre que la factura li hagi estat lliurada pel servei eFACT.<br>- El servei eFACT, en qualsevol altre cas (error de validació de signatura/certificat, error de registre, etc.).|
+|Codi d'estat eFACT|Codi númeric<br>d'estat públic<br>(BOE A-2014-10660)|Codi numèric d'estat tècnic|Descripció|
+|------------------|----------------------------------------------------|---------------------------|----------|
+|SENT|1000|1000|Factura lliurada al servei eFACT.<br>Aquest estat el genera el servei eFACT de manera automàtica.|
+|REGISTERED|1200|1200|La factura ha estat registrada administrativament, proporcionant un número i data de registre, tant al proveïdor com a l'entitat.<br>Aquest estat el genera el servei eFACT de manera automàtica.|
+|DELIVERED|1200|1250|La factura ha estat lliurada a l'entitat destinatària.<br>Aquest estat és opcional i el genera l'entitat receptora de la factura.|
+|ANNOTATED|1300|1400|La factura ha estat verificada i registrada al registre comptable de factures (RCF), generant un número de registre comptable que cal proporcionar al proveïdor.<br>Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
+|RECEIVED|1300|2100|La factura ha estat rebuda a la unitat de destinació.<br>Aquest estat és opcional i el genera l'entitat receptora de la factura.|
+|ACCEPTED|1300|2300|La factura ha estat conformada.<br>Aquest estat és opcional i el genera l'entitat receptora de la factura.|
+|RECOGNISED|2400|2400|L'obligació de pagament derivada de la factura ha estat reconeguda i comptabilitzada.<br>Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
+|PAID|2500|2500|La factura ha estat pagada.<br>Aquest estat és obligatori i l'ha de generar l'entitat receptora de la factura.|
+|REJECTED|2600|2600|La factura ha estat rebutjada. S'ha d'indicar al proveïdor el motiu del rebuig.<br>En cas que calgui rebutjar una factura, aquest estat és obligatori i l'ha de generar:<br>- L'entitat receptora de la factura, sempre que la factura li hagi estat lliurada pel servei eFACT.<br>- El servei eFACT, en qualsevol altre cas (error de validació de signatura/certificat, error de registre, etc.).|
 
 Una factura es pot rebutjar (estat REJECTED) en qualsevol moment, excepte si està en estat PAID.
 
