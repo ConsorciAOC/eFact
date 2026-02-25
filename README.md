@@ -50,6 +50,8 @@ En este apartado podéis encontrar la guía de integración via WS para los dife
 [Integración WS para proveedores de facturas](/ws-proveedores/README.md) 
 
 [Integración WS para Registros Contables de Facturas](/ws-rcf/README.md)
+> **Nota:** Si necesitáis validar las credenciales de la API, podéis seguir el siguiente tutorial: https://github.com/ConsorciAOC/eFact-prova-rcf
+
 
 # Enlaces de interés
 
