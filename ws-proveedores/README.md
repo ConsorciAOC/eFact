@@ -1,34 +1,6 @@
-# Integració via API REST per Proveïdors
+⚠️ **Aviso:** Esta api está deprecada. Si necesitáis integraros con el WS de Proveedores lo tenéis que hacer a través de:
+[Integración WS-REST para proveedores de facturas](/ws-proveedores-rest/README.md)
 
-1. [Introducció](#introducció)
-2. [Mètode d'autenticació](#mètode-dautenticació)
-3. [Entorns](#entorns)
-4. [Operacions](#operacions)
-	1. [Enviament d'una factura](#enviament-duna-factura)
- 	2. [Consulta de les dades d'una factura](#consulta-de-les-dades-duna-factura)
-  	3. [Consulta de l'històric d'estats d'una factura](#consulta-de-lhistòric-destats-duna-factura)
-   	4. [Obtenció del rebut electrònic de factura](#obtenció-del-rebut-electrònic-de-factura)
-   	5. [Consulta d'estats pendents de descàrrega](#consulta-destats-pendents-de-descàrrega)
-   	6. [Eliminació d'estats pendents de descàrrega](#eliminació-destats-pendents-de-descàrrega)
-   	7. [Consulta de les entitats adherides a eFACT](#consulta-de-les-entitats-adherides-a-efact)
-   	8. [Consulta del detall d'una entitat eFACT](#consulta-del-detall-duna-entitat-efact)
-5. [Definició dels objectes de resposta](#definició-dels-objectes-de-resposta)
-	1. [Factura](#factura)
- 	2. [HistoricEstatsFactura](#historicestatsfactura)
-  	3. [EstatsPendents](#estatspendents)
-	4. [ReceptorsEfact](#receptorsefact)
-	5. [ReceptorEfact](#receptorefact)
-	6. [EstatPendent](#estatpendent)
-	7. [Estat](#estat)
-	8. [EstatDetallat](#estatdetallat)
-	9. [RelacioDir3](#relaciodir3)
-	10. [CentreAdministratiu](#centreadministratiu)
-	11. [DadesRegistre](#dadesregistre)
-	12. [DadesMotiuRebuig](#dadesmotiurebuig)
-6. [Annexos](#annexos)
-	1. [Codis de resposta del servei](#codis-de-resposta-del-servei)
-	2. [Possibles estats d'una factura](#possibles-estats-duna-factura)
-	3. [Tipus mime admesos](#tipus-mime-admesos)
 
 
 # Introducció
