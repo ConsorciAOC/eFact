@@ -29,6 +29,7 @@
 	1. [Codis de resposta del servei](#codis-de-resposta-del-servei)
 	2. [Possibles estats d'una factura](#possibles-estats-duna-factura)
 	3. [Tipus mime admesos](#tipus-mime-admesos)
+	4. [Límits de concurrència](#límits-de-concurrència)
 
 
 # Introducció
@@ -338,6 +339,8 @@ Si la petició s'ha dut a terme amb èxit (codi HTTP "200"), es tornarà un fitx
 
 ## Consulta d'estats pendents de descàrrega
 Aquesta operació permet obtenir els canvis d'estat pendents de descàrrega per a la plataforma associada a l'usuari que realitza la petició. Retorna un màxim de 500 estats. Si hi hagués més estats a tornar del màxim establert, s'indicarà en l'atribut de tipus booleà *mesEstats* de la resposta. De manera opcional es permetrà filtrar pel NIF de l'entitat emissora.
+
+**NOTA:** l'objectiu d'aquesta operació és oferir una alternativa a l'operació de [Consulta de l'històric d'estats d'una factura](#consulta-de-lhistòric-destats-duna-factura) per integrar els canvis d'estat de les factures emeses. Si s'opta per aquesta via, es recomana executar aquesta operació almenys una vegada al dia, per agilitzar la integració dels canvis d'estat de les factures emeses i evitar l'acumulació d'estats pendents de descàrrega. A més, per garantir el correcte funcionament i rendiment d'aquesta operació, els estats es mantindran disponibles per a la seva descàrrega durant 1 mes, termini que comença a comptar des del moment de l'entrada de l'estat al servei. En qualsevol cas, sempre es podrà utilitzar l'operació de [Consulta de l'històric d'estats d'una factura](#consulta-de-lhistòric-destats-duna-factura) per a obtenir l'històric d'estats d'una factura.
 
 **Path relatiu de l'operació:** /estats-pendents
 
@@ -671,3 +674,9 @@ A continuació, s'indiquen els tipus mime admesos per a documents adjunts:
 - **application/vnd.oasis.opendocument.text** (odt)
 - **application/vnd.oasis.opendocument.spreadsheet** (ods)
 - **text/plain** (txt)
+
+
+## Límits de concurrència
+Per garantir l'estabilitat del servei i un rendiment òptim, s'ha establert un límit màxim de **20 connexions o fils concurrents actius** simultàniament per client (aplicat de forma global a totes les operacions).
+- **Comportament:** Qualsevol petició que suposi superar aquest límit serà rebutjada.
+- **Solució recomanada:** Si la vostra aplicació client necessita processar un volum que superi les 20 peticions simultànies, heu d'implementar una cua local i enviar les peticions de forma espaiada.
