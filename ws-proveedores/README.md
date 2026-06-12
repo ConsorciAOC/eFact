@@ -1,3 +1,8 @@
+⚠️ **Aviso:** Esta api está deprecada. Si necesitáis integraros con el WS de Proveedores lo tenéis que hacer a través de:
+[Integración WS-REST para proveedores de facturas](../ws-proveedores-rest/README.md)
+
+
+
 # Integración vía WS para Proveedores
 
 1. [Introducción](#introducción)
