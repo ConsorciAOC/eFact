@@ -50,6 +50,7 @@ En este apartado podéis encontrar la guía de integración via WS para los dife
 [Integración WS-SOAP para proveedores de facturas](/ws-proveedores/README.md) (válido hasta 01/01/2026)
 
 [Integración WS-REST para proveedores de facturas](/ws-proveedores-rest/README.md)
+> **Nota:** Si necesitáis validar las credenciales de la API, podéis seguir el siguiente tutorial: https://github.com/ConsorciAOC/eFact-prova-proveidors
 
 [Integración WS-REST para Registros Contables de Facturas](/ws-rcf/README.md)
 > **Nota:** Si necesitáis validar las credenciales de la API, podéis seguir el siguiente tutorial: https://github.com/ConsorciAOC/eFact-prova-rcf
