@@ -47,8 +47,6 @@ Durante el proceso de registro y aprobación de la factura se puede producir el 
 
 En este apartado podéis encontrar la guía de integración via WS para los diferentes servicios web proporcionados por eFact:
 
-[Integración WS-SOAP para proveedores de facturas](/ws-proveedores/README.md) (válido hasta 01/01/2026)
-
 [Integración WS-REST para proveedores de facturas](/ws-proveedores-rest/README.md)
 > **Nota:** Si necesitáis validar las credenciales de la API, podéis seguir el siguiente tutorial: https://github.com/ConsorciAOC/eFact-prova-proveidors
 
